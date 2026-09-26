@@ -15,7 +15,7 @@ export const testimonials: Testimonial[] = [
     quote:
       "The student investment fund is real money, real consequences. Nothing in a classroom prepared me for defending a position to alumni portfolio managers who've done this for thirty years.",
     name: "Diego Salamanca",
-    detail: "MBA, Class of 2027",
+    detail: "MBA, Class of 2025",
   },
   {
     quote:
@@ -27,7 +27,7 @@ export const testimonials: Testimonial[] = [
     quote:
       "I was the first in my family to go to college, and the Bridge Scholars program didn't just cover tuition — it paired me with a faculty mentor who still checks in every semester.",
     name: "Jamal Thornton",
-    detail: "Data Science, Class of 2028",
+    detail: "Data Science, Class of 2025",
   },
   {
     quote:

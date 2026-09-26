@@ -7,7 +7,7 @@ import { APPLY_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About — Landmark Metropolitan University Institute",
-  description: "118 years of training practitioners, not just graduates.",
+  description: "22+ years of training practitioners, not just graduates.",
 };
 
 export default function AboutPage() {
@@ -20,13 +20,13 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              118 years of training practitioners, not just graduates.
+              22+ years of training practitioners, not just graduates.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
             <p className="lede" style={{ marginTop: 24 }}>
-              Founded in 1908 as an evening technical institute for the city's working professionals,
-              Landmark has spent over a century refusing to separate education from practice.
+              Founded in 2004 as an ACCA training center for those who wanted to take the ACCA exam for Accounting accreditation,
+              Landmark has spent over two decades refusing to separate education from practice.
             </p>
           </Reveal>
         </div>

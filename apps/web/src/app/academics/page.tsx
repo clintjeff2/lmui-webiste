@@ -9,7 +9,7 @@ import { APPLY_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Academics — Landmark Metropolitan University Institute",
-  description: "Six schools, 150+ programs, every one built around real practice.",
+  description: "Four schools, 150+ programs, every one built around real practice.",
 };
 
 export default function AcademicsPage() {
@@ -22,7 +22,7 @@ export default function AcademicsPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              150+ programs. Six schools. One standard for what counts as learning.
+              150+ programs. Four schools. One standard for what counts as learning.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
@@ -63,9 +63,21 @@ export default function AcademicsPage() {
                     </h2>
                   </Reveal>
                   <Reveal delay={0.1}>
-                    <p className="lede" style={{ marginTop: 16 }}>
-                      {school.description}
-                    </p>
+                    {Array.isArray(school.description) ? (
+                      school.description.map((paragraph, paragraphIndex) => (
+                        <p
+                          key={paragraphIndex}
+                          className="lede"
+                          style={{ marginTop: paragraphIndex === 0 ? 16 : 12 }}
+                        >
+                          {paragraph}
+                        </p>
+                      ))
+                    ) : (
+                      <p className="lede" style={{ marginTop: 16 }}>
+                        {school.description}
+                      </p>
+                    )}
                   </Reveal>
                 </div>
                 <Reveal delay={0.14}>

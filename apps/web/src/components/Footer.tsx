@@ -50,7 +50,7 @@ export function Footer() {
           <div>
             <Logo light />
             <p style={{ color: "rgba(255,255,255,0.62)", fontSize: "0.92rem", maxWidth: 300, marginTop: 20, lineHeight: 1.6 }}>
-              Six campuses across the metropolitan region. One hundred and eighteen years of training
+              Two campuses across the city of Buea. Twenty Two plus years of training
               practitioners, not just graduates.
             </p>
             <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
@@ -122,7 +122,7 @@ export function Footer() {
               lineHeight: 1.3,
             }}
           >
-            Advancing knowledge. Elevating the metropolitan region and beyond.
+            The Pride of Africa. Training Productive Leaders.
           </p>
           <a href={APPLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn--gold">
             Start Your Application
@@ -142,7 +142,7 @@ export function Footer() {
           }}
         >
           <span>&copy; {new Date().getFullYear()} Landmark Metropolitan University Institute</span>
-          <span>Accredited by the Metropolitan Higher Education Commission</span>
+          <span>Accredited by the Ministry of Higher Education (MINISUP)</span>
         </div>
       </div>
 

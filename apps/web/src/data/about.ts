@@ -7,17 +7,20 @@ export const pillars: Pillar[] = [
   {
     title: "Access",
     description:
-      "Need-blind admission, need-based aid meeting 100% of demonstrated need, and a Bridge Scholars program built specifically for first-generation students from the metropolitan region.",
+      "Need-blind admission, need-based aid meeting 100% of demonstrated need, and a Bridge Scholars program built specifically for first-generation students.",
   },
   {
     title: "Practice",
     description:
-      "Every school builds a required, real-stakes practicum into its curriculum — a live client, a real docket, real capital, a proposal a city actually adopts.",
+      "Every of our schools builds a required, real-stakes practicum into its" +
+        " curriculum — a live client, a real docket, real capital, a proposal a city actually adopts.",
   },
   {
     title: "Place",
     description:
-      "Six campuses across the metropolitan region mean research and coursework stay tied to the city itself, not abstracted away from it.",
+      "Two campuses in the city of Buea and" +
+        " coursework stay tied to frontier innovations, not abstracted away" +
+        " from it.",
   },
 ];
 
