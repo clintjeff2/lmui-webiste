@@ -18,11 +18,10 @@ import { APPLY_URL } from "@/lib/site";
 import Link from "next/link";
 
 const recognitions = [
-  "Metropolitan Higher Education Commission",
-  "AACSB Accredited",
-  "NAAB Accredited",
-  "Top 10 Public Policy Clinic",
-  "Carnegie R1 Research Institution",
+  "University of Buea",
+  "Landmark Technologies",
+  "University of Toronto",
+  "Best Engineering College in Buea",
 ];
 
 export default function HomePage() {
@@ -51,7 +50,7 @@ export default function HomePage() {
           </Reveal>
           <Reveal delay={0.18}>
             <p className="lede" style={{ color: "rgba(255,255,255,0.76)", marginTop: 26 }}>
-              Six schools. One hundred and fifty programs. Every one of them built around a real client,
+              Four schools. One hundred and fifty plus programs. Every one of them built around a real client,
               a real docket, real capital — not a simulation of professional life, the thing itself.
             </p>
           </Reveal>
@@ -125,7 +124,7 @@ export default function HomePage() {
               </Reveal>
               <Reveal delay={0.06}>
                 <h2 className="headline" style={{ marginTop: 16 }}>
-                  Six schools. One standard.
+                  Four schools. One standard.
                 </h2>
               </Reveal>
             </div>
@@ -149,7 +148,7 @@ export default function HomePage() {
           <Reveal>
             <svg width="56" height="42" viewBox="0 0 42 32" fill="none" style={{ marginBottom: 24 }}>
               <path
-                d="M0 32V19.4C0 8.2 6.3 1.4 17.5 0L19 5.4C11.6 7.2 8.4 11.6 8.4 17.6H17.5V32H0ZM24.5 32V19.4C24.5 8.2 30.8 1.4 42 0L43.5 5.4C36.1 7.2 32.9 11.6 32.9 17.6H42V32H24.5Z"
+                d="M0 32V19.4C0 8.2 6.3 1.4 17.5 0L19 5.4C11.6 7.2 8.4 11.6 8.4 17.6H17.5V32H0ZM24.532V19.4C24.5 8.2 30.8 1.4 42 0L43.5 5.4C36.1 7.2 32.9 11.6 32.9 17.6H42V32H24.5Z"
                 fill="var(--gold-500)"
               />
             </svg>
@@ -164,7 +163,7 @@ export default function HomePage() {
           <Reveal delay={0.2}>
             <div className="quote-section__attr">
               <div>
-                <div style={{ color: "white", fontWeight: 600 }}>Dr. Carla Whitfield</div>
+                <div style={{ color: "white", fontWeight: 600 }}>Prof. Simon Legah</div>
                 <div style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.86rem" }}>
                   President, Landmark Metropolitan University Institute
                 </div>
@@ -209,7 +208,7 @@ export default function HomePage() {
               </Reveal>
               <Reveal delay={0.06}>
                 <h2 className="headline" style={{ marginTop: 16 }}>
-                  What's happening across six campuses.
+                  What's happening across our campuses.
                 </h2>
               </Reveal>
             </div>

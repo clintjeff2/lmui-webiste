@@ -11,11 +11,11 @@ export interface Program {
 
 export const programs: Program[] = [
   {
-    slug: "computer-science-bs",
-    name: "Computer Science, B.S.",
+    slug: "Data-Science-bs",
+    name: "Data Science, B-Tech",
     schoolSlug: "engineering",
     degreeLevel: "Undergraduate",
-    duration: "4 years",
+    duration: "3 years / 1 year Top-up",
     summary:
       "A rigorous foundation in algorithms, systems, and software engineering, with concentrations in AI, security, and distributed systems from junior year on.",
     highlights: [
@@ -30,7 +30,7 @@ export const programs: Program[] = [
     name: "Mechanical Engineering, B.S.",
     schoolSlug: "engineering",
     degreeLevel: "Undergraduate",
-    duration: "4 years",
+    duration: "2 years HND + 1 years Top-up",
     summary:
       "Design, thermodynamics, and materials science grounded in a project sequence that culminates in a fully fabricated senior design build.",
     highlights: [
@@ -103,7 +103,7 @@ export const programs: Program[] = [
   {
     slug: "nursing-bsn",
     name: "Nursing, B.S.N.",
-    schoolSlug: "health-medicine",
+    schoolSlug: "biomedical",
     degreeLevel: "Undergraduate",
     duration: "4 years",
     summary:
@@ -118,7 +118,7 @@ export const programs: Program[] = [
   {
     slug: "md-program",
     name: "Doctor of Medicine (M.D.)",
-    schoolSlug: "health-medicine",
+    schoolSlug: "biomedical",
     degreeLevel: "Doctoral",
     duration: "4 years",
     summary:

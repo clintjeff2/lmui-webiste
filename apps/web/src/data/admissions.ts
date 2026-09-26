@@ -9,7 +9,8 @@ export const admissionSteps: AdmissionStep[] = [
     number: "01",
     title: "Explore your program",
     description:
-      "Browse all 150+ programs across six schools. Most applicants shortlist two or three before starting an application.",
+      "Browse all 150+ programs across four schools. Most applicants" +
+        " shortlist two or three before starting an application.",
   },
   {
     number: "02",
@@ -21,13 +22,15 @@ export const admissionSteps: AdmissionStep[] = [
     number: "03",
     title: "Financial aid & scholarships",
     description:
-      "92% of first-year students receive some form of aid. The Bridge Scholars program covers full tuition for qualifying students.",
+      "92% of first-year students receive some form of aid. " +
+        "The Bridge Scholars program covers full tuition for qualifying students.",
   },
   {
     number: "04",
     title: "Admission decision",
     description:
-      "Early Decision applicants hear back by mid-December. Regular Decision applicants receive a decision by the end of March.",
+      "Early Decision applicants hear back by mid-December. Regular Decision" +
+        " applicants receive a decision by the end of March.",
   },
 ];
 
@@ -51,28 +54,45 @@ export interface FaqItem {
 
 export const admissionsFaq: FaqItem[] = [
   {
-    question: "Is Landmark need-blind in admissions?",
+    question: "Is LMUI fully accredited?",
     answer:
-      "Yes, for all domestic first-year applicants. Admission decisions are made without regard to a family's ability to pay, and financial aid is guaranteed to meet 100% of demonstrated need.",
+      'Yes. The institute is authorized and fully accredited by the Cameroon' +
+        ' Ministry of Higher Education (MINESUP).',
   },
   {
-    question: "Do I need to submit standardized test scores?",
+    question: "Which university mentors LMUI?",
     answer:
-      "Landmark is test-optional for first-year applicants. If you choose to submit scores, we'll consider them as one factor among many; if you don't, your application is evaluated with equal weight on the remaining components.",
+      'Its national degree programs (BSc, BTech, MBA, MSc, MTech) arementored by the University of'+
+        'Buea (UB) through a formal Memorandum of Understanding. It also' +
+        ' holds international partnership understandings, including' +
+        ' connections with institutions like the University of Toronto in Canada.',
   },
   {
-    question: "Can I apply to more than one program?",
+    question: "What certifications can I earn?",
     answer:
-      "Undergraduate applicants apply to the university as a whole and declare a major by the end of sophomore year, so one application covers exploration across most programs. Graduate and professional programs require separate, program-specific applications.",
+      "Higher National Diploma (HND). They also offer straight Bachelor's degrees, Top-Up programs, and Master’s degrees.",
   },
   {
-    question: "What financial aid is available?",
+    question: "Does LMUI offer international professional certifications?",
     answer:
-      "92% of first-year students receive some combination of need-based grants, merit scholarships, or work-study. The Bridge Scholars program additionally covers full tuition and a living stipend for qualifying students from the metropolitan region.",
+      "Yes. The institute serves as a training and examination facility for" +
+        " global professional' bodies and tech companies, including ACCA, AMBA, ABE, CISCO, Oracle, Google, and AWS",
   },
   {
-    question: "How does the transfer application process work?",
+    question: "What are the main fields of study?",
     answer:
-      "Transfer applicants submit college transcripts alongside the standard application components. Most transfer credit evaluations are completed within two weeks of a completed application, so you'll know how your credits apply before committing.",
+      "The institution operates across several specialized schools," +
+        " including the School of Engineering and +Technology, School of Business and Management Sciences, and School of Medical and Biomedical Sciences",
+  },
+  {
+    question: "Where is LMUI located?",
+    answer:
+      "The main campuses are located in Buea (Molyko) in the South West" +
+        " Region of Cameroon. Campus A is situated opposite Unics Plc above the UB Junction.",
+  },
+  {
+    question: "Can I study online?",
+    answer:
+      "Yes. LMUI offers a robust e-learning platform and onsite instruction. It hosts a large digital student demographic, accommodating over 1,000 online students from more than 20 different countries",
   },
 ];

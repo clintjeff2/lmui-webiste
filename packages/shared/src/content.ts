@@ -17,10 +17,14 @@ export interface Program {
   id: number;
   slug: string;
   name: string;
-  degreeLevel: "undergraduate" | "graduate" | "certificate";
+  degreeLevel: "undergraduate" | "graduate" | "doctoral" | "certificate";
   departmentSlug: string | null;
+  schoolSlug: string | null;
+  duration: string;
   summary: string;
   body: string;
+  highlights: string[];
+  outcomes: string[];
   heroImageUrl: string | null;
   status: "draft" | "published";
   updatedAt: string;
@@ -30,10 +34,14 @@ export interface Program {
 export const programInputSchema = z.object({
   slug: z.string().min(1),
   name: z.string().min(1),
-  degreeLevel: z.enum(["undergraduate", "graduate", "certificate"]),
+  degreeLevel: z.enum(["undergraduate", "graduate", "doctoral", "certificate"]),
   departmentSlug: z.string().nullable().optional(),
+  schoolSlug: z.string().nullable().optional(),
+  duration: z.string().optional().default(""),
   summary: z.string().optional().default(""),
   body: z.string().optional().default(""),
+  highlights: z.array(z.string()).optional().default([]),
+  outcomes: z.array(z.string()).optional().default([]),
   heroImageUrl: z.string().nullable().optional(),
   status: statusEnum.optional().default("draft"),
 });
