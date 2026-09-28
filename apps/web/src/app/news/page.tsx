@@ -3,18 +3,23 @@ import Link from "next/link";
 import { NewsCard } from "@/components/NewsCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
-import { newsArticles } from "@/data/news";
+import { getNewsArticles } from "@/data/news";
+import { getAboutData } from "@/data/about";
 import { formatDate } from "@/lib/format";
 
-export const metadata: Metadata = {
-  title: "News & Insights — Landmark Metropolitan University Institute",
-  description: "What's happening across six campuses.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { campusCount } = await getAboutData();
+  return {
+    title: "News & Insights — Landmark Metropolitan University Institute",
+    description: `What's happening across ${campusCount} campuses.`,
+  };
+}
 
 const patterns = ["grid", "diagonal", "radial", "wave", "concentric"] as const;
 
-export default function NewsPage() {
-  const [featured, ...rest] = newsArticles;
+export default async function NewsPage() {
+  const { campusCount } = await getAboutData();
+  const [featured, ...rest] = getNewsArticles(campusCount);
 
   return (
     <main>
@@ -25,7 +30,7 @@ export default function NewsPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 780 }}>
-              What's happening across six campuses.
+              What's happening across {campusCount} campuses.
             </h1>
           </Reveal>
         </div>

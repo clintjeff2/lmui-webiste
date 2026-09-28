@@ -2,15 +2,26 @@ import type { Metadata } from "next";
 import { Button } from "@/components/Button";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
-import { campusGallery, leadership, milestones, pillars } from "@/data/about";
+import { getAboutData } from "@/data/about";
 import { APPLY_URL } from "@/lib/site";
+
+const foundingYear = 2005;
+const yearsSinceFounded = new Date().getFullYear() - foundingYear;
 
 export const metadata: Metadata = {
   title: "About — Landmark Metropolitan University Institute",
-  description: "22+ years of training practitioners, not just graduates.",
+  description: `${yearsSinceFounded}+ years of training practitioners, not just graduates.`,
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const {
+    pillars: aboutPillars,
+    leadership: aboutLeadership,
+    milestones: aboutMilestones,
+    campusGallery: aboutCampusGallery,
+    campusCount,
+  } = await getAboutData();
+
   return (
     <main>
       <section className="section" style={{ paddingBottom: 40 }}>
@@ -20,12 +31,12 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              22+ years of training practitioners, not just graduates.
+              {yearsSinceFounded}+ years of training practitioners, not just graduates.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
             <p className="lede" style={{ marginTop: 24 }}>
-              Founded in 2004 as an ACCA training center for those who wanted to take the ACCA exam for Accounting accreditation,
+              Founded in 2005 as an ACCA training center for those who wanted to take the ACCA exam for Accounting accreditation,
               Landmark has spent over two decades refusing to separate education from practice.
             </p>
           </Reveal>
@@ -36,7 +47,7 @@ export default function AboutPage() {
       <section className="section--tight section--paper-alt">
         <div className="container">
           <RevealGroup className="about-pillars">
-            {pillars.map((p) => (
+            {aboutPillars.map((p) => (
               <RevealItem key={p.title} className="about-pillar">
                 <h3>{p.title}</h3>
                 <p>{p.description}</p>
@@ -58,10 +69,14 @@ export default function AboutPage() {
             </h2>
           </Reveal>
           <RevealGroup className="leadership-grid">
-            {leadership.map((l, i) => (
+            {aboutLeadership.map((l) => (
               <RevealItem key={l.name} className="leader-card">
                 <div className="leader-card__visual">
-                  <VisualPanel pattern={(["grid", "diagonal", "radial", "wave"] as const)[i % 4]} tone="navy" />
+                  {l.image ? (
+                    <img className="leader-card__image" src={l.image} alt={`Portrait of ${l.name}`} />
+                  ) : (
+                    <VisualPanel pattern="grid" tone="navy" />
+                  )}
                 </div>
                 <h3 className="leader-card__name">{l.name}</h3>
                 <div className="leader-card__title">{l.title}</div>
@@ -84,10 +99,14 @@ export default function AboutPage() {
             </h2>
           </Reveal>
           <RevealGroup className="timeline">
-            {milestones.map((m) => (
+            {aboutMilestones.map((m) => (
               <RevealItem key={m.year} className="timeline-row">
                 <div className="timeline-row__year">{m.year}</div>
-                <div className="timeline-row__desc">{m.description}</div>
+                <div className="timeline-row__desc">
+                  {m.description.split(/\n\s*\n/).map((paragraph, index) => (
+                    <p key={`${m.year}-${index}`}>{paragraph}</p>
+                  ))}
+                </div>
               </RevealItem>
             ))}
           </RevealGroup>
@@ -104,13 +123,13 @@ export default function AboutPage() {
               </Reveal>
               <Reveal delay={0.06}>
                 <h2 className="headline" style={{ marginTop: 16 }}>
-                  Six campuses. One metropolitan region.
+                  {campusCount} campuses. One metropolitan region.
                 </h2>
               </Reveal>
             </div>
           </div>
           <RevealGroup className="gallery-bento">
-            {campusGallery.map((tile) => (
+            {aboutCampusGallery.map((tile) => (
               <RevealItem key={tile.label} className={`gallery-tile gallery-tile--${tile.size}`}>
                 <VisualPanel pattern={tile.pattern} tone="navy" className="gallery-tile__visual" />
                 <div className="gallery-tile__label">{tile.label}</div>
@@ -144,6 +163,7 @@ export default function AboutPage() {
 
         .leadership-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
         .leader-card__visual { position: relative; aspect-ratio: 4/5; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 16px; }
+        .leader-card__image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
         .leader-card__name { font-size: 1rem; margin-bottom: 4px; }
         .leader-card__title { font-size: 0.8rem; color: var(--garnet-500); font-weight: 600; margin-bottom: 10px; }
         .leader-card__bio { font-size: 0.86rem; color: var(--muted); line-height: 1.55; }
@@ -156,6 +176,7 @@ export default function AboutPage() {
         .timeline-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.12); }
         .timeline-row__year { font-family: var(--font-display); color: var(--gold-400); font-size: 1.2rem; }
         .timeline-row__desc { color: rgba(255,255,255,0.78); line-height: 1.6; }
+        .timeline-row__desc p + p { margin-top: 12px; }
 
         .gallery-bento {
           display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 160px; gap: 16px;

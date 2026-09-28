@@ -5,7 +5,7 @@ import { ProgramCard } from "@/components/ProgramCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
 import { getProgramBySlug, getProgramsBySchool, programs } from "@/data/programs";
-import { getSchoolBySlug } from "@/data/schools";
+import { getSchools } from "@/data/schools";
 import { APPLY_URL } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -17,10 +17,11 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return { title: program ? `${program.name} — Landmark Metropolitan University Institute` : "Program not found" };
 }
 
-export default function ProgramPage({ params }: { params: { slug: string } }) {
+export default async function ProgramPage({ params }: { params: { slug: string } }) {
   const program = getProgramBySlug(params.slug);
   if (!program) notFound();
-  const school = getSchoolBySlug(program.schoolSlug);
+  const schools = await getSchools();
+  const school = schools.find((item) => item.slug === program.schoolSlug);
   const related = getProgramsBySchool(program.schoolSlug).filter((p) => p.slug !== program.slug).slice(0, 3);
 
   return (

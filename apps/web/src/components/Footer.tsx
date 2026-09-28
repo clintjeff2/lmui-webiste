@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { schools } from "@/data/schools";
+import type { School } from "@/data/schools";
+import { getAboutData } from "@/data/about";
 import { APPLY_URL } from "@/lib/site";
 import { Logo } from "./Logo";
 
-const columns = [
+const columns = (schools: School[]) => [
   {
     title: "Academics",
     links: schools.slice(0, 5).map((s) => ({ label: s.shortName, href: `/academics#${s.slug}` })),
@@ -34,7 +35,9 @@ const socials = [
   { label: "X", d: "M2 2L18 18M18 2L2 18" },
 ];
 
-export function Footer() {
+export async function Footer({ schools }: { schools: School[] }) {
+  const { campusCount } = await getAboutData();
+
   return (
     <footer className="section--navy" style={{ paddingTop: 72 }}>
       <div className="container">
@@ -50,7 +53,7 @@ export function Footer() {
           <div>
             <Logo light />
             <p style={{ color: "rgba(255,255,255,0.62)", fontSize: "0.92rem", maxWidth: 300, marginTop: 20, lineHeight: 1.6 }}>
-              Two campuses across the city of Buea. Twenty Two plus years of training
+              {campusCount} campuses across the city of Buea. Twenty Two plus years of training
               practitioners, not just graduates.
             </p>
             <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
@@ -77,7 +80,7 @@ export function Footer() {
             </div>
           </div>
 
-          {columns.map((col) => (
+          {columns(schools).map((col) => (
             <div key={col.title}>
               <div
                 style={{

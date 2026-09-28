@@ -5,11 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { schools } from "@/data/schools";
+import type { School } from "@/data/schools";
 import { APPLY_URL, NAV_LINKS } from "@/lib/site";
 import { Logo } from "./Logo";
 
-export function Header() {
+export function Header({ schools }: { schools: School[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -131,7 +131,7 @@ export function Header() {
                       {schools.map((s) => (
                         <Link
                           key={s.slug}
-                          href={`/academics#${s.slug}`}
+                          href={s.route}
                           style={{
                             display: "block",
                             padding: "12px 10px",

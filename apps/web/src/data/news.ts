@@ -95,3 +95,13 @@ export const newsArticles: NewsArticle[] = [
 export function getArticleBySlug(slug: string): NewsArticle | undefined {
   return newsArticles.find((a) => a.slug === slug);
 }
+
+export function getNewsArticles(campusCount: number): NewsArticle[] {
+  return newsArticles.map((article) => ({
+    ...article,
+    dek: article.dek.replace("six metropolitan campuses", `${campusCount} metropolitan campuses`),
+    body: article.body.map((paragraph) =>
+      paragraph.replace("six-campus system", `${campusCount}-campus system`),
+    ),
+  }));
+}

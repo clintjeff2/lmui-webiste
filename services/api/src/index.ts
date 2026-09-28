@@ -15,9 +15,12 @@ import {
 } from "@lmui/shared";
 import { makeContentRouter } from "./lib/contentRouter";
 import { uploadsDir } from "./routes/media";
+import admissionsRouter from "./routes/admissions";
+import aboutRouter from "./routes/about";
 import authRouter from "./routes/auth";
 import mediaRouter from "./routes/media";
 import pageBlocksRouter from "./routes/pageBlocks";
+import schoolsRouter from "./routes/schools";
 import siteSettingsRouter from "./routes/siteSettings";
 
 const app = express();
@@ -32,9 +35,12 @@ app.use("/uploads", express.static(uploadsDir));
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/about", aboutRouter);
+app.use("/api/v1/admissions", admissionsRouter);
 app.use("/api/v1/media", mediaRouter);
 app.use("/api/v1/settings", siteSettingsRouter);
 app.use("/api/v1/pages", pageBlocksRouter);
+app.use("/api/v1/schools", schoolsRouter);
 
 app.use(
   "/api/v1/programs",

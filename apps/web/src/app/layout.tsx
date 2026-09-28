@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { getSchools } from "@/data/schools";
 
 // Self-hosted (not next/font/google): a live campus presentation cannot
 // depend on fonts.gstatic.com being reachable over venue wifi. These are
@@ -30,13 +31,15 @@ export const metadata: Metadata = {
     "Six schools, one hundred and fifty programs, and a curriculum built around real practice — not simulations of it. Landmark Metropolitan University Institute.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const schools = await getSchools();
+
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
-        <Header />
+        <Header schools={schools} />
         {children}
-        <Footer />
+        <Footer schools={schools} />
       </body>
     </html>
   );

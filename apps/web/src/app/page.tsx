@@ -7,11 +7,11 @@ import { SchoolCard } from "@/components/SchoolCard";
 import { StatStrip } from "@/components/StatStrip";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { VisualPanel } from "@/components/VisualPanel";
-import { pillars } from "@/data/about";
+import { getAboutData } from "@/data/about";
 import { admissionsFaq } from "@/data/admissions";
-import { newsArticles } from "@/data/news";
-import { schools } from "@/data/schools";
-import { heroStats, secondaryStats } from "@/data/stats";
+import { getNewsArticles } from "@/data/news";
+import { getSchools } from "@/data/schools";
+import { getSecondaryStats, heroStats } from "@/data/stats";
 import { testimonials } from "@/data/testimonials";
 import { formatDate } from "@/lib/format";
 import { APPLY_URL } from "@/lib/site";
@@ -24,9 +24,15 @@ const recognitions = [
   "Best Engineering College in Buea",
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [{ pillars: homePillars, campusCount }, schools] = await Promise.all([
+    getAboutData(),
+    getSchools(),
+  ]);
+  const newsArticles = getNewsArticles(campusCount);
   const featured = newsArticles.find((a) => a.featured) ?? newsArticles[0];
   const rest = newsArticles.filter((a) => a.slug !== featured.slug).slice(0, 3);
+  const homeSecondaryStats = getSecondaryStats(campusCount);
 
   return (
     <main>
@@ -103,7 +109,7 @@ export default function HomePage() {
           </div>
 
           <RevealGroup className="pillars-grid">
-            {pillars.map((pillar, i) => (
+            {homePillars.map((pillar, i) => (
               <RevealItem key={pillar.title} className="pillar-card">
                 <span className="pillar-card__num">0{i + 1}</span>
                 <h3 className="pillar-card__title">{pillar.title}</h3>
@@ -169,7 +175,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="quote-section__stats">
-                <StatStrip stats={secondaryStats} dark />
+                <StatStrip stats={homeSecondaryStats} dark />
               </div>
             </div>
           </Reveal>

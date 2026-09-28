@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
-import { admissionSteps, admissionsFaq, deadlines } from "@/data/admissions";
+import { admissionsFaq, getAdmissionsData } from "@/data/admissions";
 import { APPLY_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   description: "Need-blind admission. Aid that meets 100% of demonstrated need. Test-optional.",
 };
 
-export default function AdmissionsPage() {
+export default async function AdmissionsPage() {
+  const { admissionSteps, deadlines } = await getAdmissionsData();
+
   return (
     <main>
       <section className="section admissions-hero">
@@ -27,8 +29,7 @@ export default function AdmissionsPage() {
             </Reveal>
             <Reveal delay={0.14}>
               <p className="lede" style={{ marginTop: 24 }}>
-                Need-blind for every domestic applicant. Aid that meets 100% of demonstrated need.
-                Test-optional, by design — not as an exception.
+                Choose from accredited undergraduate, HND, or postgraduate programs across fields like Engineering, Medical Sciences, and Business..
               </p>
             </Reveal>
             <Reveal delay={0.2}>

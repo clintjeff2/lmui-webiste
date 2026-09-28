@@ -4,7 +4,7 @@ import { Button } from "@/components/Button";
 import { ProgramCard } from "@/components/ProgramCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { getProgramsBySchool, programs } from "@/data/programs";
-import { schools } from "@/data/schools";
+import { getSchools } from "@/data/schools";
 import { APPLY_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -12,7 +12,9 @@ export const metadata: Metadata = {
   description: "Four schools, 150+ programs, every one built around real practice.",
 };
 
-export default function AcademicsPage() {
+export default async function AcademicsPage() {
+  const schools = await getSchools();
+
   return (
     <main>
       <section className="section" style={{ paddingBottom: 60 }}>

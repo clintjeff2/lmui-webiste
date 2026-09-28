@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { NewsCard } from "@/components/NewsCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
-import { getArticleBySlug, newsArticles } from "@/data/news";
+import { getArticleBySlug, getNewsArticles, newsArticles } from "@/data/news";
+import { getAboutData } from "@/data/about";
 import { formatDate } from "@/lib/format";
 
 export function generateStaticParams() {
@@ -15,8 +16,10 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return { title: article ? `${article.title} — Landmark Metropolitan University Institute` : "Article not found" };
 }
 
-export default function NewsArticlePage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug);
+export default async function NewsArticlePage({ params }: { params: { slug: string } }) {
+  const { campusCount } = await getAboutData();
+  const newsArticles = getNewsArticles(campusCount);
+  const article = newsArticles.find((item) => item.slug === params.slug);
   if (!article) notFound();
   const related = newsArticles.filter((a) => a.slug !== article.slug).slice(0, 3);
 

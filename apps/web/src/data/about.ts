@@ -3,24 +3,21 @@ export interface Pillar {
   description: string;
 }
 
-export const pillars: Pillar[] = [
+const defaultPillars: Pillar[] = [
   {
-    title: "Access",
+    title: "Mission",
     description:
-      "Need-blind admission, need-based aid meeting 100% of demonstrated need, and a Bridge Scholars program built specifically for first-generation students.",
+      "",
   },
   {
-    title: "Practice",
+    title: "Vision",
     description:
-      "Every of our schools builds a required, real-stakes practicum into its" +
-        " curriculum — a live client, a real docket, real capital, a proposal a city actually adopts.",
+      "",
   },
   {
-    title: "Place",
+    title: "Policies",
     description:
-      "Two campuses in the city of Buea and" +
-        " coursework stay tied to frontier innovations, not abstracted away" +
-        " from it.",
+      "",
   },
 ];
 
@@ -28,9 +25,18 @@ export interface Leader {
   name: string;
   title: string;
   bio: string;
+  image?: string | null;
 }
 
-export const leadership: Leader[] = [
+interface StaffMember {
+  staff_name: string;
+  staff_title: string;
+  staff_bio: string;
+  staff_image: string | null;
+  staff_grade: string;
+}
+
+const defaultLeadership: Leader[] = [
   {
     name: "Dr. Carla Whitfield",
     title: "President",
@@ -58,7 +64,7 @@ export interface Milestone {
   description: string;
 }
 
-export const milestones: Milestone[] = [
+const defaultMilestones: Milestone[] = [
   { year: "1908", description: "Founded as a evening technical institute for the city's working professionals." },
   { year: "1947", description: "Granted university status and admitted its first undergraduate class." },
   { year: "1971", description: "Opened the School of Law & Public Policy and its first legal aid clinic." },
@@ -71,12 +77,120 @@ export interface GalleryTile {
   label: string;
   size: "lg" | "md" | "sm";
   pattern: "grid" | "diagonal" | "radial" | "wave" | "concentric";
+  campus: string;
 }
 
-export const campusGallery: GalleryTile[] = [
-  { label: "The Quad, main campus", size: "lg", pattern: "concentric" },
-  { label: "Whitfield Engineering Commons", size: "md", pattern: "grid" },
-  { label: "Riverside Campus waterfront", size: "sm", pattern: "wave" },
-  { label: "Downtown Law & Policy campus", size: "sm", pattern: "diagonal" },
-  { label: "Landmark Health Partners", size: "md", pattern: "radial" },
+const defaultCampusGallery: GalleryTile[] = [
+  { label: "The Quad, main campus", size: "lg", pattern: "concentric", campus: "Campus B" },
+  { label: "Whitfield Engineering Commons", size: "md", pattern: "grid", campus: "Campus A" },
+  { label: "Riverside Campus waterfront", size: "sm", pattern: "wave", campus: "Campus B" },
+  { label: "Downtown Law & Policy campus", size: "sm", pattern: "diagonal", campus: "Campus A" },
+  { label: "Landmark Health Partners", size: "md", pattern: "radial", campus: "Campus B" },
 ];
+
+export type AboutCollection = "pillars" | "staff" | "milestones" | "campusGallery";
+
+export interface AboutData {
+  pillars: Pillar[];
+  leadership: Leader[];
+  milestones: Milestone[];
+  campusGallery: GalleryTile[];
+  campusCount: number;
+}
+
+const fallbackAboutData: AboutData = {
+  pillars: defaultPillars,
+  leadership: defaultLeadership,
+  milestones: defaultMilestones,
+  campusGallery: defaultCampusGallery,
+  campusCount: new Set(defaultCampusGallery.map((tile) => tile.campus.trim().toLocaleLowerCase())).size,
+};
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+
+function rowsOrFallback<T>(rows: unknown, fallback: T[]): T[] {
+  return Array.isArray(rows) && rows.length > 0 ? rows as T[] : fallback;
+}
+
+function countDistinctCampuses(gallery: GalleryTile[]): number {
+  return new Set(
+    gallery
+      .map((tile) => tile.campus.trim().toLocaleLowerCase())
+      .filter(Boolean),
+  ).size;
+}
+
+function mapTopManagementToLeadership(rows: unknown): Leader[] {
+  if (!Array.isArray(rows)) return [];
+
+  // Keep only top-management staff and expose the field names used by the frontend.
+  return rows.flatMap((row): Leader[] => {
+    if (typeof row !== "object" || row === null) return [];
+
+    const staffMember = row as Record<string, unknown>;
+    if (
+      typeof staffMember.staff_grade !== "string" ||
+      staffMember.staff_grade.trim().toLowerCase() !== "board management"
+    ) {
+      return [];
+    }
+
+    if (
+      typeof staffMember.staff_name !== "string" ||
+      typeof staffMember.staff_title !== "string" ||
+      typeof staffMember.staff_bio !== "string"
+    ) {
+      return [];
+    }
+
+    return [{
+      name: staffMember.staff_name,
+      title: staffMember.staff_title,
+      bio: staffMember.staff_bio,
+      image: typeof staffMember.staff_image === "string" ? staffMember.staff_image : null,
+    }];
+  });
+}
+
+export const staff: Promise<StaffMember[]> = (async () => {
+  try {
+    const response = await fetch(`${API_BASE}/api/v1/about`, { cache: "no-store" });
+    if (!response.ok) return [];
+
+    const data: unknown = await response.json();
+    if (typeof data !== "object" || data === null) return [];
+
+    const staffRows = (data as { staff?: unknown }).staff;
+    return Array.isArray(staffRows) ? staffRows as StaffMember[] : [];
+  } catch {
+    return [];
+  }
+})();
+
+export async function getAboutData(): Promise<AboutData> {
+  try {
+    const response = await fetch(`${API_BASE}/api/v1/about`, { cache: "no-store" });
+    if (!response.ok) return fallbackAboutData;
+
+    const data: unknown = await response.json();
+    if (typeof data !== "object" || data === null) return fallbackAboutData;
+
+    const about = data as Partial<AboutData> & { staff?: unknown };
+    // The aggregate endpoint includes raw staff rows; derive leadership from their grade.
+    const leadership = Array.isArray(about.staff)
+      ? mapTopManagementToLeadership(about.staff)
+      : rowsOrFallback(about.leadership, fallbackAboutData.leadership);
+
+    return {
+      pillars: rowsOrFallback(about.pillars, fallbackAboutData.pillars),
+      leadership,
+      milestones: rowsOrFallback(about.milestones, fallbackAboutData.milestones),
+      campusGallery: rowsOrFallback(about.campusGallery, fallbackAboutData.campusGallery),
+      campusCount: countDistinctCampuses(
+        rowsOrFallback(about.campusGallery, fallbackAboutData.campusGallery),
+      ),
+    };
+  } catch {
+    return fallbackAboutData;
+  }
+}

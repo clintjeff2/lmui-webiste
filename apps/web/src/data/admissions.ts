@@ -96,3 +96,36 @@ export const admissionsFaq: FaqItem[] = [
       "Yes. LMUI offers a robust e-learning platform and onsite instruction. It hosts a large digital student demographic, accommodating over 1,000 online students from more than 20 different countries",
   },
 ];
+
+export interface AdmissionsData {
+  admissionSteps: AdmissionStep[];
+  deadlines: Deadline[];
+}
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+
+function rowsOrFallback<T>(rows: unknown, fallback: T[]): T[] {
+  return Array.isArray(rows) && rows.length > 0 ? rows as T[] : fallback;
+}
+
+export async function getAdmissionsData(): Promise<AdmissionsData> {
+  try {
+    const response = await fetch(`${API_BASE}/api/v1/admissions`, { cache: "no-store" });
+    if (!response.ok) {
+      return { admissionSteps, deadlines };
+    }
+
+    const data: unknown = await response.json();
+    if (typeof data !== "object" || data === null) {
+      return { admissionSteps, deadlines };
+    }
+
+    const admissions = data as Partial<AdmissionsData>;
+    return {
+      admissionSteps: rowsOrFallback(admissions.admissionSteps, admissionSteps),
+      deadlines: rowsOrFallback(admissions.deadlines, deadlines),
+    };
+  } catch {
+    return { admissionSteps, deadlines };
+  }
+}
