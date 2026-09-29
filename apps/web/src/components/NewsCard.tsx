@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { NewsArticle } from "@/data/news";
 import { formatDate } from "@/lib/format";
 import { VisualPanel } from "./VisualPanel";
@@ -7,6 +8,15 @@ export function NewsCard({ article, pattern = "grid" }: { article: NewsArticle; 
   return (
     <Link href={`/news/${article.slug}`} className="news-card">
       <div className="news-card__visual">
+        {article.image && (
+          <Image
+            src={article.image}
+            alt=""
+            fill
+            sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
+            style={{ objectFit: "cover" }}
+          />
+        )}
         <VisualPanel pattern={pattern} tone="paper" className="news-card__panel" />
       </div>
       <div className="news-card__body">

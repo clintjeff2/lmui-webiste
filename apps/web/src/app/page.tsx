@@ -5,16 +5,17 @@ import { NewsCard } from "@/components/NewsCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { SchoolCard } from "@/components/SchoolCard";
 import { StatStrip } from "@/components/StatStrip";
-import { TestimonialCarousel } from "@/components/TestimonialCarousel";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { VisualPanel } from "@/components/VisualPanel";
 import { getAboutData } from "@/data/about";
 import { admissionsFaq } from "@/data/admissions";
 import { getNewsArticles } from "@/data/news";
 import { getSchools } from "@/data/schools";
 import { getSecondaryStats, heroStats } from "@/data/stats";
-import { testimonials } from "@/data/testimonials";
+import { getTestimonials } from "@/data/testimonials";
 import { formatDate } from "@/lib/format";
 import { APPLY_URL } from "@/lib/site";
+import Image from "next/image";
 import Link from "next/link";
 
 const recognitions = [
@@ -25,11 +26,16 @@ const recognitions = [
 ];
 
 export default async function HomePage() {
-  const [{ pillars: homePillars, campusCount }, schools] = await Promise.all([
+  const [{ pillars: homePillars, leadership, campusCount }, schools, homeTestimonials] = await Promise.all([
     getAboutData(),
     getSchools(),
+    getTestimonials(),
   ]);
-  const newsArticles = getNewsArticles(campusCount);
+  const president = leadership.find((leader) => {
+    const title = leader.title.toLowerCase();
+    return title.includes("president") && !title.includes("vice president");
+  });
+  const newsArticles = await getNewsArticles(campusCount);
   const featured = newsArticles.find((a) => a.featured) ?? newsArticles[0];
   const rest = newsArticles.filter((a) => a.slug !== featured.slug).slice(0, 3);
   const homeSecondaryStats = getSecondaryStats(campusCount);
@@ -85,6 +91,55 @@ export default async function HomePage() {
       <div style={{ background: "var(--navy-900)", padding: "26px 0 80px" }}>
         <Marquee items={recognitions} />
       </div>
+
+      {/* ---------------- PRESIDENTIAL PULL QUOTE ---------------- */}
+      <section className="section--navy">
+        <div className={`container quote-section${president?.image ? "" : " quote-section--text-only"}`}>
+          <div className="quote-section__content">
+            <Reveal>
+              <svg width="56" height="42" viewBox="0 0 42 32" fill="none" style={{ marginBottom: 24 }}>
+                <path
+                  d="M0 32V19.4C0 8.2 6.3 1.4 17.5 0L19 5.4C11.6 7.2 8.4 11.6 8.4 17.6H17.5V32H0ZM24.532V19.4C24.5 8.2 30.8 1.4 42 0L43.5 5.4C36.1 7.2 32.9 11.6 32.9 17.6H42V32H24.5Z"
+                  fill="var(--gold-500)"
+                />
+              </svg>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="quote-section__text">
+                We stopped asking students to imagine what practice feels like, and started building
+                curricula where they simply practice — supervised, accountable, and years ahead of
+                schedule.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div className="quote-section__attr">
+                <div>
+                  <div style={{ color: "white", fontWeight: 600 }}>
+                    {president?.name ?? "Prof. Simon Legah"}
+                  </div>
+                  <div style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.86rem" }}>
+                    {president?.title ?? "President"}, Landmark Metropolitan University Institute
+                  </div>
+                </div>
+                <div className="quote-section__stats">
+                  <StatStrip stats={homeSecondaryStats} dark />
+                </div>
+              </div>
+            </Reveal>
+          </div>
+          {president?.image && (
+            <Reveal delay={0.18} className="quote-section__portrait">
+              <Image
+                src={president.image}
+                alt={president.name}
+                fill
+                sizes="(max-width: 980px) 100vw, 38vw"
+                className="quote-section__image"
+              />
+            </Reveal>
+          )}
+        </div>
+      </section>
 
       {/* ---------------- WHY LANDMARK ---------------- */}
       <section className="section">
@@ -148,60 +203,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ---------------- PRESIDENTIAL PULL QUOTE ---------------- */}
-      <section className="section--navy">
-        <div className="container quote-section">
-          <Reveal>
-            <svg width="56" height="42" viewBox="0 0 42 32" fill="none" style={{ marginBottom: 24 }}>
-              <path
-                d="M0 32V19.4C0 8.2 6.3 1.4 17.5 0L19 5.4C11.6 7.2 8.4 11.6 8.4 17.6H17.5V32H0ZM24.532V19.4C24.5 8.2 30.8 1.4 42 0L43.5 5.4C36.1 7.2 32.9 11.6 32.9 17.6H42V32H24.5Z"
-                fill="var(--gold-500)"
-              />
-            </svg>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="quote-section__text">
-              We stopped asking students to imagine what practice feels like, and started building
-              curricula where they simply practice — supervised, accountable, and years ahead of
-              schedule.
-            </p>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <div className="quote-section__attr">
-              <div>
-                <div style={{ color: "white", fontWeight: 600 }}>Prof. Simon Legah</div>
-                <div style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.86rem" }}>
-                  President, Landmark Metropolitan University Institute
-                </div>
-              </div>
-              <div className="quote-section__stats">
-                <StatStrip stats={homeSecondaryStats} dark />
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ---------------- TESTIMONIALS ---------------- */}
       <section className="section">
-        <div className="container testimonials-layout">
-          <div>
-            <Reveal>
-              <span className="eyebrow">In their words</span>
-            </Reveal>
-            <Reveal delay={0.06}>
-              <h2 className="headline" style={{ marginTop: 16, marginBottom: 36 }}>
-                Ask a student what "hands-on" means here.
-              </h2>
-            </Reveal>
-            <Reveal delay={0.12}>
-              <TestimonialCarousel items={testimonials} />
-            </Reveal>
-          </div>
-          <Reveal delay={0.18} className="testimonials-visual">
-            <VisualPanel pattern="concentric" tone="gold" className="testimonials-visual__panel" monogram />
-          </Reveal>
-        </div>
+        <TestimonialsSection items={homeTestimonials} />
       </section>
 
       {/* ---------------- NEWS ---------------- */}
@@ -229,6 +233,15 @@ export default async function HomePage() {
             <Reveal className="news-featured">
               <Link href={`/news/${featured.slug}`} className="news-featured__link">
                 <div className="news-featured__visual">
+                  {featured.image && (
+                    <Image
+                      src={featured.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 980px) 100vw, 55vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                  )}
                   <VisualPanel pattern="grid" tone="navy" className="news-featured__panel" monogram />
                 </div>
                 <div className="news-featured__meta">
@@ -351,7 +364,17 @@ export default async function HomePage() {
         }
         .schools-scroll::-webkit-scrollbar { display: none; }
 
-        .quote-section { padding: 20px 0 8px; text-align: left; }
+        .quote-section {
+          display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.75fr);
+          align-items: center; gap: clamp(32px, 6vw, 80px); padding: 72px 0; text-align: left;
+        }
+        .quote-section--text-only { grid-template-columns: minmax(0, 1fr); }
+        .quote-section__content { min-width: 0; }
+        .quote-section__portrait {
+          position: relative; width: 100%; aspect-ratio: 4 / 5; max-height: 560px;
+          overflow: hidden; border-radius: var(--radius-sm); background: var(--navy-800);
+        }
+        .quote-section__image { object-fit: cover; object-position: center 20%; }
         .quote-section__text {
           font-family: var(--font-display); font-size: clamp(1.6rem, 3.4vw, 2.6rem);
           color: white; max-width: 920px; line-height: 1.28; font-weight: 500;
@@ -387,6 +410,9 @@ export default async function HomePage() {
 
         @media (max-width: 980px) {
           .pillars-grid { grid-template-columns: 1fr; }
+          .quote-section { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+          .quote-section__portrait { max-width: 520px; aspect-ratio: 4 / 3; margin-inline: auto; }
+          .quote-section__stats { flex: 1 1 100%; max-width: none; }
           .testimonials-layout { grid-template-columns: 1fr; }
           .testimonials-visual { min-height: 240px; order: -1; }
           .news-layout { grid-template-columns: 1fr; }

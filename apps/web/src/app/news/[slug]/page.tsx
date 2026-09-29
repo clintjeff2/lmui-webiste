@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { NewsCard } from "@/components/NewsCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
-import { getArticleBySlug, getNewsArticles, newsArticles } from "@/data/news";
+import { getArticleBySlug, getNewsArticles } from "@/data/news";
 import { getAboutData } from "@/data/about";
 import { formatDate } from "@/lib/format";
 
-export function generateStaticParams() {
-  return newsArticles.map((a) => ({ slug: a.slug }));
+export async function generateStaticParams() {
+  return (await getNewsArticles(6)).map((article) => ({ slug: article.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const article = getArticleBySlug(params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const article = await getArticleBySlug(params.slug);
   return { title: article ? `${article.title} — Landmark Metropolitan University Institute` : "Article not found" };
 }
 
 export default async function NewsArticlePage({ params }: { params: { slug: string } }) {
   const { campusCount } = await getAboutData();
-  const newsArticles = getNewsArticles(campusCount);
+  const newsArticles = await getNewsArticles(campusCount);
   const article = newsArticles.find((item) => item.slug === params.slug);
   if (!article) notFound();
   const related = newsArticles.filter((a) => a.slug !== article.slug).slice(0, 3);
@@ -53,6 +54,15 @@ export default async function NewsArticlePage({ params }: { params: { slug: stri
         <div className="container">
           <Reveal delay={0.1}>
             <div className="article-visual">
+              {article.image && (
+                <Image
+                  src={article.image}
+                  alt=""
+                  fill
+                  sizes="(max-width: 700px) 100vw, 1200px"
+                  className="article-visual__image"
+                />
+              )}
               <VisualPanel pattern="grid" tone="navy" monogram className="article-visual__panel" />
             </div>
           </Reveal>
@@ -94,6 +104,7 @@ export default async function NewsArticlePage({ params }: { params: { slug: stri
           color: var(--garnet-500); font-weight: 600;
         }
         .article-visual { position: relative; aspect-ratio: 21/9; border-radius: var(--radius-lg); overflow: hidden; }
+        .article-visual__image { object-fit: cover; }
         .article-visual__panel { width: 100%; height: 100%; }
         .article-body { display: flex; flex-direction: column; gap: 22px; }
         .article-body p { font-size: 1.05rem; line-height: 1.8; color: var(--ink); }

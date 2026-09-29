@@ -8,23 +8,23 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema lmui-website
+-- Schema lmui_website
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema lmui-website
+-- Schema lmui_website
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `lmui-website` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `lmui_website` DEFAULT CHARACTER SET utf8 ;
 SHOW WARNINGS;
-USE `lmui-website` ;
+USE `lmui_website` ;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`about_lmui`
+-- Table `lmui_website`.`about_lmui`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`about_lmui` ;
+DROP TABLE IF EXISTS `lmui_website`.`about_lmui` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`about_lmui` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`about_lmui` (
   `about_lmui_title` VARCHAR(90) NOT NULL,
   `message` JSON NULL COMMENT 'message is json with the following schema {message: []}',
   PRIMARY KEY (`about_lmui_title`))
@@ -33,12 +33,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`about_lmui_history`
+-- Table `lmui_website`.`about_lmui_history`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`about_lmui_history` ;
+DROP TABLE IF EXISTS `lmui_website`.`about_lmui_history` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`about_lmui_history` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`about_lmui_history` (
   `history_year` VARCHAR(5) NOT NULL,
   `history_discription` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`history_year`, `history_discription`))
@@ -47,12 +47,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`about_pillars`
+-- Table `lmui_website`.`about_pillars`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`about_pillars` ;
+DROP TABLE IF EXISTS `lmui_website`.`about_pillars` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`about_pillars` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`about_pillars` (
   `title` VARCHAR(20) NOT NULL,
   `description` MEDIUMTEXT NOT NULL,
   PRIMARY KEY (`title`))
@@ -61,12 +61,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`about_staff`
+-- Table `lmui_website`.`about_staff`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`about_staff` ;
+DROP TABLE IF EXISTS `lmui_website`.`about_staff` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`about_staff` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`about_staff` (
   `staff_matricule` VARCHAR(20) NOT NULL,
   `staff_name` VARCHAR(45) NOT NULL,
   `staff_title` VARCHAR(45) NOT NULL,
@@ -78,12 +78,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`admission_deadline`
+-- Table `lmui_website`.`admission_deadline`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`admission_deadline` ;
+DROP TABLE IF EXISTS `lmui_website`.`admission_deadline` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`admission_deadline` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`admission_deadline` (
   `round` VARCHAR(60) NOT NULL,
   `date` DATE NOT NULL,
   `note` VARCHAR(100) NOT NULL,
@@ -93,12 +93,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`admission_steps`
+-- Table `lmui_website`.`admission_steps`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`admission_steps` ;
+DROP TABLE IF EXISTS `lmui_website`.`admission_steps` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`admission_steps` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`admission_steps` (
   `number` INT NOT NULL,
   `title` VARCHAR(100) NOT NULL,
   `description` VARCHAR(200) NOT NULL,
@@ -108,12 +108,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`campus_gallery`
+-- Table `lmui_website`.`campus_gallery`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`campus_gallery` ;
+DROP TABLE IF EXISTS `lmui_website`.`campus_gallery` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`campus_gallery` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`campus_gallery` (
   `gallery_label` VARCHAR(50) NOT NULL,
   `gallery_size` CHAR(2) NOT NULL,
   `gallery_pattern` VARCHAR(45) NOT NULL,
@@ -124,12 +124,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`faq`
+-- Table `lmui_website`.`faq`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`faq` ;
+DROP TABLE IF EXISTS `lmui_website`.`faq` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`faq` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`faq` (
   `question` VARCHAR(100) NOT NULL,
   `answer` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`question`))
@@ -138,12 +138,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`hero_stats`
+-- Table `lmui_website`.`hero_stats`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`hero_stats` ;
+DROP TABLE IF EXISTS `lmui_website`.`hero_stats` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`hero_stats` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`hero_stats` (
   `value` INT NOT NULL,
   `suffix` CHAR(1) NOT NULL,
   `label` VARCHAR(45) NOT NULL,
@@ -153,16 +153,17 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`landmark_schools`
+-- Table `lmui_website`.`landmark_schools`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`landmark_schools` ;
+DROP TABLE IF EXISTS `lmui_website`.`landmark_schools` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`landmark_schools` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`landmark_schools` (
   `schools_name` VARCHAR(200) NOT NULL,
   `schools_short_name` VARCHAR(10) NOT NULL,
   `school_slug` VARCHAR(45) NOT NULL,
   `school_tag_line` VARCHAR(45) NOT NULL,
+  `school_logo` VARCHAR(200) NOT NULL,
   `schools_description` JSON NOT NULL COMMENT 'description is a json object with schema as follows {description: []}\nthe discription list or array is a list of the description paragraphs in string',
   `schools_stat` JSON NOT NULL COMMENT 'school_stat is a json object with the following schema {value: \"int value\', label: \'string for it label\'}',
   `school_pattern` VARCHAR(10) NOT NULL,
@@ -172,12 +173,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`news`
+-- Table `lmui_website`.`news`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`news` ;
+DROP TABLE IF EXISTS `lmui_website`.`news` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`news` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`news` (
   `slug` VARCHAR(45) NOT NULL,
   `title` VARCHAR(100) NOT NULL,
   `dek` VARCHAR(200) NOT NULL,
@@ -185,18 +186,19 @@ CREATE TABLE IF NOT EXISTS `lmui-website`.`news` (
   `date` DATE NOT NULL,
   `read_time` VARCHAR(15) NOT NULL,
   `body` JSON NOT NULL COMMENT 'body is a list of paragraphs in a json object {body: []}',
+  `image` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`slug`))
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`programs`
+-- Table `lmui_website`.`programs`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`programs` ;
+DROP TABLE IF EXISTS `lmui_website`.`programs` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`programs` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`programs` (
   `slug` VARCHAR(45) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   `schools_short_name` VARCHAR(10) NOT NULL,
@@ -210,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `lmui-website`.`programs` (
   INDEX `fk_programs_landmark_schools_idx` (`schools_short_name` ASC) VISIBLE,
   CONSTRAINT `fk_programs_landmark_schools`
     FOREIGN KEY (`schools_short_name`)
-    REFERENCES `lmui-website`.`landmark_schools` (`schools_short_name`)
+    REFERENCES `lmui_website`.`landmark_schools` (`schools_short_name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -218,12 +220,12 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`secondary_stats`
+-- Table `lmui_website`.`secondary_stats`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`secondary_stats` ;
+DROP TABLE IF EXISTS `lmui_website`.`secondary_stats` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`secondary_stats` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`secondary_stats` (
   `value` INT NOT NULL,
   `label` VARCHAR(45) NOT NULL,
   `suffix` CHAR(1) NULL)
@@ -232,15 +234,16 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `lmui-website`.`testimonials`
+-- Table `lmui_website`.`testimonials`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `lmui-website`.`testimonials` ;
+DROP TABLE IF EXISTS `lmui_website`.`testimonials` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `lmui-website`.`testimonials` (
+CREATE TABLE IF NOT EXISTS `lmui_website`.`testimonials` (
   `quote` VARCHAR(300) NOT NULL,
   `student_name` VARCHAR(45) NOT NULL,
   `detail` VARCHAR(200) NULL,
+  `student_image` VARCHAR(200) NULL,
   PRIMARY KEY (`quote`))
 ENGINE = InnoDB;
 

@@ -19,9 +19,11 @@ import admissionsRouter from "./routes/admissions";
 import aboutRouter from "./routes/about";
 import authRouter from "./routes/auth";
 import mediaRouter from "./routes/media";
+import newsRouter from "./routes/news";
 import pageBlocksRouter from "./routes/pageBlocks";
 import schoolsRouter from "./routes/schools";
 import siteSettingsRouter from "./routes/siteSettings";
+import testimonialsRouter from "./routes/testimonials";
 
 const app = express();
 
@@ -41,6 +43,8 @@ app.use("/api/v1/media", mediaRouter);
 app.use("/api/v1/settings", siteSettingsRouter);
 app.use("/api/v1/pages", pageBlocksRouter);
 app.use("/api/v1/schools", schoolsRouter);
+app.use("/api/v1/testimonials", testimonialsRouter);
+app.use("/api/v1/news", newsRouter);
 
 app.use(
   "/api/v1/programs",

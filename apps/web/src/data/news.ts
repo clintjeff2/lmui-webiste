@@ -7,6 +7,7 @@ export interface NewsArticle {
   readTime: string;
   featured?: boolean;
   body: string[];
+  image: string;
 }
 
 export const newsArticles: NewsArticle[] = [
@@ -15,9 +16,10 @@ export const newsArticles: NewsArticle[] = [
     title: "The Whitfield Engineering Commons opens its doors",
     dek: "A 210,000-square-foot home for hands-on fabrication, robotics, and cross-disciplinary research, four years in the making.",
     category: "Campus",
-    date: "2026-09-02",
+    date: "2026-09-2",
     readTime: "4 min read",
     featured: true,
+    image: "https://landmark.cm/static/media/landmark-buea-academic-staff-4.9c740f84.jpg",
     body: [
       "After four years of construction, the Whitfield Engineering Commons officially opened this month — a 210,000-square-foot facility built around a simple idea: engineering is learned by making things, not just modeling them.",
       "The building houses a 24-hour student machine shop, a robotics arena visible from the main atrium, and twelve project labs shared across mechanical, electrical, and civil engineering. Every floor was designed with glass-walled labs facing public circulation, so the work in progress is visible to anyone walking through.",
@@ -32,6 +34,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Admissions",
     date: "2026-08-24",
     readTime: "3 min read",
+    image: "https://landmark.cm/static/media/landmark-campus-1e48a25f.png",
     body: [
       "This fall's incoming class is the largest in university history: just over 3,100 new undergraduates joined the six-campus system, alongside a record number of graduate and professional students.",
       "First-generation college student enrollment rose 22% year over year, following the expansion of the Landmark Bridge Scholars program, which now covers full tuition and a living stipend for qualifying students from the metropolitan region.",
@@ -45,6 +48,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Business",
     date: "2026-08-11",
     readTime: "3 min read",
+    image: "https://landmark.cm/static/media/student-investment-fund-1e48a25f.png",
     body: [
       "The $4.2 million Landmark Student Investment Fund closed its fiscal year with a 14.2% return, outperforming its S&P 500 benchmark for the third consecutive year — a result the School of Business says is no accident.",
       "The fund is managed entirely by a rotating team of 22 MBA and undergraduate finance students, who present quarterly to a board of alumni portfolio managers and must defend every position with the same rigor expected on a professional trading desk.",
@@ -58,6 +62,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Design",
     date: "2026-07-29",
     readTime: "5 min read",
+    image: "https://landmark.cm/static/media/urban-design-student-proposal-1e48a25f.png",
     body: [
       "A proposal developed by fourth-year Urban Design students to redesign the Fairmount transit corridor has been formally adopted into the metropolitan region's 2027 infrastructure plan — the third student proposal from the School of Design & Architecture to reach that stage since 2022.",
       "The project began as a studio assignment in partnership with the city's planning office, which has embedded a staff liaison inside the design studio for the past three years. Students conducted their own ridership surveys, held two community input sessions, and presented final proposals directly to the regional transit board.",
@@ -71,6 +76,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Law & Policy",
     date: "2026-07-14",
     readTime: "4 min read",
+    image: "https://landmark.cm/static/media/law-clinic-supreme-court-1e48a25f.png",
     body: [
       "Two third-year students from the Landmark Legal Clinic argued before the state supreme court this month in a housing rights case that could affect tenant protections statewide — believed to be the first time students from the clinic have argued at that level.",
       "The case, which began as an eviction dispute the clinic took on two years ago, worked its way up through the appellate courts as the clinic's supervising attorneys guided students through every stage of the litigation.",
@@ -84,6 +90,7 @@ export const newsArticles: NewsArticle[] = [
     category: "Research",
     date: "2026-06-30",
     readTime: "3 min read",
+    image: "https://landmark.cm/static/media/research-funding-milestone-1e48a25f.png",
     body: [
       "Landmark's annual research funding surpassed $340 million for the first time this fiscal year, an 11% increase driven largely by new federal awards in clean energy storage, infectious disease modeling, and materials science.",
       "The growth reflects a deliberate five-year push by the Office of the Vice Provost for Research to grow interdisciplinary centers rather than single-department labs — three of the five largest grants awarded this year span two or more schools.",
@@ -92,13 +99,28 @@ export const newsArticles: NewsArticle[] = [
   },
 ];
 
-export function getArticleBySlug(slug: string): NewsArticle | undefined {
-  return newsArticles.find((a) => a.slug === slug);
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+
+export async function getArticleBySlug(slug: string): Promise<NewsArticle | undefined> {
+  return (await getNewsArticles(6)).find((article) => article.slug === slug);
 }
 
-export function getNewsArticles(campusCount: number): NewsArticle[] {
-  return newsArticles.map((article) => ({
+export async function getNewsArticles(campusCount: number): Promise<NewsArticle[]> {
+  let articles = newsArticles;
+
+  try {
+    const response = await fetch(`${API_BASE}/api/v1/news`, { cache: "no-store" });
+    if (response.ok) {
+      const data: unknown = await response.json();
+      if (Array.isArray(data) && data.length > 0) articles = data as NewsArticle[];
+    }
+  } catch {
+    articles = newsArticles;
+  }
+
+  return articles.map((article, index) => ({
     ...article,
+    featured: article.featured ?? index === 0,
     dek: article.dek.replace("six metropolitan campuses", `${campusCount} metropolitan campuses`),
     body: article.body.map((paragraph) =>
       paragraph.replace("six-campus system", `${campusCount}-campus system`),

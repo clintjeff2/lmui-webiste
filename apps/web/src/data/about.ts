@@ -1,3 +1,5 @@
+import WebImageLinks from "./images/image_objects";
+
 export interface Pillar {
   title: string;
   description: string;
@@ -41,11 +43,13 @@ const defaultLeadership: Leader[] = [
     name: "Dr. Carla Whitfield",
     title: "President",
     bio: "Previously Provost at a leading research university, Dr. Whitfield has spent three decades arguing that access and rigor are not a trade-off.",
+    image: WebImageLinks.president,
   },
   {
     name: "Dr. Iman Farouk",
     title: "Vice Provost for Research",
     bio: "An infectious disease epidemiologist by training, Dr. Farouk has led the five-year push to grow Landmark's interdisciplinary research centers.",
+    image: WebImageLinks.vc
   },
   {
     name: "Dana Whitcombe",
@@ -103,7 +107,7 @@ const fallbackAboutData: AboutData = {
   leadership: defaultLeadership,
   milestones: defaultMilestones,
   campusGallery: defaultCampusGallery,
-  campusCount: new Set(defaultCampusGallery.map((tile) => tile.campus.trim().toLocaleLowerCase())).size,
+  campusCount: countDistinctCampuses(defaultCampusGallery),
 };
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";

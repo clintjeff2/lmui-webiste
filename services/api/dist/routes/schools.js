@@ -9,7 +9,7 @@ function parseJson(value) {
     return JSON.parse(value);
 }
 router.get("/", async (_req, res) => {
-    const rows = await (0, db_1.db)("landmark_schools").select("school_slug", "school_route", "schools_name", "schools_short_name", "school_tag_line", "schools_description", "schools_stat", "school_pattern");
+    const rows = await (0, db_1.db)("landmark_schools").select("school_slug", "school_route", "schools_name", "schools_short_name", "school_tag_line", "schools_description", "schools_stat", "school_pattern", "school_logo");
     res.json(rows.map((row) => {
         const descriptionData = parseJson(row.schools_description);
         const statData = parseJson(row.schools_stat);
@@ -30,6 +30,7 @@ router.get("/", async (_req, res) => {
             description,
             stat: { value: String(stat.value ?? ""), label: stat.label ?? "" },
             pattern: row.school_pattern,
+            logo: row.school_logo,
         };
     }));
 });

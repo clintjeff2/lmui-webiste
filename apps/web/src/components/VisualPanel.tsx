@@ -90,6 +90,7 @@ export function VisualPanel({
         position: "absolute",
         inset: 0,
         overflow: "hidden",
+        opacity: 0.6,
         background: gradients[tone],
       }}
     >

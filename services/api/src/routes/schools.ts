@@ -12,6 +12,7 @@ interface SchoolRow {
   schools_description: unknown;
   schools_stat: unknown;
   school_pattern: string;
+  school_logo: string;
 }
 
 function parseJson(value: unknown): unknown {
@@ -29,6 +30,7 @@ router.get("/", async (_req, res) => {
     "schools_description",
     "schools_stat",
     "school_pattern",
+    "school_logo"
   ) as SchoolRow[];
 
   res.json(rows.map((row) => {
@@ -52,6 +54,7 @@ router.get("/", async (_req, res) => {
       description,
       stat: { value: String(stat.value ?? ""), label: stat.label ?? "" },
       pattern: row.school_pattern,
+      logo: row.school_logo,
     };
   }));
 });

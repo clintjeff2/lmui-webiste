@@ -1,11 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { School } from "@/data/schools";
-import { VisualPanel } from "./VisualPanel";
 
 export function SchoolCard({ school }: { school: School }) {
   return (
-    <Link href={`/academics#${school.slug}`} className="school-card">
-      <VisualPanel pattern={school.pattern} tone="navy" monogram className="school-card__visual" />
+    <Link href={school.route} className="school-card">
+      <Image
+        src={school.logo}
+        alt={school.name}
+        fill
+        sizes="(max-width: 768px) 85vw, 320px"
+        className="school-card__image"
+      />
       <div className="school-card__overlay" />
       <div className="school-card__content">
         <div className="school-card__stat">
@@ -24,25 +30,33 @@ export function SchoolCard({ school }: { school: School }) {
         .school-card {
           position: relative;
           display: block;
-          min-width: 300px;
+          width: 320px;
           height: 380px;
           border-radius: var(--radius-lg);
+          background: var(--navy-900);
           overflow: hidden;
-          flex: 0 0 auto;
+          flex: 0 0 320px;
           scroll-snap-align: start;
         }
-        .school-card__visual { position: absolute; inset: 0; transition: transform 0.7s var(--ease-out); }
-        .school-card:hover .school-card__visual { transform: scale(1.06); }
+        .school-card__image {
+          border-radius: var(--radius-lg);
+          object-fit: cover;
+          object-position: center top;
+        }
         .school-card__overlay {
           position: absolute; inset: 0;
           background: linear-gradient(180deg, rgba(8,19,42,0) 30%, rgba(8,19,42,0.86) 100%);
         }
-        .school-card__content { position: absolute; left: 0; right: 0; bottom: 0; padding: 28px; color: white; }
+        .school-card__content {
+          position: absolute; left: 0; right: 0; bottom: 0; height: 220px; padding: 28px; color: white;
+          display: flex; flex-direction: column; justify-content: flex-end;
+          background: rgba(8,19,42,0.45); backdrop-filter: blur(8px);
+        }
         .school-card__stat {
           font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-bottom: 10px; letter-spacing: 0.02em;
         }
         .school-card__stat strong { color: var(--gold-400); font-family: var(--font-display); font-size: 1rem; }
-        .school-card__title { color: white; font-size: 1.5rem; margin-bottom: 8px; }
+        .school-card__title { color: var(--gold-400); font-size: 1.5rem; margin-bottom: 8px; }
         .school-card__tagline { color: rgba(255,255,255,0.72); font-size: 0.9rem; max-width: 240px; line-height: 1.4; }
         .school-card__arrow {
           position: absolute; top: 24px; right: 24px; width: 40px; height: 40px; border-radius: 50%;

@@ -1,3 +1,5 @@
+import WebImageLinks from "./images/image_objects";
+
 export interface School {
   slug: string;
   name: string;
@@ -7,6 +9,7 @@ export interface School {
   description: string | string[];
   stat: { value: string; label: string };
   pattern: "grid" | "diagonal" | "radial" | "wave" | "concentric";
+  logo: string;
 }
 
 export const schools: School[] = [
@@ -16,6 +19,7 @@ export const schools: School[] = [
     shortName: "School of Science, Engineering & Technology",
     tagline: "LSSET",
     route: "/academics/lsset",
+    logo: WebImageLinks.lsset,
     description: [
       "The school of engineering is an academic division within the university that focuses on providing education and conducting research in various fields of engineering. It offers undergraduate and graduate programs in disciplines such as civil engineering, mechanical engineering, electrical engineering, chemical engineering, and computer engineering, among others.",
       "The school of engineering typically emphasizes a hands-on and practical approach to learning, combining theoretical knowledge with real-world applications. Students are exposed to a wide range of technical subjects that help them understand the fundamental principles and concepts of engineering.",
@@ -32,6 +36,7 @@ export const schools: School[] = [
     shortName: "School of Business & Social Sciences",
     tagline: "LSBSS",
     route: "/academics/lsbss",
+    logo: WebImageLinks.lsbss,
     description: [
       "At Landmark Metropolitan University, our School of Business is more than just an institution – it's a vibrant community of innovative minds, passionate learners, and future leaders. With a dynamic learning environment and unparalleled opportunities for growth, we're proud to offer a one-of-a-kind experience for our students. Innovative Curriculum: Our cutting-edge curriculum is designed to provide students with a strong foundation in business fundamentals while encouraging critical thinking and creativity. We offer a variety of specializations tailored to meet the demands of the ever-evolving business world, ensuring our graduates are well-prepared for the challenges of tomorrow.",
       "Expert Faculty: Our faculty comprises seasoned professionals and industry experts who bring their real-world experiences into the classroom. Through their guidance and mentorship, students gain invaluable insights into the intricacies of the business landscape and learn from the best in their respective fields.",
@@ -47,6 +52,7 @@ export const schools: School[] = [
     shortName: "School of Medical and Biomedical Sciences",
     tagline: "LSMBS",
     route: "/academics/lsmbs",
+    logo: WebImageLinks.lsmbs,
     description: [
       "The School of Medical and Biomedical Sciences is an esteemed school that offers a range of academic programs and courses focused on Medical and Biomedical Sciences. It aims to provide students with a solid foundation in the medical field, equipping them with the necessary knowledge and skills to pursue careers in healthcare and scientific research.",
       "The school offers a diverse range of programs, including undergraduate and postgraduate degrees, diplomas, and certificate courses. These programs cover various disciplines such as nursing, medical laboratory sciences, pharmacy technology, midwifery. The curriculum is designed to blend theoretical knowledge with practical applications, incorporating laboratory work, clinical rotations, and research projects.",
@@ -63,6 +69,7 @@ export const schools: School[] = [
     shortName: "School of Agriculture and Food Sciences",
     tagline: "LSAFS",
     route: "/academics/lsafs",
+    logo: WebImageLinks.lsafs,
     description: [
       "The School of Agriculture is an academic institution that focuses on providing education and training in the field of agriculture. Its primary goal is to equip students with the knowledge and skills necessary for a successful career in various aspects of agriculture, including crop production, animal husbandry, agricultural management, agribusiness, and sustainable farming practices.",
       "The school offers a diverse range of programs and courses, catering to both undergraduate and postgraduate students. These programs cover disciplines such as agronomy, animal science, agricultural economics, horticulture, soil science, agricultural engineering, and agricultural extension.",

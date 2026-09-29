@@ -35,6 +35,9 @@ const socials = [
   { label: "X", d: "M2 2L18 18M18 2L2 18" },
 ];
 
+const foundingYear = 2005;
+const yearsSinceFounded = new Date().getFullYear() - foundingYear; 
+
 export async function Footer({ schools }: { schools: School[] }) {
   const { campusCount } = await getAboutData();
 
@@ -53,7 +56,7 @@ export async function Footer({ schools }: { schools: School[] }) {
           <div>
             <Logo light />
             <p style={{ color: "rgba(255,255,255,0.62)", fontSize: "0.92rem", maxWidth: 300, marginTop: 20, lineHeight: 1.6 }}>
-              {campusCount} campuses across the city of Buea. Twenty Two plus years of training
+              {campusCount} campuses across the city of Buea. {yearsSinceFounded}+ years of training
               practitioners, not just graduates.
             </p>
             <div style={{ display: "flex", gap: 12, marginTop: 24 }}>

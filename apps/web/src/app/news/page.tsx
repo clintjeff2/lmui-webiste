@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { NewsCard } from "@/components/NewsCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
 import { getNewsArticles } from "@/data/news";
 import { getAboutData } from "@/data/about";
 import { formatDate } from "@/lib/format";
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const { campusCount } = await getAboutData();
@@ -19,7 +21,7 @@ const patterns = ["grid", "diagonal", "radial", "wave", "concentric"] as const;
 
 export default async function NewsPage() {
   const { campusCount } = await getAboutData();
-  const [featured, ...rest] = getNewsArticles(campusCount);
+  const [featured, ...rest] = await getNewsArticles(campusCount);
 
   return (
     <main>
@@ -30,7 +32,7 @@ export default async function NewsPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 780 }}>
-              What's happening across {campusCount} campuses.
+              What's happening across our {campusCount} campuses.
             </h1>
           </Reveal>
         </div>
@@ -41,6 +43,15 @@ export default async function NewsPage() {
           <Reveal>
             <Link href={`/news/${featured.slug}`} className="news-index-featured">
               <div className="news-index-featured__visual">
+                {featured.image && (
+                  <Image
+                    src={featured.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 900px) 100vw, 55vw"
+                    style={{ objectFit: "cover" }}
+                  />
+                )}
                 <VisualPanel pattern="grid" tone="navy" monogram className="news-index-featured__panel" />
               </div>
               <div>

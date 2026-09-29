@@ -18,9 +18,11 @@ const admissions_1 = __importDefault(require("./routes/admissions"));
 const about_1 = __importDefault(require("./routes/about"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const media_2 = __importDefault(require("./routes/media"));
+const news_1 = __importDefault(require("./routes/news"));
 const pageBlocks_1 = __importDefault(require("./routes/pageBlocks"));
 const schools_1 = __importDefault(require("./routes/schools"));
 const siteSettings_1 = __importDefault(require("./routes/siteSettings"));
+const testimonials_1 = __importDefault(require("./routes/testimonials"));
 const app = (0, express_1.default)();
 const corsOrigins = (process.env.CORS_ORIGINS || "").split(",").map((s) => s.trim()).filter(Boolean);
 app.use((0, cors_1.default)({ origin: corsOrigins, credentials: true }));
@@ -35,6 +37,8 @@ app.use("/api/v1/media", media_2.default);
 app.use("/api/v1/settings", siteSettings_1.default);
 app.use("/api/v1/pages", pageBlocks_1.default);
 app.use("/api/v1/schools", schools_1.default);
+app.use("/api/v1/testimonials", testimonials_1.default);
+app.use("/api/v1/news", news_1.default);
 app.use("/api/v1/programs", (0, contentRouter_1.makeContentRouter)({
     table: "programs",
     schema: shared_1.programInputSchema,
