@@ -12,7 +12,7 @@ interface SchoolRow {
   schools_description: unknown;
   schools_stat: unknown;
   school_pattern: string;
-  school_logo: string;
+  school_logo?: string | null;
 }
 
 function parseJson(value: unknown): unknown {
@@ -21,7 +21,7 @@ function parseJson(value: unknown): unknown {
 }
 
 router.get("/", async (_req, res) => {
-  const rows = await db("landmark_schools").select(
+  const columns = [
     "school_slug",
     "school_route",
     "schools_name",
@@ -30,8 +30,12 @@ router.get("/", async (_req, res) => {
     "schools_description",
     "schools_stat",
     "school_pattern",
-    "school_logo"
-  ) as SchoolRow[];
+  ];
+  if (await db.schema.hasColumn("landmark_schools", "school_logo")) {
+    columns.push("school_logo");
+  }
+
+  const rows = await db("landmark_schools").select(columns) as SchoolRow[];
 
   res.json(rows.map((row) => {
     const descriptionData = parseJson(row.schools_description);
@@ -54,7 +58,7 @@ router.get("/", async (_req, res) => {
       description,
       stat: { value: String(stat.value ?? ""), label: stat.label ?? "" },
       pattern: row.school_pattern,
-      logo: row.school_logo,
+      logo: row.school_logo ?? "",
     };
   }));
 });
