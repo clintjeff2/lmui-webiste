@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Button } from "@/components/Button";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
@@ -25,20 +26,32 @@ export default async function AboutPage() {
   return (
     <main>
       <section className="section" style={{ paddingBottom: 40 }}>
-        <div className="container">
-          <Reveal>
-            <span className="eyebrow">About Landmark</span>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              {yearsSinceFounded}+ years of training practitioners, not just graduates.
-            </h1>
-          </Reveal>
-          <Reveal delay={0.14}>
-            <p className="lede" style={{ marginTop: 24 }}>
-              Founded in 2005 as an ACCA training center for those who wanted to take the ACCA exam for Accounting accreditation,
-              Landmark has spent over two decades refusing to separate education from practice.
-            </p>
+        <div className="container about-hero">
+          <div className="about-hero__copy">
+            <Reveal>
+              <span className="eyebrow">About Landmark</span>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
+                {yearsSinceFounded}+ years of training practitioners, not just graduates.
+              </h1>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p className="lede" style={{ marginTop: 24 }}>
+                Founded in 2005 as an ACCA training center for those who wanted to take the ACCA exam for Accounting accreditation,
+                Landmark has spent over two decades refusing to separate education from practice.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.1} className="about-hero__visual">
+            <Image
+              src="https://landmark.cm/static/media/admission-pic.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 980px) 100vw, 70vw"
+              style={{ objectFit: "cover" }}
+            />
+            <VisualPanel pattern="concentric" tone="navy" monogram className="about-hero__panel" />
           </Reveal>
         </div>
       </section>
@@ -157,6 +170,17 @@ export default async function AboutPage() {
       </section>
 
       <style dangerouslySetInnerHTML={{ __html: `
+        .about-hero {
+          display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+          align-items: stretch; gap: clamp(32px, 5vw, 72px);
+        }
+        .about-hero__copy { min-width: 0; }
+        .about-hero__visual {
+          position: relative; width: 100%; height: auto; margin-block: -16px;
+          border-radius: var(--radius-lg); overflow: hidden;
+          background: var(--navy-800);
+        }
+
         .about-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
         .about-pillar h3 { font-size: 1.3rem; margin-bottom: 12px; }
         .about-pillar p { color: var(--muted); font-size: 0.92rem; line-height: 1.65; }
@@ -204,6 +228,10 @@ export default async function AboutPage() {
         }
         @media (max-width: 560px) {
           .leadership-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 700px) {
+          .about-hero { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+          .about-hero__visual { height: clamp(220px, 60vw, 360px); margin-block: 0; }
         }
       ` }} />
     </main>

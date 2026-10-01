@@ -61,12 +61,12 @@ const newsGridSchema = z.object({
 });
 export type NewsGridConfig = z.infer<typeof newsGridSchema>;
 
-const programSpotlightSchema = z.object({
+const optionSpotlightSchema = z.object({
   heading: z.string().min(1),
   blurb: z.string().optional().default(""),
-  programSlugs: z.string().min(1),
+  optionSlugs: z.string().min(1),
 });
-export type ProgramSpotlightConfig = z.infer<typeof programSpotlightSchema>;
+export type OptionSpotlightConfig = z.infer<typeof optionSpotlightSchema>;
 
 const quoteSchema = z.object({
   quoteText: z.string().min(1),
@@ -105,7 +105,7 @@ const testimonialCarouselSchema = z.object({
       z.object({
         quote: z.string().min(1),
         name: z.string().min(1),
-        program: z.string().optional().default(""),
+        option: z.string().optional().default(""),
       }),
     )
     .min(1),
@@ -202,24 +202,24 @@ export const blockRegistry: Record<string, BlockTypeDef> = {
       manualSlugs: "",
     }),
   },
-  "program-spotlight": {
-    key: "program-spotlight",
-    label: "Program spotlight",
-    description: "Highlight a handful of academic programs.",
-    schema: programSpotlightSchema,
+  "option-spotlight": {
+    key: "option-spotlight",
+    label: "Option spotlight",
+    description: "Highlight a handful of academic options.",
+    schema: optionSpotlightSchema,
     fields: [
       { name: "heading", label: "Heading", type: "text" },
       { name: "blurb", label: "Intro text", type: "textarea" },
       {
-        name: "programSlugs",
-        label: "Program slugs (comma-separated)",
+        name: "optionSlugs",
+        label: "Option slugs (comma-separated)",
         type: "text",
       },
     ],
     defaultConfig: () => ({
-      heading: "Explore Our Programs",
+      heading: "Explore Our Options",
       blurb: "",
-      programSlugs: "",
+      optionSlugs: "",
     }),
   },
   quote: {
@@ -309,13 +309,13 @@ export const blockRegistry: Record<string, BlockTypeDef> = {
         fields: [
           { name: "quote", label: "Quote", type: "textarea" },
           { name: "name", label: "Name", type: "text" },
-          { name: "program", label: "Program / class year", type: "text" },
+          { name: "option", label: "Option / class year", type: "text" },
         ],
       },
     ],
     defaultConfig: () => ({
       heading: "",
-      items: [{ quote: "", name: "", program: "" }],
+      items: [{ quote: "", name: "", option: "" }],
     }),
   },
   "image-feature": {

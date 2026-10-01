@@ -1,5 +1,5 @@
 import { z } from "zod";
-export interface Program {
+export interface Option {
     id: number;
     slug: string;
     name: string;
@@ -16,7 +16,7 @@ export interface Program {
     updatedAt: string;
     createdAt: string;
 }
-export declare const programInputSchema: z.ZodObject<{
+export declare const optionInputSchema: z.ZodObject<{
     slug: z.ZodString;
     name: z.ZodString;
     degreeLevel: z.ZodEnum<["undergraduate", "graduate", "doctoral", "certificate"]>;

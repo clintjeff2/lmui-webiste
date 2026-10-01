@@ -6,7 +6,7 @@ const db_1 = require("../db");
 const auth_1 = require("../middleware/auth");
 const caseUtils_1 = require("./caseUtils");
 /**
- * One factory covers every fixed-structure content type (Programs,
+ * One factory covers every fixed-structure content type (Options,
  * Departments, Faculty, News, Events): public reads only ever see
  * status = 'published'; every write requires auth. This is the pattern to
  * copy for any new content type — register a table, a zod schema, and

@@ -11,7 +11,14 @@ function parseBody(value) {
             parsed = JSON.parse(rawBody);
         }
         catch {
-            return [rawBody];
+            const paragraphs = rawBody.match(/<p\b[^>]*>([\s\S]*?)<\/p>/gi);
+            if (paragraphs) {
+                return paragraphs.map((paragraph) => paragraph
+                    .replace(/<[^>]+>/g, "")
+                    .replace(/&nbsp;/gi, " ")
+                    .trim()).filter(Boolean);
+            }
+            return [rawBody.replace(/<[^>]+>/g, "").trim()].filter(Boolean);
         }
     }
     const paragraphs = Array.isArray(parsed)
@@ -25,18 +32,18 @@ function parseBody(value) {
 }
 router.get("/", async (_req, res) => {
     const rows = await (0, db_1.db)("news")
-        .select("slug", "title", "dek", "catergory", "date", "read_time", "body", "image")
+        .select("slug", "title", "dek", "body", "image", "date", "catergory", "read_time", "featured")
         .orderBy("date", "desc");
     res.json(rows.map((row, index) => ({
         slug: row.slug,
         title: row.title,
         dek: row.dek,
         category: row.catergory,
-        date: row.date instanceof Date ? row.date.toISOString().slice(0, 10) : String(row.date).slice(0, 10),
-        readTime: row.read_time,
-        featured: index === 0,
+        date: String(row.date).slice(0, 10),
+        readTime: `${Math.max(1, Math.ceil(parseBody(row.body).join(" ").split(/\s+/).filter(Boolean).length / 200))} min read`,
+        featured: row.featured,
         body: parseBody(row.body),
-        image: row.image,
+        image: row.image ?? "",
     })));
 });
 exports.default = router;

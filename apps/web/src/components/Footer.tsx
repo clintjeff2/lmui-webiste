@@ -5,6 +5,8 @@ import { APPLY_URL } from "@/lib/site";
 import { Logo } from "./Logo";
 import { profile } from "console";
 
+let x = {/*-- label: "X", d: "M2 2L18 18M18 2L2 18", profile:'https://www.x.com'*/ };
+
 const columns = (schools: School[]) => [
   {
     title: "Academics",
@@ -31,12 +33,12 @@ const columns = (schools: School[]) => [
 ];
 
 const socials = [
-  { label: "Facebook", d: "M11.5 18V10.5M11.5 10.5H15M11.5 10.5V7.2C11.5 5.4 12.7 4 15 4h1", profile: "https://www.facebook.com/lmucameroonofficial" },
-  { label: "Instagram", d: "M2 2H18V18H2V2ZM10 6.5A3.5 3.5 0 1 0 10 13.5A3.5 3.5 0 0 0 10 6.5ZM14.6 4.4H14.61", profile: "https://www.instagram.com/landmarkmetropolitanuniversity/" },
-  { label: "YouTube", d: "M3 6.5A2.5 2.5 0 0 1 5 4.8c2-.5 8-.5 10 0a2.5 2.5 0 0 1 2 1.7c.5 2 .5 5 0 7a2.5 2.5 0 0 1-2 1.7c-2 .5-8 .5-10 0a2.5 2.5 0 0 1-2-1.7c-.5-2-.5-5 0-7ZM8 7l5 3-5 3V7Z", profile: "https://www.youtube.com/@landmarkmetropolitanuniver7770" },
+  { label: "Facebook", d: "M11.5 18V10.5M11.5 10.5H15M11.5 10.5V7.2C11.5 5.4 12.7 4 15 4h1", profile: "https://web.facebook.com/profile.php?id=61566299824354" },
+  { label: "Instagram", d: "M2 2H18V18H2V2ZM10 6.5A3.5 3.5 0 1 0 10 13.5A3.5 3.5 0 0 0 10 6.5ZM14.6 4.4H14.61", profile: "https://www.instagram.com/landmarkmetropolitanuniveristy/" },
+  { label: "YouTube", d: "M3 6.5A2.5 2.5 0 0 1 5 4.8c2-.5 8-.5 10 0a2.5 2.5 0 0 1 2 1.7c.5 2 .5 5 0 7a2.5 2.5 0 0 1-2 1.7c-2 .5-8 .5-10 0a2.5 2.5 0 0 1-2-1.7c-.5-2-.5-5 0-7ZM8 7l5 3-5 3V7Z", profile: "https://www.youtube.com/@landmarktechnologies6813" },
   { label: "TikTok", d: "M11 3v9.5a3.5 3.5 0 1 1-3-3.46M11 3c.4 2.8 2 4.5 5 5v3c-2-.2-3.7-1.1-5-2.5", profile: "https://www.tiktok.com/@landmarkmetropolitanuniversity" },
-  { label: "LinkedIn", d: "M3 3H7V17H3V3ZM5 1C3.9 1 3 1.9 3 3M9 8H13V17H9V8ZM9 8C9 6 17 5 17 10V17" },
-  { label: "X", d: "M2 2L18 18M18 2L2 18", profile:'https://www.x.com' },
+  { label: "LinkedIn", d: "M3 3H7V17H3V3ZM5 1C3.9 1 3 1.9 3 3M9 8H13V17H9V8ZM9 8C9 6 17 5 17 10V17", profile: "https://www.linkedin.com/company/landmark-metropolitan-university-institute/" },
+ 
 ];
 
 const foundingYear = 2005;
@@ -68,6 +70,7 @@ export async function Footer({ schools }: { schools: School[] }) {
                 <a
                   key={s.label}
                   href={s.profile}
+                  target="_blank"
                   aria-label={s.label}
                   style={{
                     width: 36,

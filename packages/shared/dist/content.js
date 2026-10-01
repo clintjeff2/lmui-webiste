@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.eventInputSchema = exports.newsArticleInputSchema = exports.facultyInputSchema = exports.departmentInputSchema = exports.programInputSchema = void 0;
+exports.eventInputSchema = exports.newsArticleInputSchema = exports.facultyInputSchema = exports.departmentInputSchema = exports.optionInputSchema = void 0;
 const zod_1 = require("zod");
 /**
  * Shapes for the fixed-structure content types. Unlike homepage blocks,
  * these never change shape from the admin UI — only their rows change.
- * Interior pages (Programs, News, Events, Departments, Faculty) render a
+ * Interior pages (Options, News, Events, Departments, Faculty) render a
  * hard-coded React template per type and just pour these rows into it.
  *
  * Each type has a read interface (what the API returns) and an *_InputSchema
@@ -13,7 +13,7 @@ const zod_1 = require("zod");
  * share one source of truth for validation.
  */
 const statusEnum = zod_1.z.enum(["draft", "published"]);
-exports.programInputSchema = zod_1.z.object({
+exports.optionInputSchema = zod_1.z.object({
     slug: zod_1.z.string().min(1),
     name: zod_1.z.string().min(1),
     degreeLevel: zod_1.z.enum(["undergraduate", "graduate", "doctoral", "certificate"]),

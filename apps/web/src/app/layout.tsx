@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { getUniqueOptionCount } from "@/data/options";
 import { getSchools } from "@/data/schools";
 
 // Self-hosted (not next/font/google): a live campus presentation cannot
@@ -25,19 +26,21 @@ const inter = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Landmark Metropolitan University Institute",
-  description:
-    "Six schools, one hundred and fifty programs, and a curriculum built around real practice — not simulations of it. Landmark Metropolitan University Institute.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const optionCount = await getUniqueOptionCount();
+  return {
+    title: "Landmark Metropolitan University Institute",
+    description: `Six schools, ${optionCount} academic options, and a curriculum built around real practice — not simulations of it. Landmark Metropolitan University Institute.`,
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const schools = await getSchools();
+  const [schools, optionCount] = await Promise.all([getSchools(), getUniqueOptionCount()]);
 
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
-        <Header schools={schools} />
+        <Header schools={schools} optionCount={optionCount} />
         {children}
         <Footer schools={schools} />
       </body>

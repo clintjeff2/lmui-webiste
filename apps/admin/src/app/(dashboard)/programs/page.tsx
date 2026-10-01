@@ -1,13 +1,13 @@
 "use client";
 
-import type { Program } from "@lmui/shared";
+import type { Option } from "@lmui/shared";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 
 type FormState = {
   slug: string;
   name: string;
-  degreeLevel: "undergraduate" | "graduate" | "certificate";
+  degreeLevel: "undergraduate" | "graduate" | "doctoral" | "certificate";
   departmentSlug: string;
   summary: string;
   body: string;
@@ -32,15 +32,15 @@ const BLANK: FormState = {
  * identical CRUD shape for each (see services/api/src/lib/contentRouter.ts)
  * — copy this file, point it at a different api.* method and field set.
  */
-export default function ProgramsPage() {
-  const [programs, setPrograms] = useState<Program[]>([]);
+export default function OptionsPage() {
+  const [options, setOptions] = useState<Option[]>([]);
   const [editingId, setEditingId] = useState<number | "new" | null>(null);
   const [form, setForm] = useState<FormState>(BLANK);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   async function load() {
-    setPrograms(await api.listProgramsAll());
+    setOptions(await api.listOptionsAll());
   }
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function ProgramsPage() {
     setEditingId("new");
   }
 
-  function startEdit(p: Program) {
+  function startEdit(p: Option) {
     setForm({
       slug: p.slug,
       name: p.name,
@@ -72,9 +72,9 @@ export default function ProgramsPage() {
     try {
       const payload = { ...form, departmentSlug: form.departmentSlug || null, heroImageUrl: form.heroImageUrl || null };
       if (editingId === "new") {
-        await api.createProgram(payload);
+        await api.createOption(payload);
       } else if (typeof editingId === "number") {
-        await api.updateProgram(editingId, payload);
+        await api.updateOption(editingId, payload);
       }
       setEditingId(null);
       await load();
@@ -86,10 +86,10 @@ export default function ProgramsPage() {
   }
 
   async function remove(id: number) {
-    if (!confirm("Delete this program?")) return;
+    if (!confirm("Delete this option?")) return;
     setBusy(true);
     try {
-      await api.deleteProgram(id);
+      await api.deleteOption(id);
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Delete failed");
@@ -100,12 +100,12 @@ export default function ProgramsPage() {
 
   return (
     <div>
-      <h1 style={{ marginTop: 0 }}>Programs</h1>
+      <h1 style={{ marginTop: 0 }}>Options</h1>
       {error && <div className="error-banner">{error}</div>}
 
       {editingId === null && (
         <button className="btn btn--primary" onClick={startCreate} style={{ marginBottom: 20 }}>
-          + New program
+          + New option
         </button>
       )}
 
@@ -127,6 +127,7 @@ export default function ProgramsPage() {
             >
               <option value="undergraduate">Undergraduate</option>
               <option value="graduate">Graduate</option>
+              <option value="doctoral">Doctoral</option>
               <option value="certificate">Certificate</option>
             </select>
           </div>
@@ -177,7 +178,7 @@ export default function ProgramsPage() {
           </tr>
         </thead>
         <tbody>
-          {programs.map((p) => (
+          {options.map((p) => (
             <tr key={p.id}>
               <td>{p.name}</td>
               <td>{p.degreeLevel}</td>

@@ -9,10 +9,25 @@ function parseJson(value) {
     return JSON.parse(value);
 }
 router.get("/", async (_req, res) => {
-    const rows = await (0, db_1.db)("landmark_schools").select("school_slug", "school_route", "schools_name", "schools_short_name", "school_tag_line", "schools_description", "schools_stat", "school_pattern", "school_logo");
+    const columns = [
+        "school_slug",
+        "school_name",
+        "school_short_name",
+        "school_tag_line",
+        "school_description",
+        "school_stat",
+        "school_pattern",
+    ];
+    const hasRoute = await db_1.db.schema.hasColumn("landmark_schools", "school_route");
+    if (hasRoute)
+        columns.push("school_route");
+    if (await db_1.db.schema.hasColumn("landmark_schools", "school_logo")) {
+        columns.push("school_logo");
+    }
+    const rows = await (0, db_1.db)("landmark_schools").select(columns);
     res.json(rows.map((row) => {
-        const descriptionData = parseJson(row.schools_description);
-        const statData = parseJson(row.schools_stat);
+        const descriptionData = parseJson(row.school_description);
+        const statData = parseJson(row.school_stat);
         const description = Array.isArray(descriptionData)
             ? descriptionData
             : typeof descriptionData === "object" && descriptionData !== null
@@ -23,14 +38,19 @@ router.get("/", async (_req, res) => {
             : {};
         return {
             slug: row.school_slug,
-            name: row.schools_name,
-            shortName: row.schools_short_name,
-            route: row.school_route,
+            name: row.school_name,
+            shortName: row.school_short_name,
+            route: row.school_route ?? ({
+                engineering: "/academics/lsset",
+                business: "/academics/lsbss",
+                biomedical: "/academics/lsmbs",
+                agriculture: "/academics/lsafs",
+            }[row.school_slug] ?? `/academics/${row.school_slug}`),
             tagline: row.school_tag_line,
             description,
             stat: { value: String(stat.value ?? ""), label: stat.label ?? "" },
             pattern: row.school_pattern,
-            logo: row.school_logo,
+            logo: row.school_logo ?? "",
         };
     }));
 });

@@ -1,20 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/Button";
-import { ProgramCard } from "@/components/ProgramCard";
+import { FieldCard } from "@/components/FieldCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
-import { getProgramsBySchool, programs } from "@/data/programs";
+import { getFields, getFieldsBySchool } from "@/data/fields";
 import { getSchools } from "@/data/schools";
 import { APPLY_URL } from "@/lib/site";
+import { getUniqueSchoolCount } from "@/data/schools";
+import { getUniqueFieldCount } from "@/data/fields";
+import { getUniqueOptionCount } from "@/data/options";
 
-export const metadata: Metadata = {
-  title: "Academics — Landmark Metropolitan University Institute",
-  description: "Four schools, 150+ programs, every one built around real practice.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const optionCount = await getUniqueOptionCount();
+  return {
+    title: "Academics — Landmark Metropolitan University Institute",
+    description: `Four schools, ${optionCount} options, every one built around real practice.`,
+  };
+}
 
 export default async function AcademicsPage() {
   const schools = await getSchools();
-
+  const fields = await getFields();
+  const uniqueSchools = getUniqueSchoolCount();
+  const uniqueFields = getUniqueFieldCount();
+  const uniqueOptions = await getUniqueOptionCount();
   return (
     <main>
       <section className="section" style={{ paddingBottom: 60 }}>
@@ -24,19 +33,19 @@ export default async function AcademicsPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              150+ programs. Four schools. One standard for what counts as learning.
+              {uniqueOptions}+ options. {uniqueFields} fields of studies. {uniqueSchools} schools. One standard for what counts as learning.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
             <p className="lede" style={{ marginTop: 24 }}>
-              Every program below carries a real practicum requirement — a client, a docket, a lab, a
+              Every option below carries a real practicum requirement — a client, a docket, a lab, a
               build. Jump to a school, or apply now.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
             <div className="academics-jump">
               {schools.map((s) => (
-                <a key={s.slug} href={`#${s.slug}`} className="academics-jump__chip">
+                <a key={s.route} href={s.route} className="academics-jump__chip">
                   {s.shortName}
                 </a>
               ))}
@@ -46,7 +55,7 @@ export default async function AcademicsPage() {
       </section>
 
       {schools.map((school, idx) => {
-        const schoolPrograms = getProgramsBySchool(school.slug);
+        const schoolFields = getFieldsBySchool(school.slug, fields);
         return (
           <section
             key={school.slug}
@@ -90,9 +99,9 @@ export default async function AcademicsPage() {
               </div>
 
               <RevealGroup className="academics-grid">
-                {schoolPrograms.map((program) => (
-                  <RevealItem key={program.slug}>
-                    <ProgramCard program={program} school={school} />
+                {schoolFields.map((field) => (
+                  <RevealItem key={field.slug}>
+                    <FieldCard field={field} school={school} />
                   </RevealItem>
                 ))}
               </RevealGroup>
@@ -105,7 +114,7 @@ export default async function AcademicsPage() {
         <div className="container" style={{ textAlign: "center" }}>
           <Reveal>
             <h2 className="headline" style={{ color: "white", margin: "0 auto" }}>
-              {programs.length}+ programs. One application.
+              {uniqueOptions}+ options. One application.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

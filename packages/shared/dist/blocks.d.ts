@@ -91,20 +91,20 @@ declare const newsGridSchema: z.ZodObject<{
     manualSlugs?: string | undefined;
 }>;
 export type NewsGridConfig = z.infer<typeof newsGridSchema>;
-declare const programSpotlightSchema: z.ZodObject<{
+declare const optionSpotlightSchema: z.ZodObject<{
     heading: z.ZodString;
     blurb: z.ZodDefault<z.ZodOptional<z.ZodString>>;
-    programSlugs: z.ZodString;
+    optionSlugs: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     heading: string;
     blurb: string;
-    programSlugs: string;
+    optionSlugs: string;
 }, {
     heading: string;
-    programSlugs: string;
+    optionSlugs: string;
     blurb?: string | undefined;
 }>;
-export type ProgramSpotlightConfig = z.infer<typeof programSpotlightSchema>;
+export type OptionSpotlightConfig = z.infer<typeof optionSpotlightSchema>;
 declare const quoteSchema: z.ZodObject<{
     quoteText: z.ZodString;
     attributionName: z.ZodString;
@@ -172,28 +172,28 @@ declare const testimonialCarouselSchema: z.ZodObject<{
     items: z.ZodArray<z.ZodObject<{
         quote: z.ZodString;
         name: z.ZodString;
-        program: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+        option: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     }, "strip", z.ZodTypeAny, {
         quote: string;
         name: string;
-        program: string;
+        option: string;
     }, {
         quote: string;
         name: string;
-        program?: string | undefined;
+        option?: string | undefined;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     heading: string;
     items: {
         quote: string;
         name: string;
-        program: string;
+        option: string;
     }[];
 }, {
     items: {
         quote: string;
         name: string;
-        program?: string | undefined;
+        option?: string | undefined;
     }[];
     heading?: string | undefined;
 }>;

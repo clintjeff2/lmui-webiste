@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/page": [
+    "/admissions/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/admissions/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -15,6 +15,41 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
+    ],
+    "/academics/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/page.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/academics/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/[slug]/page.js"
+    ],
+    "/academics/lsafs/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/lsafs/page.js"
+    ],
+    "/academics/lsset/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/lsset/page.js"
+    ],
+    "/academics/lsmbs/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/lsmbs/page.js"
+    ],
+    "/academics/lsbss/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/lsbss/page.js"
     ],
     "/about/page": [
       "static/chunks/webpack.js",

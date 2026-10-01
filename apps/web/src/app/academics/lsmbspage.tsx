@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/Button";
-import { ProgramCard } from "@/components/ProgramCard";
+import { OptionCard } from "@/components/OptionCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
-import { getProgramsBySchool, programs } from "@/data/programs";
+import { getFields, getFieldsBySchool, getUniqueFieldCountBySchool} from "@/data/fields";
+import { getUniqueOptionCountBySchool } from "@/data/options";
 import { getSchools } from "@/data/schools";
 import { APPLY_URL } from "@/lib/site";
 
+
 export const metadata: Metadata = {
   title: "LSMBS — Landmark Metropolitan University Institute",
-  description: "Four programs, 60+ options, every one built around real practice.",
+  description: "Four option areas, 60+ options, every one built around real practice.",
 };
 
 export default async function LSMBSPage() {
   const schools = await getSchools();
+  const fields = await getFields();
   const biomedicalSchools = schools.filter((school) => school.slug === "biomedical");
+  const uniqueFields = getUniqueFieldCountBySchool("biomedical");
+  const uniqueOptions = await getUniqueOptionCountBySchool("biomedical", fields);
 
   return (
     <main>
@@ -25,12 +30,12 @@ export default async function LSMBSPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              60+ options. Four programs. One standard for what counts as learning.
+              {uniqueOptions} options. {uniqueFields} field areas. One standard for what counts as learning.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
             <p className="lede" style={{ marginTop: 24 }}>
-              Every program below carries a real practicum requirement — a client, a docket, a lab, a
+              Every option below carries a real practicum requirement — a client, a docket, a lab, a
               build. Jump to a school, or apply now.
             </p>
           </Reveal>
@@ -47,7 +52,7 @@ export default async function LSMBSPage() {
       </section>
 
       {biomedicalSchools.map((school, idx) => {
-        const schoolPrograms = getProgramsBySchool(school.slug);
+        const schoolOptions = getFieldsBySchool(school.slug, fields);
         return (
           <section
             key={school.slug}
@@ -58,7 +63,7 @@ export default async function LSMBSPage() {
               <div className="academics-school__head">
                 <div>
                   <Reveal>
-                    <span className="eyebrow">{school.stat.value} &middot; {school.stat.label}</span>
+                    <span className="eyebrow">{uniqueOptions} &middot; Options</span>
                   </Reveal>
                   <Reveal delay={0.06}>
                     <h2 className="headline" style={{ marginTop: 16, maxWidth: 640 }}>
@@ -91,9 +96,9 @@ export default async function LSMBSPage() {
               </div>
 
               <RevealGroup className="academics-grid">
-                {schoolPrograms.map((program) => (
-                  <RevealItem key={program.slug}>
-                    <ProgramCard program={program} school={school} />
+                {schoolOptions.map((option) => (
+                  <RevealItem key={option.slug}>
+                    <OptionCard option={option} school={school} />
                   </RevealItem>
                 ))}
               </RevealGroup>
@@ -106,7 +111,7 @@ export default async function LSMBSPage() {
         <div className="container" style={{ textAlign: "center" }}>
           <Reveal>
             <h2 className="headline" style={{ color: "white", margin: "0 auto" }}>
-              {programs.length}+ programs. One application.
+              {uniqueOptions} options. One application.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

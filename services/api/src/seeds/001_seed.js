@@ -6,7 +6,7 @@ exports.seed = async function (knex) {
   await knex("events").del();
   await knex("news_articles").del();
   await knex("faculty").del();
-  await knex("programs").del();
+  await knex("options").del();
   await knex("departments").del();
   await knex("site_settings").del();
   await knex("users").del();
@@ -31,7 +31,7 @@ exports.seed = async function (knex) {
       slug: "business",
       name: "School of Business",
       summary: "Business administration, finance, and management.",
-      body: "<p>The School of Business offers undergraduate and graduate programs in management and finance.</p>",
+      body: "<p>The School of Business offers undergraduate and graduate options in management and finance.</p>",
       status: "published",
     },
     {
@@ -43,14 +43,15 @@ exports.seed = async function (knex) {
     },
   ]);
 
-  await knex("programs").insert([
+  await knex("options").insert([
     {
       slug: "computer-science-bs",
       name: "Computer Science, B.S.",
       degree_level: "undergraduate",
       department_slug: "engineering",
-      summary: "A rigorous foundation in algorithms, systems, and software engineering.",
-      body: "<p>Full program description goes here.</p>",
+      summary:
+        "A rigorous foundation in algorithms, systems, and software engineering.",
+      body: "<p>Full option description goes here.</p>",
       status: "published",
     },
     {
@@ -58,8 +59,9 @@ exports.seed = async function (knex) {
       name: "Master of Business Administration",
       degree_level: "graduate",
       department_slug: "business",
-      summary: "A two-year MBA with concentrations in finance, strategy, and entrepreneurship.",
-      body: "<p>Full program description goes here.</p>",
+      summary:
+        "A two-year MBA with concentrations in finance, strategy, and entrepreneurship.",
+      body: "<p>Full option description goes here.</p>",
       status: "published",
     },
     {
@@ -68,7 +70,7 @@ exports.seed = async function (knex) {
       degree_level: "undergraduate",
       department_slug: "arts-sciences",
       summary: "Study of the mind, behavior, and mental processes.",
-      body: "<p>Full program description goes here.</p>",
+      body: "<p>Full option description goes here.</p>",
       status: "published",
     },
   ]);
@@ -77,7 +79,8 @@ exports.seed = async function (knex) {
     {
       slug: "new-engineering-building-opens",
       title: "New Engineering Building Opens Its Doors",
-      summary: "A state-of-the-art facility for hands-on learning and research.",
+      summary:
+        "A state-of-the-art facility for hands-on learning and research.",
       body: "<p>Full article body goes here.</p>",
       published_at: knex.fn.now(),
       status: "published",
@@ -85,7 +88,8 @@ exports.seed = async function (knex) {
     {
       slug: "record-enrollment-fall",
       title: "Landmark Metropolitan Sees Record Fall Enrollment",
-      summary: "The incoming class is the largest and most diverse in the university's history.",
+      summary:
+        "The incoming class is the largest and most diverse in the university's history.",
       body: "<p>Full article body goes here.</p>",
       published_at: knex.fn.now(),
       status: "published",
@@ -108,12 +112,17 @@ exports.seed = async function (knex) {
     key: "primary_nav",
     value: JSON.stringify([
       { label: "About", href: "/about" },
-      { label: "Academics", href: "/programs" },
+      { label: "Academics", href: "/academics" },
       { label: "Admissions", href: "/admissions" },
       { label: "News", href: "/news" },
       { label: "Events", href: "/events" },
     ]),
   });
+
+  const optionCountRow = await knex("options")
+    .countDistinct({ count: "name" })
+    .first();
+  const optionCount = Number(optionCountRow?.count ?? 0);
 
   const draftBlocks = [
     {
@@ -122,7 +131,8 @@ exports.seed = async function (knex) {
       position: 0,
       config: JSON.stringify({
         heading: "Advancing the Frontier",
-        subheading: "Landmark Metropolitan University Institute — discovery, access, and impact.",
+        subheading:
+          "Landmark Metropolitan University Institute — discovery, access, and impact.",
         backgroundImageUrl: "",
         ctaLabel: "Apply Now",
         ctaHref: "/admissions",
@@ -137,7 +147,7 @@ exports.seed = async function (knex) {
         heading: "",
         items: [
           { value: "12,000+", label: "Students Enrolled" },
-          { value: "150+", label: "Degree Programs" },
+          { value: `${optionCount}+`, label: "Degree Options" },
           { value: "$200M", label: "Annual Research Funding" },
         ],
       }),
@@ -145,12 +155,12 @@ exports.seed = async function (knex) {
     },
     {
       page: "home",
-      block_type: "program-spotlight",
+      block_type: "option-spotlight",
       position: 2,
       config: JSON.stringify({
-        heading: "Explore Our Programs",
+        heading: "Explore Our Options",
         blurb: "A sample of what students study at Landmark Metropolitan.",
-        programSlugs: "computer-science-bs,mba,psychology-ba",
+        optionSlugs: "computer-science-bs,mba,psychology-ba",
       }),
       created_by: adminId,
     },

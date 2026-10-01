@@ -1,1 +1,1 @@
-export { default, metadata } from "../lsmbspage";
+export { default, generateMetadata } from "../lsmbspage";

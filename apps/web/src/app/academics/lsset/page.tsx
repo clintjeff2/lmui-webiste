@@ -1,1 +1,1 @@
-export { default, metadata } from "../lssetpage";
+export { default, generateMetadata } from "../lssetpage";

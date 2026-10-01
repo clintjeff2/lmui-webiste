@@ -7,7 +7,7 @@ import { api } from "@/lib/api";
 
 const NAV = [
   { href: "/homepage", label: "Homepage Builder" },
-  { href: "/programs", label: "Programs" },
+  { href: "/options", label: "Options" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

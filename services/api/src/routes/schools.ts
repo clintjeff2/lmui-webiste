@@ -5,12 +5,12 @@ const router = Router();
 
 interface SchoolRow {
   school_slug: string;
-  school_route: string;
-  schools_name: string;
-  schools_short_name: string;
+  school_route?: string;
+  school_name: string;
+  school_short_name: string;
   school_tag_line: string;
-  schools_description: unknown;
-  schools_stat: unknown;
+  school_description: unknown;
+  school_stat: unknown;
   school_pattern: string;
   school_logo?: string | null;
 }
@@ -23,14 +23,15 @@ function parseJson(value: unknown): unknown {
 router.get("/", async (_req, res) => {
   const columns = [
     "school_slug",
-    "school_route",
-    "schools_name",
-    "schools_short_name",
+    "school_name",
+    "school_short_name",
     "school_tag_line",
-    "schools_description",
-    "schools_stat",
+    "school_description",
+    "school_stat",
     "school_pattern",
   ];
+  const hasRoute = await db.schema.hasColumn("landmark_schools", "school_route");
+  if (hasRoute) columns.push("school_route");
   if (await db.schema.hasColumn("landmark_schools", "school_logo")) {
     columns.push("school_logo");
   }
@@ -38,8 +39,8 @@ router.get("/", async (_req, res) => {
   const rows = await db("landmark_schools").select(columns) as SchoolRow[];
 
   res.json(rows.map((row) => {
-    const descriptionData = parseJson(row.schools_description);
-    const statData = parseJson(row.schools_stat);
+    const descriptionData = parseJson(row.school_description);
+    const statData = parseJson(row.school_stat);
     const description = Array.isArray(descriptionData)
       ? descriptionData
       : typeof descriptionData === "object" && descriptionData !== null
@@ -51,9 +52,14 @@ router.get("/", async (_req, res) => {
 
     return {
       slug: row.school_slug,
-      name: row.schools_name,
-      shortName: row.schools_short_name,
-      route: row.school_route,
+      name: row.school_name,
+      shortName: row.school_short_name,
+      route: row.school_route ?? ({
+        engineering: "/academics/lsset",
+        business: "/academics/lsbss",
+        biomedical: "/academics/lsmbs",
+        agriculture: "/academics/lsafs",
+      }[row.school_slug] ?? `/academics/${row.school_slug}`),
       tagline: row.school_tag_line,
       description,
       stat: { value: String(stat.value ?? ""), label: stat.label ?? "" },

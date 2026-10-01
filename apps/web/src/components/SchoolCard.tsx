@@ -30,12 +30,12 @@ export function SchoolCard({ school }: { school: School }) {
         .school-card {
           position: relative;
           display: block;
-          width: 320px;
-          height: 380px;
+          width: min(320px, calc(100vw - 48px));
+          aspect-ratio: 320 / 380;
           border-radius: var(--radius-lg);
           background: var(--navy-900);
           overflow: hidden;
-          flex: 0 0 320px;
+          flex: 0 0 min(320px, calc(100vw - 48px));
           scroll-snap-align: start;
         }
         .school-card__image {
@@ -48,7 +48,7 @@ export function SchoolCard({ school }: { school: School }) {
           background: linear-gradient(180deg, rgba(8,19,42,0) 30%, rgba(8,19,42,0.86) 100%);
         }
         .school-card__content {
-          position: absolute; left: 0; right: 0; bottom: 0; height: 220px; padding: 28px; color: white;
+          position: absolute; left: 0; right: 0; bottom: 0; height: auto; min-height: 58%; padding: 28px; color: white;
           display: flex; flex-direction: column; justify-content: flex-end;
           background: rgba(8,19,42,0.45); backdrop-filter: blur(8px);
         }
@@ -65,6 +65,12 @@ export function SchoolCard({ school }: { school: School }) {
           transition: background 0.3s, transform 0.3s;
         }
         .school-card:hover .school-card__arrow { background: var(--gold-500); color: var(--navy-900); transform: rotate(45deg); }
+        @media (max-width: 480px) {
+          .school-card__content { padding: 18px; }
+          .school-card__title { font-size: 1.25rem; }
+          .school-card__tagline { overflow-wrap: anywhere; }
+          .school-card__arrow { top: 16px; right: 16px; width: 36px; height: 36px; }
+        }
       ` }} />
     </Link>
   );

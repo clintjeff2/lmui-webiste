@@ -11,17 +11,20 @@ import {
   eventInputSchema,
   facultyInputSchema,
   newsArticleInputSchema,
-  programInputSchema,
+  optionInputSchema,
 } from "@lmui/shared";
 import { makeContentRouter } from "./lib/contentRouter";
 import { uploadsDir } from "./routes/media";
 import admissionsRouter from "./routes/admissions";
 import aboutRouter from "./routes/about";
 import authRouter from "./routes/auth";
+import fieldsRouter from "./routes/fields";
 import mediaRouter from "./routes/media";
 import newsRouter from "./routes/news";
 import pageBlocksRouter from "./routes/pageBlocks";
+import optionsRouter from "./routes/options";
 import schoolsRouter from "./routes/schools";
+import statsRouter from "./routes/stats";
 import siteSettingsRouter from "./routes/siteSettings";
 import testimonialsRouter from "./routes/testimonials";
 
@@ -38,22 +41,25 @@ app.get("/health", (_req, res) => res.json({ ok: true }));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/about", aboutRouter);
+app.use("/api/v1/fields", fieldsRouter);
 app.use("/api/v1/admissions", admissionsRouter);
 app.use("/api/v1/media", mediaRouter);
 app.use("/api/v1/settings", siteSettingsRouter);
 app.use("/api/v1/pages", pageBlocksRouter);
 app.use("/api/v1/schools", schoolsRouter);
+app.use("/api/v1/stats", statsRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
 app.use("/api/v1/news", newsRouter);
+const optionsContentRouter = makeContentRouter({
+  table: "options",
+  schema: optionInputSchema,
+  filterableColumns: ["department_slug", "degree_level"],
+});
 
-app.use(
-  "/api/v1/programs",
-  makeContentRouter({
-    table: "programs",
-    schema: programInputSchema,
-    filterableColumns: ["department_slug", "degree_level"],
-  }),
-);
+app.use("/api/v1/options", optionsRouter);
+app.use("/api/v1/options", optionsContentRouter);
+app.use("/api/v1/programs", optionsRouter);
+app.use("/api/v1/programs", optionsContentRouter);
 app.use(
   "/api/v1/departments",
   makeContentRouter({ table: "departments", schema: departmentInputSchema }),

@@ -8,12 +8,12 @@ import { StatStrip } from "@/components/StatStrip";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { VisualPanel } from "@/components/VisualPanel";
 import { getAboutData } from "@/data/about";
-import { admissionsFaq } from "@/data/admissions";
+import { getAdmissionsData } from "@/data/admissions"; // ✅ Changed import to getAdmissionsData
 import { getNewsArticles } from "@/data/news";
 import { getSchools } from "@/data/schools";
-import { getSecondaryStats, heroStats } from "@/data/stats";
+import { getStats } from "@/data/stats";
+import { getUniqueOptionCount } from "@/data/options";
 import { getTestimonials } from "@/data/testimonials";
-import { formatDate } from "@/lib/format";
 import { APPLY_URL } from "@/lib/site";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,20 +26,33 @@ const recognitions = [
 ];
 
 export default async function HomePage() {
-  const [{ pillars: homePillars, leadership, campusCount }, schools, homeTestimonials] = await Promise.all([
-    getAboutData(),
+  const aboutDataPromise = getAboutData();
+  const optionCountPromise = getUniqueOptionCount();
+  const [
+    { pillars: homePillars, leadership, campusCount },
+    schools,
+    homeTestimonials,
+    { admissionsFaq }, // ✅ Destructure admissionsFaq from live API fetch
+    { heroStats: homeHeroStats, secondaryStats: homeSecondaryStats },
+    optionCount,
+  ] = await Promise.all([
+    aboutDataPromise,
     getSchools(),
     getTestimonials(),
+    getAdmissionsData(optionCountPromise), // ✅ Fetch admissions data asynchronously
+    getStats(aboutDataPromise.then((about) => about.campusCount), optionCountPromise),
+    optionCountPromise,
   ]);
+
   const president = leadership.find((leader) => {
     const title = leader.title.toLowerCase();
     return title.includes("president") && !title.includes("vice president");
   });
   const newsArticles = await getNewsArticles(campusCount);
   const featured = newsArticles.find((a) => a.featured) ?? newsArticles[0];
-  const rest = newsArticles.filter((a) => a.slug !== featured.slug).slice(0, 3);
-  const homeSecondaryStats = getSecondaryStats(campusCount);
-
+  const homeNews = featured
+    ? [featured, ...newsArticles.filter((article) => article.slug !== featured.slug).slice(0, 3)]
+    : [];
   return (
     <main>
       {/* ---------------- HERO ---------------- */}
@@ -62,7 +75,7 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={0.18}>
             <p className="lede" style={{ color: "rgba(255,255,255,0.76)", marginTop: 26 }}>
-              Four schools. One hundred and fifty plus programs. Every one of them built around a real client,
+              Four schools. {optionCount}+ options. Every one of them built around a real client,
               a real docket, real capital — not a simulation of professional life, the thing itself.
             </p>
           </Reveal>
@@ -82,7 +95,7 @@ export default async function HomePage() {
       <div className="container hero-stat-wrap">
         <Reveal delay={0.15}>
           <div className="hero-stat-card">
-            <StatStrip stats={heroStats} />
+            <StatStrip stats={homeHeroStats} />
           </div>
         </Reveal>
       </div>
@@ -115,7 +128,7 @@ export default async function HomePage() {
               <div className="quote-section__attr">
                 <div>
                   <div style={{ color: "white", fontWeight: 600 }}>
-                    {president?.name ?? "Prof. Simon Legah"}
+                    {president?.name ?? "Prof. Simon "}
                   </div>
                   <div style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.86rem" }}>
                     {president?.title ?? "President"}, Landmark Metropolitan University Institute
@@ -157,7 +170,7 @@ export default async function HomePage() {
             </div>
             <Reveal delay={0.1}>
               <p className="lede">
-                Most universities teach you about a field. We build every program around actually
+                Most universities teach you about a field. We build every option around actually
                 practicing it — under supervision, with real stakes, before you graduate.
               </p>
             </Reveal>
@@ -191,7 +204,7 @@ export default async function HomePage() {
             </div>
             <Reveal delay={0.1}>
               <Link href="/academics" className="btn btn--outline-dark">
-                View all 150+ programs
+                          View all {optionCount}+ options
               </Link>
             </Reveal>
           </div>
@@ -228,39 +241,19 @@ export default async function HomePage() {
               </Link>
             </Reveal>
           </div>
-
-          <div className="news-layout">
-            <Reveal className="news-featured">
-              <Link href={`/news/${featured.slug}`} className="news-featured__link">
-                <div className="news-featured__visual">
-                  {featured.image && (
-                    <Image
-                      src={featured.image}
-                      alt=""
-                      fill
-                      sizes="(max-width: 980px) 100vw, 55vw"
-                      style={{ objectFit: "cover" }}
-                    />
-                  )}
-                  <VisualPanel pattern="grid" tone="navy" className="news-featured__panel" monogram />
-                </div>
-                <div className="news-featured__meta">
-                  <span>{featured.category}</span>
-                  <span>&middot;</span>
-                  <span>{formatDate(featured.date)}</span>
-                </div>
-                <h3 className="news-featured__title">{featured.title}</h3>
-                <p className="news-featured__dek">{featured.dek}</p>
-              </Link>
-            </Reveal>
-
-            <RevealGroup className="news-list">
-              {rest.map((article, i) => (
-                <RevealItem key={article.slug}>
-                  <NewsCard article={article} pattern={(["diagonal", "radial", "wave"] as const)[i % 3]} />
-                </RevealItem>
-              ))}
-            </RevealGroup>
+          <RevealGroup className="news-layout">
+            {homeNews.map((article, i) => (
+              <RevealItem key={article.slug}>
+                <NewsCard article={article} pattern={(["diagonal", "radial", "wave"] as const)[i % 3]} />
+              </RevealItem>
+            ))}
+          </RevealGroup>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
+            {/*<Reveal delay={0.1}>
+              <Button href="/news" variant="outline-dark">
+                More news articles
+              </Button>
+            </Reveal>*/}
           </div>
         </div>
       </section>
@@ -317,7 +310,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .hero {
           position: relative;
           overflow: hidden;
@@ -388,18 +383,7 @@ export default async function HomePage() {
         .testimonials-layout { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: stretch; }
         .testimonials-visual { position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 360px; }
 
-        .news-layout { display: grid; grid-template-columns: 1.15fr 1fr; gap: 44px; }
-        .news-featured__link { display: block; }
-        .news-featured__visual { position: relative; aspect-ratio: 16/10; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 20px; }
-        .news-featured__panel { transition: transform 0.6s var(--ease-out); }
-        .news-featured__link:hover .news-featured__panel { transform: scale(1.05); }
-        .news-featured__meta {
-          display: flex; gap: 8px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
-          color: var(--garnet-500); font-weight: 600; margin-bottom: 12px;
-        }
-        .news-featured__title { font-size: clamp(1.4rem, 2.2vw, 1.85rem); margin-bottom: 12px; }
-        .news-featured__dek { color: var(--muted); max-width: 480px; line-height: 1.6; }
-        .news-list { display: flex; flex-direction: column; gap: 32px; }
+        .news-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
 
         .faq-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; }
 
@@ -410,15 +394,23 @@ export default async function HomePage() {
 
         @media (max-width: 980px) {
           .pillars-grid { grid-template-columns: 1fr; }
-          .quote-section { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+          .quote-section {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 36px;
+            padding-inline: clamp(12px, 3vw, 28px);
+          }
           .quote-section__portrait { max-width: 520px; aspect-ratio: 4 / 3; margin-inline: auto; }
           .quote-section__stats { flex: 1 1 100%; max-width: none; }
           .testimonials-layout { grid-template-columns: 1fr; }
           .testimonials-visual { min-height: 240px; order: -1; }
-          .news-layout { grid-template-columns: 1fr; }
           .faq-layout { grid-template-columns: 1fr; }
         }
-      ` }} />
+        @media (max-width: 640px) {
+          .news-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+        }
+      `,
+        }}
+      />
     </main>
   );
 }

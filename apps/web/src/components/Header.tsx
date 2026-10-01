@@ -9,7 +9,7 @@ import type { School } from "@/data/schools";
 import { APPLY_URL, NAV_LINKS } from "@/lib/site";
 import { Logo } from "./Logo";
 
-export function Header({ schools }: { schools: School[] }) {
+export function Header({ schools, optionCount }: { schools: School[]; optionCount: number }) {
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -149,7 +149,7 @@ export function Header({ schools }: { schools: School[] }) {
                       ))}
                       <div style={{ gridColumn: "1 / -1", marginTop: 8, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
                         <Link href="/academics" className="btn btn--ghost-link" style={{ color: "var(--navy-900)" }}>
-                          View all 150+ programs <span className="arrow">→</span>
+                          View all {optionCount}+ options <span className="arrow">→</span>
                         </Link>
                       </div>
                     </motion.div>

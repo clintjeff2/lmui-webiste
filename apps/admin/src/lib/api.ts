@@ -45,12 +45,12 @@ export const api = {
   restoreRevision: (page: string, revisionId: number) =>
     request(`/api/v1/pages/${page}/revisions/${revisionId}/restore`, { method: "POST" }),
 
-  listProgramsAll: () => request("/api/v1/programs/admin/all"),
-  createProgram: (data: Record<string, unknown>) =>
-    request("/api/v1/programs", { method: "POST", body: JSON.stringify(data) }),
-  updateProgram: (id: number, data: Record<string, unknown>) =>
-    request(`/api/v1/programs/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
-  deleteProgram: (id: number) => request(`/api/v1/programs/${id}`, { method: "DELETE" }),
+  listOptionsAll: () => request("/api/v1/options/admin/all"),
+  createOption: (data: Record<string, unknown>) =>
+    request("/api/v1/options", { method: "POST", body: JSON.stringify(data) }),
+  updateOption: (id: number, data: Record<string, unknown>) =>
+    request(`/api/v1/options/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
+  deleteOption: (id: number) => request(`/api/v1/options/${id}`, { method: "DELETE" }),
 
   uploadMedia: async (file: File) => {
     const form = new FormData();

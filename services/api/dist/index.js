@@ -17,10 +17,13 @@ const media_1 = require("./routes/media");
 const admissions_1 = __importDefault(require("./routes/admissions"));
 const about_1 = __importDefault(require("./routes/about"));
 const auth_1 = __importDefault(require("./routes/auth"));
+const fields_1 = __importDefault(require("./routes/fields"));
 const media_2 = __importDefault(require("./routes/media"));
 const news_1 = __importDefault(require("./routes/news"));
 const pageBlocks_1 = __importDefault(require("./routes/pageBlocks"));
+const options_1 = __importDefault(require("./routes/options"));
 const schools_1 = __importDefault(require("./routes/schools"));
+const stats_1 = __importDefault(require("./routes/stats"));
 const siteSettings_1 = __importDefault(require("./routes/siteSettings"));
 const testimonials_1 = __importDefault(require("./routes/testimonials"));
 const app = (0, express_1.default)();
@@ -32,18 +35,24 @@ app.use("/uploads", express_1.default.static(media_1.uploadsDir));
 app.get("/health", (_req, res) => res.json({ ok: true }));
 app.use("/api/v1/auth", auth_1.default);
 app.use("/api/v1/about", about_1.default);
+app.use("/api/v1/fields", fields_1.default);
 app.use("/api/v1/admissions", admissions_1.default);
 app.use("/api/v1/media", media_2.default);
 app.use("/api/v1/settings", siteSettings_1.default);
 app.use("/api/v1/pages", pageBlocks_1.default);
 app.use("/api/v1/schools", schools_1.default);
+app.use("/api/v1/stats", stats_1.default);
 app.use("/api/v1/testimonials", testimonials_1.default);
 app.use("/api/v1/news", news_1.default);
-app.use("/api/v1/programs", (0, contentRouter_1.makeContentRouter)({
-    table: "programs",
-    schema: shared_1.programInputSchema,
+const optionsContentRouter = (0, contentRouter_1.makeContentRouter)({
+    table: "options",
+    schema: shared_1.optionInputSchema,
     filterableColumns: ["department_slug", "degree_level"],
-}));
+});
+app.use("/api/v1/options", options_1.default);
+app.use("/api/v1/options", optionsContentRouter);
+app.use("/api/v1/programs", options_1.default);
+app.use("/api/v1/programs", optionsContentRouter);
 app.use("/api/v1/departments", (0, contentRouter_1.makeContentRouter)({ table: "departments", schema: shared_1.departmentInputSchema }));
 app.use("/api/v1/faculty", (0, contentRouter_1.makeContentRouter)({
     table: "faculty",

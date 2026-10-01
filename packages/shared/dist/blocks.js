@@ -23,10 +23,10 @@ const newsGridSchema = zod_1.z.object({
     limit: zod_1.z.number().int().min(1).max(12).default(3),
     manualSlugs: zod_1.z.string().optional().default(""),
 });
-const programSpotlightSchema = zod_1.z.object({
+const optionSpotlightSchema = zod_1.z.object({
     heading: zod_1.z.string().min(1),
     blurb: zod_1.z.string().optional().default(""),
-    programSlugs: zod_1.z.string().min(1),
+    optionSlugs: zod_1.z.string().min(1),
 });
 const quoteSchema = zod_1.z.object({
     quoteText: zod_1.z.string().min(1),
@@ -56,7 +56,7 @@ const testimonialCarouselSchema = zod_1.z.object({
         .array(zod_1.z.object({
         quote: zod_1.z.string().min(1),
         name: zod_1.z.string().min(1),
-        program: zod_1.z.string().optional().default(""),
+        option: zod_1.z.string().optional().default(""),
     }))
         .min(1),
 });
@@ -145,24 +145,24 @@ exports.blockRegistry = {
             manualSlugs: "",
         }),
     },
-    "program-spotlight": {
-        key: "program-spotlight",
-        label: "Program spotlight",
-        description: "Highlight a handful of academic programs.",
-        schema: programSpotlightSchema,
+    "option-spotlight": {
+        key: "option-spotlight",
+        label: "Option spotlight",
+        description: "Highlight a handful of academic options.",
+        schema: optionSpotlightSchema,
         fields: [
             { name: "heading", label: "Heading", type: "text" },
             { name: "blurb", label: "Intro text", type: "textarea" },
             {
-                name: "programSlugs",
-                label: "Program slugs (comma-separated)",
+                name: "optionSlugs",
+                label: "Option slugs (comma-separated)",
                 type: "text",
             },
         ],
         defaultConfig: () => ({
-            heading: "Explore Our Programs",
+            heading: "Explore Our Options",
             blurb: "",
-            programSlugs: "",
+            optionSlugs: "",
         }),
     },
     quote: {
@@ -252,13 +252,13 @@ exports.blockRegistry = {
                 fields: [
                     { name: "quote", label: "Quote", type: "textarea" },
                     { name: "name", label: "Name", type: "text" },
-                    { name: "program", label: "Program / class year", type: "text" },
+                    { name: "option", label: "Option / class year", type: "text" },
                 ],
             },
         ],
         defaultConfig: () => ({
             heading: "",
-            items: [{ quote: "", name: "", program: "" }],
+            items: [{ quote: "", name: "", option: "" }],
         }),
     },
     "image-feature": {

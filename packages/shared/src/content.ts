@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * Shapes for the fixed-structure content types. Unlike homepage blocks,
  * these never change shape from the admin UI — only their rows change.
- * Interior pages (Programs, News, Events, Departments, Faculty) render a
+ * Interior pages (Options, News, Events, Departments, Faculty) render a
  * hard-coded React template per type and just pour these rows into it.
  *
  * Each type has a read interface (what the API returns) and an *_InputSchema
@@ -13,7 +13,7 @@ import { z } from "zod";
 
 const statusEnum = z.enum(["draft", "published"]);
 
-export interface Program {
+export interface Option {
   id: number;
   slug: string;
   name: string;
@@ -31,7 +31,7 @@ export interface Program {
   createdAt: string;
 }
 
-export const programInputSchema = z.object({
+export const optionInputSchema = z.object({
   slug: z.string().min(1),
   name: z.string().min(1),
   degreeLevel: z.enum(["undergraduate", "graduate", "doctoral", "certificate"]),

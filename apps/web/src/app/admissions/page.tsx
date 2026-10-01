@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Button } from "@/components/Button";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { VisualPanel } from "@/components/VisualPanel";
-import { admissionsFaq, getAdmissionsData } from "@/data/admissions";
+import { getAdmissionsData } from "@/data/admissions";
+import { getUniqueOptionCount } from "@/data/options";
 import { APPLY_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -12,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function AdmissionsPage() {
-  const { admissionSteps, deadlines } = await getAdmissionsData();
+  const optionCount = getUniqueOptionCount();
+  const { admissionSteps, deadlines, admissionsFaq } = await getAdmissionsData(optionCount);
 
   return (
     <main>
@@ -29,7 +32,7 @@ export default async function AdmissionsPage() {
             </Reveal>
             <Reveal delay={0.14}>
               <p className="lede" style={{ marginTop: 24 }}>
-                Choose from accredited undergraduate, HND, or postgraduate programs across fields like Engineering, Medical Sciences, and Business..
+                Choose from accredited undergraduate, HND, or postgraduate options across fields like Engineering, Medical Sciences, and Business..
               </p>
             </Reveal>
             <Reveal delay={0.2}>
@@ -44,6 +47,13 @@ export default async function AdmissionsPage() {
             </Reveal>
           </div>
           <Reveal delay={0.1} className="admissions-hero__visual-wrap">
+            <Image
+              src="https://landmark.cm/static/media/admission-pic.jpg"
+              alt=""
+              fill
+              sizes="(max-width: 980px) 100vw, 38vw"
+              style={{ objectFit: "cover" }}
+            />
             <VisualPanel pattern="concentric" tone="navy" monogram className="admissions-hero__visual" />
           </Reveal>
         </div>
@@ -88,7 +98,7 @@ export default async function AdmissionsPage() {
             </Reveal>
             <Reveal delay={0.12}>
               <p className="lede" style={{ marginTop: 20 }}>
-                Graduate and professional program deadlines vary by school — check each program page
+                Graduate and professional option deadlines vary by school — check each option page
                 for specifics, or reach out to that school's admissions office directly.
               </p>
             </Reveal>
@@ -107,15 +117,17 @@ export default async function AdmissionsPage() {
 
       {/* ---------------- FAQ ---------------- */}
       <section className="section section--paper-alt">
-        <div className="container" style={{ maxWidth: 860 }}>
-          <Reveal>
-            <span className="eyebrow">Good to know</span>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <h2 className="headline" style={{ marginTop: 16, marginBottom: 40 }}>
-              Frequently asked questions.
-            </h2>
-          </Reveal>
+        <div className="container admissions-faq-layout">
+          <div>
+            <Reveal>
+              <span className="eyebrow">Good to know</span>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <h2 className="headline" style={{ marginTop: 16 }}>
+                Frequently asked questions.
+              </h2>
+            </Reveal>
+          </div>
           <Reveal delay={0.12}>
             <FaqAccordion items={admissionsFaq} />
           </Reveal>
@@ -127,7 +139,7 @@ export default async function AdmissionsPage() {
         <div className="container" style={{ textAlign: "center" }}>
           <Reveal>
             <h2 className="headline" style={{ color: "white", margin: "0 auto", maxWidth: 640 }}>
-              Your application takes twenty minutes. Your practice starts in September.
+              Your application takes twenty minutes. Your practice starts in October.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -155,6 +167,13 @@ export default async function AdmissionsPage() {
 
         .deadlines-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; }
         .deadlines-list { display: flex; flex-direction: column; }
+        .admissions-faq-layout {
+          max-width: 1120px;
+          display: grid;
+          grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+          align-items: start;
+          gap: clamp(36px, 6vw, 88px);
+        }
         .deadline-row {
           display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; padding: 20px 0;
           border-bottom: 1px solid var(--line);
@@ -170,6 +189,9 @@ export default async function AdmissionsPage() {
           .admissions-hero__visual-wrap { order: -1; }
           .steps { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
           .deadlines-layout { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 760px) {
+          .admissions-faq-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
         }
         @media (max-width: 560px) {
           .steps { grid-template-columns: 1fr; }
