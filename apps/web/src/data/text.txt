@@ -1,0 +1,5 @@
+<div style={{ gridColumn: "1 / -1", marginTop: 8, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                        <Link href="/academics" className="btn btn--ghost-link" style={{ color: "var(--navy-900)" }}>
+                          View all {optionCount}+ options <span className="arrow">→</span>
+                        </Link>
+                      </div>

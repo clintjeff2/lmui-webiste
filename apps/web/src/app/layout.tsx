@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { getUniqueFieldCount } from "@/data/fields";
 import { getUniqueOptionCount } from "@/data/options";
 import { getSchools } from "@/data/schools";
 
@@ -35,12 +36,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [schools, optionCount] = await Promise.all([getSchools(), getUniqueOptionCount()]);
+  const [schools, optionCount, fieldCount] = await Promise.all([
+    getSchools(),
+    getUniqueOptionCount(),
+    getUniqueFieldCount(),
+  ]);
 
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
-        <Header schools={schools} optionCount={optionCount} />
+        <Header schools={schools} optionCount={optionCount} fieldCount={fieldCount} />
         {children}
         <Footer schools={schools} />
       </body>

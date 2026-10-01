@@ -5,7 +5,7 @@ import { toApiRow } from "../lib/caseUtils";
 const router = Router();
 
 interface OptionFilters {
-  departmentSlug?: string;
+  fieldSlug?: string;
   degreeLevel?: string;
 }
 
@@ -16,21 +16,16 @@ export async function queryOptionsData(filters: OptionFilters = {}) {
       "slug",
       "name",
       "degree_level",
-      "department_slug",
-      "school_slug",
       "duration",
       "summary",
       "body",
       "highlights",
       "outcomes",
       "hero_image_url",
-      "status",
-      "created_at",
-      "updated_at",
-    )
-    .where({ status: "published" });
+      "field_slug",
+    );
 
-  if (filters.departmentSlug) query.andWhere("department_slug", filters.departmentSlug);
+  if (filters.fieldSlug) query.andWhere("field_slug", filters.fieldSlug);
   if (filters.degreeLevel) query.andWhere("degree_level", filters.degreeLevel);
 
   const rows = await query.orderBy("created_at", "desc");
@@ -39,7 +34,7 @@ export async function queryOptionsData(filters: OptionFilters = {}) {
 
 router.get("/", async (req, res) => {
   res.json(await queryOptionsData({
-    departmentSlug: typeof req.query.departmentSlug === "string" ? req.query.departmentSlug : undefined,
+    fieldSlug: typeof req.query.fieldSlug === "string" ? req.query.fieldSlug : undefined,
     degreeLevel: typeof req.query.degreeLevel === "string" ? req.query.degreeLevel : undefined,
   }));
 });

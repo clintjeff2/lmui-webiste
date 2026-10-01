@@ -9,7 +9,15 @@ import type { School } from "@/data/schools";
 import { APPLY_URL, NAV_LINKS } from "@/lib/site";
 import { Logo } from "./Logo";
 
-export function Header({ schools, optionCount }: { schools: School[]; optionCount: number }) {
+export function Header({
+  schools,
+  optionCount,
+  fieldCount,
+}: {
+  schools: School[];
+  optionCount: number;
+  fieldCount: number;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -147,9 +155,9 @@ export function Header({ schools, optionCount }: { schools: School[]; optionCoun
                           </div>
                         </Link>
                       ))}
-                      <div style={{ gridColumn: "1 / -1", marginTop: 8, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-                        <Link href="/academics" className="btn btn--ghost-link" style={{ color: "var(--navy-900)" }}>
-                          View all {optionCount}+ options <span className="arrow">→</span>
+                     <div style={{ gridColumn: "1 / -1", marginTop: 8, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
+                         <Link href="/academics" className="btn btn--ghost-link" style={{ color: "var(--navy-900)" }}>
+                          View all {fieldCount} fields <span className="arrow">→</span>
                         </Link>
                       </div>
                     </motion.div>
