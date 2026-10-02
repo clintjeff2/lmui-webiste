@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { School } from "@/data/schools";
 import { getAboutData } from "@/data/about";
-import { APPLY_URL } from "@/lib/site";
+import { APPLY_URL, CONTACT_EMAIL, CONTACT_PHONES } from "@/lib/site";
 import { Logo } from "./Logo";
 import { profile } from "console";
 
@@ -66,6 +66,12 @@ export async function Footer({ schools }: { schools: School[] }) {
               {campusCount} campuses across the city of Buea. {yearsSinceFounded}+ years of training
               practitioners, not just graduates.
             </p>
+            <address className="footer-contact">
+              {CONTACT_PHONES.map((phone) => (
+                <a key={phone.href} href={phone.href}>{phone.type}: {phone.display}</a>
+              ))}
+              <a href={CONTACT_EMAIL.href}>E-Mail: {CONTACT_EMAIL.display}</a>
+            </address>
             <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
               {socials.map((s) => (
                 <a
@@ -161,6 +167,12 @@ export async function Footer({ schools }: { schools: School[] }) {
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
+        .footer-contact {
+          display: flex; flex-direction: column; gap: 7px; margin-top: 18px;
+          font-size: 0.86rem; font-style: normal;
+        }
+        .footer-contact a { color: rgba(255,255,255,0.72); overflow-wrap: anywhere; }
+        .footer-contact a:hover { color: var(--gold-400); }
         @media (max-width: 860px) {
           .footer-grid { grid-template-columns: 1fr 1fr !important; }
         }

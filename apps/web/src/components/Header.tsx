@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { School } from "@/data/schools";
-import { ADMIN_LINKS, APPLY_URL, NAV_LINKS } from "@/lib/site";
+import { ACADEMIC_CALENDAR_URL, ADMIN_LINKS, APPLY_URL, NAV_LINKS } from "@/lib/site";
 import { Logo } from "./Logo";
 
 export function Header({
@@ -20,6 +20,7 @@ export function Header({
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [academicMobileOpen, setAcademicMobileOpen] = useState(false);
   const [adminMegaOpen, setAdminMegaOpen] = useState(false);
   const [adminMobileOpen, setAdminMobileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,6 +46,7 @@ export function Header({
 
   useEffect(() => {
     setMegaOpen(false);
+    setAcademicMobileOpen(false);
     setAdminMegaOpen(false);
     setAdminMobileOpen(false);
     setMobileOpen(false);
@@ -164,10 +166,13 @@ export function Header({
                           </div>
                         </Link>
                       ))}
-                     <div style={{ gridColumn: "1 / -1", marginTop: 8, paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-                         <Link href="/academics" className="btn btn--ghost-link" style={{ color: "var(--navy-900)" }}>
-                          View all {fieldCount} fields <span className="arrow">→</span>
-                        </Link>
+                     <div style={{ gridColumn: "1 / -1", marginTop: 8, paddingTop: 16, borderTop: "1px solid var(--line)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+                       <Link href="/academics" className="btn btn--ghost-link" style={{ color: "var(--navy-900)" }}>
+                         View all {fieldCount} fields <span className="arrow">→</span>
+                       </Link>
+                       <Link href={ACADEMIC_CALENDAR_URL} className="mega-item" style={{ color: "var(--navy-900)", fontWeight: 600, fontSize: "0.9rem", padding: "10px", borderRadius: 8 }}>
+                         Academic Calendar <span className="arrow">→</span>
+                       </Link>
                       </div>
                     </motion.div>
                   )}
@@ -330,7 +335,64 @@ export function Header({
                     </button>
                   </div>
                   {NAV_LINKS.map((link) =>
-                    link.label === "Administration" ? (
+                    link.label === "Academics" ? (
+                      <div key={link.href}>
+                        <button
+                          aria-expanded={academicMobileOpen}
+                          onClick={() => setAcademicMobileOpen((open) => !open)}
+                          style={{
+                            width: "100%", display: "flex", justifyContent: "space-between",
+                            alignItems: "center", padding: "12px 0", border: "none",
+                            borderBottom: "1px solid rgba(255,255,255,0.1)", background: "none",
+                            color: "white", fontFamily: "var(--font-display)", fontSize: "1.6rem",
+                            textAlign: "left",
+                          }}
+                        >
+                          Academics
+                          <svg
+                            width="12"
+                            height="7"
+                            viewBox="0 0 12 7"
+                            style={{ transform: academicMobileOpen ? "rotate(180deg)" : "none", transition: "transform 0.25s" }}
+                          >
+                            <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.4" fill="none" />
+                          </svg>
+                        </button>
+                        <AnimatePresence>
+                          {academicMobileOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              style={{ overflow: "hidden", paddingLeft: 14 }}
+                            >
+                              {schools.map((school) => (
+                                <Link
+                                  key={school.slug}
+                                  href={school.route}
+                                  style={{
+                                    display: "block", color: "rgba(255,255,255,0.78)",
+                                    fontSize: "1.05rem", padding: "10px 0",
+                                    borderBottom: "1px solid rgba(255,255,255,0.08)",
+                                  }}
+                                >
+                                  {school.shortName}
+                                </Link>
+                              ))}
+                              <Link
+                                href={ACADEMIC_CALENDAR_URL}
+                                style={{
+                                  display: "block", color: "var(--gold-300)", fontSize: "1.05rem",
+                                  fontWeight: 600, padding: "12px 0",
+                                }}
+                              >
+                                Academic Calendar
+                              </Link>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : link.label === "Administration" ? (
                       <div key={link.href}>
                         <button
                           aria-expanded={adminMobileOpen}

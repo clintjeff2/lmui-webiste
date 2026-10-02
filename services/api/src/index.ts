@@ -17,6 +17,7 @@ import { makeContentRouter } from "./lib/contentRouter";
 import { uploadsDir } from "./routes/media";
 import admissionsRouter from "./routes/admissions";
 import aboutRouter from "./routes/about";
+import academicCalendarRouter from "./routes/academicCalendar";
 import authRouter from "./routes/auth";
 import fieldsRouter from "./routes/fields";
 import mediaRouter from "./routes/media";
@@ -41,6 +42,7 @@ app.get("/health", (_req, res) => res.json({ ok: true }));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/about", aboutRouter);
+app.use("/api/v1/academic-calendar", academicCalendarRouter);
 app.use("/api/v1/fields", fieldsRouter);
 app.use("/api/v1/admissions", admissionsRouter);
 app.use("/api/v1/media", mediaRouter);

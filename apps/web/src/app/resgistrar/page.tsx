@@ -22,13 +22,24 @@ export default function RegistrarPage() {
             </Reveal>
             <Reveal delay={0.12}>
               <p className="registrar-hero__title">
-                Registrar &amp; Director of Human Resources
+                Registrar /Director of Human Resource
               </p>
             </Reveal>
             <Reveal delay={0.18}>
               <p className="lede registrar-hero__lede">
-                Dr. Ruth MUGRI is listed in Landmark Metropolitan University Institute’s board
-                management as Registrar and Director of Human Resources.
+                Dear Esteemed Guests, Faculty, Staff, and Students,
+              </p>
+              <p className="lede registrar-hero__lede">
+                It is with great pleasure that I welcome you to our esteemed institution. We are honored to have you join our community, where we strive for academic excellence and personal growth. Our dedicated faculty and staff are committed to providing an enriching educational experience that prepares our students for success in their chosen fields. At LANDMARK Metropolitan University Institute Institute, our programs are created in line with the requirements of the Ministry of Higher Education, but again, with an added advantage of a holistic appreciation based on what we have gathered from our partners both in Cameroon and abroad. This is done simply to make Landmark Metropolitan University Institute exceptional.
+              </p>
+              <p className="lede registrar-hero__lede">
+                A famous Scholar, William James Durant (1885-1981) said something which has always been a driving force in my academics and career. " Education is the discovery of our own ignorance". If we will reflect on this and meditate on it, then we shall understand, what it takes to be educated. It is because of the driving force to eradicate our ignorance and build us up, that we are gathered here under the platform of LANDMARK Metropolitan University Institute Institute Buea. We look forward to an exciting year filled with learning opportunities, collaboration, and innovation at LANDMARK Metropolitan University Institute Institute Buea. Thank you for being a part of our journey towards knowledge and discovery. We assure you, that you are in the right place and the academic and administrative staff placed at your disposal are refined and excellent charged with the responsibility of bringing out the best in you.
+              </p>
+              <p className="lede registrar-hero__lede">
+                Dear Students, leaving home to come to school is a step towards building a future that is bright and leading to a career. Many of you have abilities that have not been identified and some will be misguided by their peers away from their ambitions. There is a great challenge before you. I urge you to work with the staff of the institution, follow the orientations and always ask for assistance.
+              </p>
+              <p className="lede registrar-hero__lede">
+                Warm regards.
               </p>
             </Reveal>
           </div>
@@ -54,8 +65,7 @@ export default function RegistrarPage() {
           </Reveal>
           <Reveal delay={0.12}>
             <p>
-              The university’s leadership listing identifies Dr. MUGRI in both roles within
-              Landmark’s board management.
+              
             </p>
           </Reveal>
         </div>

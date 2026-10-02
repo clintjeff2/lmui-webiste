@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import WebImageLinks from "@/data/images/image_objects";
+import { getAboutData } from "@/data/about";
 
 export const metadata: Metadata = {
   title: "The President — Landmark Metropolitan University Institute",
@@ -29,7 +30,10 @@ const milestones = [
   },
 ];
 
-export default function PresidentPage() {
+export default async function PresidentPage() {
+  const {
+    milestones: aboutMilestones,
+    } = await getAboutData();
   return (
     <main>
       <section className="section president-hero">
@@ -46,9 +50,22 @@ export default function PresidentPage() {
             </Reveal>
             <Reveal delay={0.18}>
               <p className="lede president-hero__lede">
-                Landmark grew from a professional training college into a university institute
-                with programs in Cameroon and campuses beyond its borders. Its foundation in
-                practical education continues to shape the institution.
+                Performance in every field of human endeavour is a function of preparation. No one can ever arrive at a future that he or she cannot see and no one arrives at a future that he or she is not prepared for. It is true, a country without youths is a dead country. What will we say the country is turning into when our youths are a consuming population rather than a productive one? What will we say when the old are planning for the future and the youths are moving unaware of their contributions to the future? In the book of Joel 2:28, “And it shall come to pass afterwards that I will pour out my spirit on all flesh; your sons and daughters shall prophesy, your old men shall dream dreams, your young men shall see visions”.
+              </p>
+              <p className="lede president-hero__lede">
+                The young shall see visions! Now, I ask the youths, what is your vision? Where do you see yourself in the world? Where do you want to see the world in the future to come? You are the change; you are the future. The old dream dreams, the dreams they have for the youths are unquestionable. Are the youths seeing this?
+              </p>
+              <p className="lede president-hero__lede">
+                No one will be remembered for what he has but what he adds. Approach life with a contributor’s mentality and you will make the most of it. Commitment to a life of contribution is what makes men and women exploited. You shall be sought after for every task you put your mind to because you can deliver. That is the first step to building a legacy, contribution to the future and making a name for yourself.
+              </p>
+              <p className="lede president-hero__lede">
+                I believe purposelessness is the bane of today’s youths. They are blank to the future, aiming at nothing, going for everything that comes their way. Without a well-defined purpose, life is meaningless. Every true vision is about value addition and not just possession. You must endeavour to possess and sustain a contributory mentality; it is risky to live a loose and carefree life. Your future lies in the early discovery of your purpose.
+              </p>
+              <p className="lede president-hero__lede">
+                At LANDMARK Metropolitan University Institute, we train future leaders. We build youths with not only an entrepreneurial mindset but a moral one at that. This is what Africa solely needs.
+              </p>
+              <p className="lede president-hero__lede">
+                We are a leading world-Class University raising a new generation of leaders that will champion innovative development in a rapidly changing world. Since 2005, we have graduated hundreds of Chattered Accountants, Chattered Marketers, Entrepreneurs, Managers, DEVOPs Engineers, Business Leaders, Digital Experts, experts in Engineering, Technology, Logistics, Shipping, and Education, just to name a few. Business mentors are key – that is why when it comes to students’ training, we are choosy. We want to give each of you the time and guidance you deserve. Our dedicated teaching and management team and corporate partners also serve as mentors in your journey to become a global professional in your field.
               </p>
             </Reveal>
           </div>
@@ -72,13 +89,14 @@ export default function PresidentPage() {
               From professional training to a global campus community.
             </h2>
           </Reveal>
-          <RevealGroup className="president-timeline">
-            {milestones.map((milestone) => (
-              <RevealItem key={milestone.year} className="president-timeline__item">
-                <div className="president-timeline__year">{milestone.year}</div>
-                <div>
-                  <h3>{milestone.title}</h3>
-                  <p>{milestone.description}</p>
+          <RevealGroup className="timeline">
+            {aboutMilestones.map((m) => (
+              <RevealItem key={m.year} className="timeline-row">
+                <div className="timeline-row__year">{m.year}</div>
+                <div className="timeline-row__desc">
+                  {m.description.split(/\n\s*\n/).map((paragraph, index) => (
+                    <p key={`${m.year}-${index}`}>{paragraph}</p>
+                  ))}
                 </div>
               </RevealItem>
             ))}
@@ -120,6 +138,15 @@ export default function PresidentPage() {
         .president-timeline__year { color: var(--gold-400); font-family: var(--font-display); font-size: 1.35rem; }
         .president-timeline__item h3 { color: white; font-size: 1.2rem; }
         .president-timeline__item p { margin-top: 9px; max-width: 660px; color: rgba(255,255,255,0.72); line-height: 1.7; }
+        .timeline { max-width: 760px; }
+        .timeline-row {
+          display: grid; grid-template-columns: 100px 1fr; gap: 24px; padding: 22px 0;
+          border-top: 1px solid rgba(255,255,255,0.12);
+        }
+        .timeline-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.12); }
+        .timeline-row__year { font-family: var(--font-display); color: var(--gold-400); font-size: 1.2rem; }
+        .timeline-row__desc { color: rgba(255,255,255,0.78); line-height: 1.6; }
+        .timeline-row__desc p + p { margin-top: 12px; }
         @media (max-width: 760px) {
           .president-hero__layout { grid-template-columns: minmax(0, 1fr); gap: 36px; }
           .president-hero__portrait { width: min(100%, 460px); }

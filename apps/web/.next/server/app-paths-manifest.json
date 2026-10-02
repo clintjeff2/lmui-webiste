@@ -1,4 +1,8 @@
 {
+  "/staff/page": "app/staff/page.js",
   "/contact/page": "app/contact/page.js",
-  "/academics/page": "app/academics/page.js"
+  "/president/page": "app/president/page.js",
+  "/academic-calendar/page": "app/academic-calendar/page.js",
+  "/page": "app/page.js",
+  "/icon.svg/route": "app/icon.svg/route.js"
 }

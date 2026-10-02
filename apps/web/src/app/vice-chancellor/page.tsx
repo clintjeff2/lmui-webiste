@@ -27,8 +27,13 @@ export default function ViceChancellorPage() {
             </Reveal>
             <Reveal delay={0.18}>
               <p className="lede vice-chancellor-hero__lede">
-                Prof. Titanji is part of Landmark Metropolitan University Institute’s board
-                management, serving as Vice Chancellor and Rector.
+                In order to enhance quality training ahead of the 2023/2024 academic year, the President and founder of the Landmark Group of Companies, installs seasoned top management staff with a world of experience in higher education. These management and teaching staff who have been commissioned into their respective offices, have joined the highly qualified faculty staff on Landmark Vice Chancellor to enhance the vision of the university.
+              </p>
+              <p className="lede vice-chancellor-hero__lede">
+                Amongst the newly installed staff, there is Professor emeritus Vincent P.K. TITANJI, former Vice Chancellor of the University of Buea, who now serves as the Vice Chancellor of Vice Chancellor. It is worth noting that Professor emeritus Vincent P.K. TITANJI is a seasoned university administrator with over forty years of experience in higher education, both home and abroad. His world of experience is hoped to contribute in sustaining the global impact, which Landmark University has had in over forty-five nations across the globe.
+              </p>
+              <p className="lede vice-chancellor-hero__lede">
+                There is also Dr. NDEH NINGO, former Director of ENSET Douala and pioneer Director of College of Technology (COT) of the University of Buea who was appointed the Deputy Vice Chancellor in charge of Research and Cooperation. Apart from his rich experience in university management he is equally a celebrated engineering lecturer whose teaching expertise is going to boost the engineering school of the said university globally.
               </p>
             </Reveal>
           </div>
@@ -54,8 +59,7 @@ export default function ViceChancellorPage() {
           </Reveal>
           <Reveal delay={0.12}>
             <p>
-              The Vice Chancellor and Rector is a member of the university’s board management.
-              This profile recognizes Prof. Titanji in that leadership role.
+              
             </p>
           </Reveal>
         </div>

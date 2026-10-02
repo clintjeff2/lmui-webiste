@@ -32,7 +32,7 @@ export default async function StaffPage() {
       <section className="section section--paper-alt staff-directory">
         <div className="container">
           <Reveal>
-            <span className="eyebrow">Directory</span>
+            <span className="eyebrow">Management</span>
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="headline staff-directory__heading">University staff</h2>
@@ -59,7 +59,7 @@ export default async function StaffPage() {
                   </div>
                   <h3 className="staff-card__name">{member.staff_name}</h3>
                   <div className="staff-card__title">{member.staff_title}</div>
-                  {member.staff_grade && <div className="staff-card__grade">{member.staff_grade}</div>}
+                  {member.staff_grade && <div className="staff-card__grade">{/*member.staff_grade*/}</div>}
                   {member.staff_bio.trim() && <p className="staff-card__bio">{member.staff_bio}</p>}
                 </RevealItem>
               ))}
