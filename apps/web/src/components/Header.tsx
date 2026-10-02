@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { School } from "@/data/schools";
-import { APPLY_URL, NAV_LINKS } from "@/lib/site";
+import { ADMIN_LINKS, APPLY_URL, NAV_LINKS } from "@/lib/site";
 import { Logo } from "./Logo";
 
 export function Header({
@@ -20,6 +20,8 @@ export function Header({
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [adminMegaOpen, setAdminMegaOpen] = useState(false);
+  const [adminMobileOpen, setAdminMobileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
@@ -43,6 +45,8 @@ export function Header({
 
   useEffect(() => {
     setMegaOpen(false);
+    setAdminMegaOpen(false);
+    setAdminMobileOpen(false);
     setMobileOpen(false);
   }, [pathname]);
 
@@ -50,6 +54,7 @@ export function Header({
     function onClick(e: MouseEvent) {
       if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
         setMegaOpen(false);
+        setAdminMegaOpen(false);
       }
     }
     document.addEventListener("click", onClick);
@@ -92,7 +97,11 @@ export function Header({
             link.label === "Academics" ? (
               <div key={link.href} style={{ position: "relative" }}>
                 <button
-                  onClick={() => setMegaOpen((v) => !v)}
+                  aria-expanded={megaOpen}
+                  onClick={() => {
+                    setAdminMegaOpen(false);
+                    setMegaOpen((v) => !v);
+                  }}
                   style={{
                     background: "none",
                     border: "none",
@@ -160,6 +169,77 @@ export function Header({
                           View all {fieldCount} fields <span className="arrow">→</span>
                         </Link>
                       </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : link.label === "Administration" ? (
+              <div key={link.href} style={{ position: "relative" }}>
+                <button
+                  aria-expanded={adminMegaOpen}
+                  onClick={() => {
+                    setMegaOpen(false);
+                    setAdminMegaOpen((v) => !v);
+                  }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "rgba(255,255,255,0.88)",
+                    fontSize: "0.92rem",
+                    fontWeight: 500,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                  }}
+                >
+                  Administration
+                  <svg
+                    width="10"
+                    height="6"
+                    viewBox="0 0 10 6"
+                    style={{ transform: adminMegaOpen ? "rotate(180deg)" : "none", transition: "transform 0.25s" }}
+                  >
+                    <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.4" fill="none" />
+                  </svg>
+                </button>
+                <AnimatePresence>
+                  {adminMegaOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                      style={{
+                        position: "absolute",
+                        top: "calc(100% + 20px)",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: 300,
+                        background: "var(--white)",
+                        borderRadius: "var(--radius-md)",
+                        boxShadow: "0 30px 60px -20px rgba(8,19,42,0.4)",
+                        padding: 16,
+                        display: "grid",
+                        gap: 4,
+                      }}
+                    >
+                      {ADMIN_LINKS.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="mega-item"
+                          style={{
+                            display: "block",
+                            padding: "12px 10px",
+                            borderRadius: 8,
+                            color: "var(--navy-900)",
+                            fontSize: "0.94rem",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -249,21 +329,80 @@ export function Header({
                       </svg>
                     </button>
                   </div>
-                  {NAV_LINKS.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      style={{
-                        color: "white",
-                        fontFamily: "var(--font-display)",
-                        fontSize: "1.6rem",
-                        padding: "12px 0",
-                        borderBottom: "1px solid rgba(255,255,255,0.1)",
-                      }}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+                  {NAV_LINKS.map((link) =>
+                    link.label === "Administration" ? (
+                      <div key={link.href}>
+                        <button
+                          aria-expanded={adminMobileOpen}
+                          onClick={() => setAdminMobileOpen((open) => !open)}
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "12px 0",
+                            border: "none",
+                            borderBottom: "1px solid rgba(255,255,255,0.1)",
+                            background: "none",
+                            color: "white",
+                            fontFamily: "var(--font-display)",
+                            fontSize: "1.6rem",
+                            textAlign: "left",
+                          }}
+                        >
+                          Administration
+                          <svg
+                            width="12"
+                            height="7"
+                            viewBox="0 0 12 7"
+                            style={{ transform: adminMobileOpen ? "rotate(180deg)" : "none", transition: "transform 0.25s" }}
+                          >
+                            <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.4" fill="none" />
+                          </svg>
+                        </button>
+                        <AnimatePresence>
+                          {adminMobileOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              style={{ overflow: "hidden", paddingLeft: 14 }}
+                            >
+                              {ADMIN_LINKS.map((item) => (
+                                <Link
+                                  key={item.href}
+                                  href={item.href}
+                                  style={{
+                                    display: "block",
+                                    color: "rgba(255,255,255,0.78)",
+                                    fontSize: "1.05rem",
+                                    padding: "10px 0",
+                                    borderBottom: "1px solid rgba(255,255,255,0.08)",
+                                  }}
+                                >
+                                  {item.label}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        style={{
+                          color: "white",
+                          fontFamily: "var(--font-display)",
+                          fontSize: "1.6rem",
+                          padding: "12px 0",
+                          borderBottom: "1px solid rgba(255,255,255,0.1)",
+                        }}
+                      >
+                        {link.label}
+                      </Link>
+                    ),
+                  )}
                   <a
                     href={APPLY_URL}
                     target="_blank"

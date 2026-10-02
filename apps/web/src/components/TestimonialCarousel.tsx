@@ -16,16 +16,21 @@ export function TestimonialCarousel({
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || items.length < 2) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % items.length), 6000);
     return () => clearInterval(id);
   }, [paused, items.length]);
+
+  useEffect(() => {
+    setIndex((i) => (items.length ? i % items.length : 0));
+  }, [items.length]);
 
   useEffect(() => {
     onIndexChange?.(index);
   }, [index, onIndexChange]);
 
   const current = items[index];
+  if (!current) return null;
 
   return (
     <div

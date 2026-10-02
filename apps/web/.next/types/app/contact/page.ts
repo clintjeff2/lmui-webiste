@@ -1,8 +1,8 @@
-// File: /home/csmenorah/lmui-website/apps/web/src/app/programs/page.tsx
-import * as entry from '../../../../src/app/programs/page.js'
+// File: /home/csmenorah/lmui-webiste/apps/web/src/app/contact/page.tsx
+import * as entry from '../../../../src/app/contact/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../src/app/programs/page.js')
+type TEntry = typeof import('../../../../src/app/contact/page.js')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{

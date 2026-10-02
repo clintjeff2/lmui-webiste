@@ -6,6 +6,7 @@ const WebImageLinks = {
     lsafs: "https://landmark.cm/static/media/SAFS.18a65d39.jpg",
     logo: "https://landmark.cm/static/media/lmu-web-logo.fd653d49.png",
     academicStaff: "https://landmark.cm/static/media/landmark-buea-academic-staff-4.9c740f84.jpg",
+    registrar: "https://landmark.cm/assets/img/lmu-img/dr-ruth.jpg",
     president_and_vc: "https://landmark.cm/static/media/vc1.b9469c8d.jpg",
     vc: 'https://landmark.cm/static/media/vc3.e9d85f36.jpg'
 };

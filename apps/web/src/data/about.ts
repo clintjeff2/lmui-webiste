@@ -30,7 +30,7 @@ export interface Leader {
   image?: string | null;
 }
 
-interface StaffMember {
+export interface StaffMember {
   staff_name: string;
   staff_title: string;
   staff_bio: string;
@@ -156,7 +156,7 @@ function mapTopManagementToLeadership(rows: unknown): Leader[] {
   });
 }
 
-export const staff: Promise<StaffMember[]> = (async () => {
+export async function getStaffData(): Promise<StaffMember[]> {
   try {
     const response = await fetch(`${API_BASE}/api/v1/about`, { cache: "no-store" });
     if (!response.ok) return [];
@@ -165,11 +165,31 @@ export const staff: Promise<StaffMember[]> = (async () => {
     if (typeof data !== "object" || data === null) return [];
 
     const staffRows = (data as { staff?: unknown }).staff;
-    return Array.isArray(staffRows) ? staffRows as StaffMember[] : [];
+    if (!Array.isArray(staffRows)) return [];
+
+    return staffRows.flatMap((row): StaffMember[] => {
+      if (typeof row !== "object" || row === null) return [];
+
+      const staffMember = row as Record<string, unknown>;
+      if (
+        typeof staffMember.staff_name !== "string" ||
+        typeof staffMember.staff_title !== "string"
+      ) {
+        return [];
+      }
+
+      return [{
+        staff_name: staffMember.staff_name,
+        staff_title: staffMember.staff_title,
+        staff_bio: typeof staffMember.staff_bio === "string" ? staffMember.staff_bio : "",
+        staff_image: typeof staffMember.staff_image === "string" ? staffMember.staff_image : null,
+        staff_grade: typeof staffMember.staff_grade === "string" ? staffMember.staff_grade : "",
+      }];
+    });
   } catch {
     return [];
   }
-})();
+}
 
 export async function getAboutData(): Promise<AboutData> {
   try {
