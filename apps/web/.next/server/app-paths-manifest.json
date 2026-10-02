@@ -1,7 +1,4 @@
 {
-  "/page": "app/page.js",
   "/programs/page": "app/programs/page.js",
-  "/academics/page": "app/academics/page.js",
-  "/academics/[slug]/page": "app/academics/[slug]/page.js",
-  "/icon.svg/route": "app/icon.svg/route.js"
+  "/page": "app/page.js"
 }
