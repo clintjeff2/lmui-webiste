@@ -4,7 +4,7 @@ export interface Fields {
   slug: string;
   name: string;
   schoolSlug: string;
-  degreeLevel?: "Undergraduate" | "Graduate" | "Doctoral" | "Certificate";
+  degreeLevel?: string;
   duration?: string;
   summary: string;
   highlights: string[];

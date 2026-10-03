@@ -23,6 +23,24 @@ export default async function NewsPage() {
   const { campusCount } = await getAboutData();
   const [featured, ...rest] = await getNewsArticles(campusCount);
 
+  if (!featured) {
+    return (
+      <main>
+        <section className="section">
+          <div className="container">
+            <span className="eyebrow">News &amp; Insights</span>
+            <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 780 }}>
+              What's happening across our {campusCount} campuses.
+            </h1>
+            <p className="lede" style={{ marginTop: 24 }}>
+              No news articles are available right now.
+            </p>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main>
       <section className="section" style={{ paddingBottom: 48 }}>
