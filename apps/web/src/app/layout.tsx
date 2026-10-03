@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { getUniqueFieldCount } from "@/data/fields";
 import { getUniqueOptionCount } from "@/data/options";
-import { getSchools } from "@/data/schools";
+import { getSchools, getUniqueSchoolCount } from "@/data/schools";
 
 // Self-hosted (not next/font/google): a live campus presentation cannot
 // depend on fonts.gstatic.com being reachable over venue wifi. These are
@@ -29,9 +29,10 @@ const inter = localFont({
 
 export async function generateMetadata(): Promise<Metadata> {
   const optionCount = await getUniqueOptionCount();
+  const schoolCount = await getUniqueSchoolCount();
   return {
     title: "Landmark Metropolitan University Institute",
-    description: `Six schools, ${optionCount} academic options, and a curriculum built around real practice — not simulations of it. Landmark Metropolitan University Institute.`,
+    description: `${schoolCount} schools, ${optionCount} academic options, and a curriculum built around real practice — not simulations of it. Landmark Metropolitan University Institute.`,
   };
 }
 
