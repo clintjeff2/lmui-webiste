@@ -9,10 +9,18 @@ import { getSchools } from "@/data/schools";
 import { APPLY_URL } from "@/lib/site";
 
 
-export const metadata: Metadata = {
-  title: "LSMBS — Landmark Metropolitan University Institute",
-  description: "Four option areas, 60+ options, every one built around real practice.",
-};
+// export const metadata: Metadata = {
+//   title: "LSMBS — Landmark Metropolitan University Institute",
+//   description: "Four option areas, 60+ options, every one built around real practice.",
+// };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const optionCount = await getUniqueOptionCountBySchool("biomedical");
+  return {
+    title: "LSMBS — Landmark Metropolitan University Institute",
+    description: `${optionCount} options across five areas, every one built around real practice.`,
+  };
+}
 
 export default async function LSMBSPage() {
   const schools = await getSchools();
