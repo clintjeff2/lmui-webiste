@@ -1,26 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/academics/lsafs/page": "app/academics/lsafs/page.js",
-  "/academics/lsmbs/page": "app/academics/lsmbs/page.js",
-  "/academics/lsbss/page": "app/academics/lsbss/page.js",
-  "/academics/lsset/page": "app/academics/lsset/page.js",
-  "/academics/page": "app/academics/page.js",
-  "/icon.svg/route": "app/icon.svg/route.js",
-  "/lsbss/page": "app/lsbss/page.js",
-  "/lsmbs/page": "app/lsmbs/page.js",
-  "/lsafs/page": "app/lsafs/page.js",
-  "/lsset/page": "app/lsset/page.js",
-  "/news/page": "app/news/page.js",
-  "/page": "app/page.js",
-  "/programs/page": "app/programs/page.js",
-  "/academic-calendar/page": "app/academic-calendar/page.js",
-  "/about/page": "app/about/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/academics/[slug]/page": "app/academics/[slug]/page.js",
-  "/news/[slug]/page": "app/news/[slug]/page.js",
-  "/president/page": "app/president/page.js",
-  "/resgistrar/page": "app/resgistrar/page.js",
-  "/admissions/page": "app/admissions/page.js",
   "/staff/page": "app/staff/page.js",
-  "/vice-chancellor/page": "app/vice-chancellor/page.js"
+  "/icon.svg/route": "app/icon.svg/route.js"
 }

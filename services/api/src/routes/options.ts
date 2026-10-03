@@ -40,7 +40,9 @@ export async function queryOptionsData(filters: OptionFilters = {}) {
   if (filters.fieldSlug) query.andWhere("fieldSlug", filters.fieldSlug);
   if (filters.degreeLevel) query.andWhere("degree_level", filters.degreeLevel);
 
-  const rows = await query.orderBy(["fieldSlug", "name"], "desc");
+  const rows = await query
+    .orderBy("fieldSlug", "desc")
+    .orderBy("name", "desc");
   return rows.map((row) => {
     const apiRow = toApiRow(row);
 
