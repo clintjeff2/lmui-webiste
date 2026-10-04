@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import logoImage from "@/data/images/lmu-web-logo.png";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -33,6 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Landmark Metropolitan University Institute",
     description: `${schoolCount} schools, ${optionCount} academic options, and a curriculum built around real practice — not simulations of it. Landmark Metropolitan University Institute.`,
+    icons: { icon: logoImage.src },
   };
 }
 
