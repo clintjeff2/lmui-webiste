@@ -29,14 +29,25 @@ export default async function OptionPage({ params }: { params: { slug: string } 
     getSchools(),
   ]);
   const field = getFieldsBySlug(params.slug, fields);
-  const option = field ? undefined : getOptionBySlug(params.slug, options);
+  const optionData = field ? undefined : getOptionBySlug(params.slug, options);
+  const optionField = optionData
+    ? getFieldsBySlug(optionData.fieldSlug, fields) ?? fields.find((candidate) => {
+      const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+      return normalize(candidate.name.split(",")[0].trim()) === normalize(optionData.fieldSlug);
+    })
+    : undefined;
+  const schoolSlug = optionField?.schoolSlug ?? field?.schoolSlug;
+  const option = optionData
+    ? { ...optionData, schoolSlug: optionField?.schoolSlug }
+    : undefined;
   const item = option ?? field;
   if (!item) notFound();
 
-  const schoolSlug = option?.fieldSlug ?? field?.schoolSlug;
   const school = schools.find((school) => school.slug === schoolSlug);
   const related = option
-    ? getOptionsBySchool(option.fieldSlug, options).filter((relatedOption) => relatedOption.slug !== option.slug)
+    ? option.fieldSlug
+      ? getOptionsBySchool(option.fieldSlug, options).filter((relatedOption) => relatedOption.slug !== option.slug)
+      : []
     : field
       ? (() => {
         const slugOptions = getOptionsBySchool(field.slug, options);
@@ -55,7 +66,7 @@ export default async function OptionPage({ params }: { params: { slug: string } 
         <div className="container option-hero__content">
           <Reveal>
             <span className="eyebrow" style={{ color: "var(--gold-400)" }}>
-              {school?.shortName ?? "Academics"}
+              {school?.shortName ?? "Landmark Metropolitan University Institute"}
             </span>
           </Reveal>
           <Reveal delay={0.06}>
@@ -100,16 +111,44 @@ export default async function OptionPage({ params }: { params: { slug: string } 
                 {field ? "Field highlights" : "Option highlights"}
               </h2>
               <ul className="option-list">
-                {item.highlights.map((highlight) => (
+                {(item.highlights ?? []).map((highlight) => (
                   <li key={highlight}>{highlight}</li>
                 ))}
               </ul>
             </div>
+
+            {option && (<div>
+              <h2 className="headline" style={{ fontSize: "1.2rem", marginBottom: 24, marginTop: 48 }}>
+                Admission Requirements
+              </h2>
+              <ul className="option-list">
+                {(option.admissionRequirements ?? []).map((adminReg) => (
+                  <li key={adminReg}>{adminReg}</li>
+                ))}
+              </ul>
+            </div>)}
+            {schoolSlug === "engineering" && (
+              <div className="option-outcomes" style={{ marginTop:20 }}>
+                <h3 style={{ fontSize: "1.25rem", marginBottom: 18 }}>Note</h3>
+                <p style={{ fontSize: "1rem", lineHeight: 1.6, color: "var(--muted)" }}>
+                  Admission into any 3 years Bachelor of Technology programs in the School of Science Engineering &amp; Technology require you to have passed <b>Mathematics</b> and <b>Physics</b> at the Advance level or Baccalaureate or its equivalent.
+                </p>
+              </div>
+            )}
           </Reveal>
           <Reveal delay={0.1}>
+            {option && (option.registration || option.tuitionFees) && (<div>
+              <h2 className="headline" style={{ fontSize: "1.7rem", marginBottom: 24 }}>
+                Registration and Tuition Fees
+              </h2>
+              <ul className="option-list" style={{ fontSize: "1.7rem", marginBottom: 24 }}>
+                {option.registration && <li>Registration Fee: {option.registration}</li>}
+                {option.tuitionFees && <li>Tuition Fees: {option.tuitionFees}</li>}
+              </ul>
+            </div>)}
             <div className="option-outcomes">
               <h3 style={{ fontSize: "1.1rem", marginBottom: 18 }}>Outcomes</h3>
-              {item.outcomes.map((outcome) => (
+              {(item.outcomes ?? []).map((outcome) => (
                 <div key={outcome} className="option-outcomes__item">
                   {outcome}
                 </div>

@@ -9,7 +9,7 @@ interface OptionFilters {
   degreeLevel?: string;
 }
 
-function parseStringList(value: unknown, key: "highlights" | "outcomes"): string[] {
+function parseStringList(value: unknown, key: "highlights" | "outcomes" | "admissionRequirements"): string[] {
   const parsed = parseJsonColumn<unknown>(value);
   const list = Array.isArray(parsed)
     ? parsed
@@ -35,6 +35,9 @@ export async function queryOptionsData(filters: OptionFilters = {}) {
       "outcomes",
       "hero_image_url",
       "fieldSlug",
+      "admissionRequirements",
+      "registration",
+      "tuitionFees"
     );
 
   if (filters.fieldSlug) query.andWhere("fieldSlug", filters.fieldSlug);
@@ -50,8 +53,9 @@ export async function queryOptionsData(filters: OptionFilters = {}) {
       ...apiRow,
       highlights: parseStringList(row.highlights, "highlights"),
       outcomes: parseStringList(row.outcomes, "outcomes"),
+      admissionRequirements: parseStringList(row.admissionRequirements, "admissionRequirements"),
     };
-  });
+  }); 
 }
 
 router.get("/", async (req, res) => {
