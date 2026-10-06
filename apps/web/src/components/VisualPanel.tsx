@@ -66,11 +66,15 @@ export function VisualPanel({
   tone = "navy",
   className,
   monogram,
+  image,
+  patternOpacity = 0.5,
 }: {
   pattern?: Pattern;
   tone?: Tone;
   className?: string;
   monogram?: boolean;
+  image?: string;
+  patternOpacity?: number;
 }) {
   const id = `vp-${pattern}-${tone}`;
   const patternColor = tone === "paper" ? "#7a6a45" : "rgba(255,255,255,0.9)";
@@ -90,11 +94,13 @@ export function VisualPanel({
         position: "absolute",
         inset: 0,
         overflow: "hidden",
-        opacity: 0.6,
-        background: gradients[tone],
+        opacity: image ? 1 : 0.6,
+        background: image
+          ? `linear-gradient(rgba(8,19,42,0.24), rgba(8,19,42,0.42)), url("${image}") center / cover no-repeat`
+          : gradients[tone],
       }}
     >
-      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, color: patternColor, opacity: 0.5 }}>
+      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, color: patternColor, opacity: patternOpacity }}>
         <defs>
           <Pattern pattern={pattern} id={id} />
         </defs>

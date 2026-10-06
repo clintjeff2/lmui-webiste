@@ -5,10 +5,22 @@ import type { School } from "@/data/schools";
 import { VisualPanel } from "./VisualPanel";
 
 export function OptionCard({ option, school }: { option: Fields | Option; school?: School }) {
+  const image = "heroImageUrl" in option
+    ? option.heroImageUrl
+    : "fieldImage" in option
+      ? option.fieldImage
+      : undefined;
+
   return (
     <Link href={`/academics/${option.slug}`} className="option-card">
       <div className="option-card__visual">
-        <VisualPanel pattern={school?.pattern ?? "grid"} tone="navy" className="option-card__panel" />
+        <VisualPanel
+          pattern={school?.pattern ?? "grid"}
+          tone="navy"
+          className="option-card__panel"
+          image={image || school?.logo}
+          patternOpacity={0.3}
+        />
       </div>
       <div className="option-card__body">
         <div className="option-card__meta">

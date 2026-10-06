@@ -6,6 +6,7 @@ export interface Fields {
   schoolSlug: string;
   degreeLevel?: string;
   duration?: string;
+  fieldImage?: string;
   summary: string;
   highlights: string[];
   outcomes: string[];
@@ -217,6 +218,12 @@ const fallbackFields: Fields[] = previousProgramData.length > 0
   }))
   : fields;
 
+function sortFields(items: Fields[]): Fields[] {
+  return [...items].sort((left, right) =>
+    left.name.localeCompare(right.name, undefined, { sensitivity: "base" }),
+  );
+}
+
 function mapApiField(value: unknown): Fields | null {
   if (typeof value !== "object" || value === null) return null;
 
@@ -247,6 +254,7 @@ function mapApiField(value: unknown): Fields | null {
     schoolSlug: row.schoolSlug,
     degreeLevel: degreeLevels[degreeLevel],
     duration: typeof row.duration === "string" ? row.duration : undefined,
+    fieldImage: typeof row.fieldImage === "string" ? row.fieldImage : undefined,
     summary: row.summary,
     highlights: Array.isArray(row.highlights)
       ? row.highlights.filter((item): item is string => typeof item === "string")
@@ -260,17 +268,17 @@ function mapApiField(value: unknown): Fields | null {
 export async function getFields(): Promise<Fields[]> {
   try {
     const response = await fetch(`${API_BASE}/api/v1/fields`, { cache: "no-store" });
-    if (!response.ok) return fallbackFields;
+    if (!response.ok) return sortFields(fallbackFields);
 
     const data: unknown = await response.json();
-    if (!Array.isArray(data) || data.length === 0) return fallbackFields;
+    if (!Array.isArray(data) || data.length === 0) return sortFields(fallbackFields);
 
     const loadedFields = data
       .map(mapApiField)
       .filter((field): field is Fields => field !== null);
-    return loadedFields.length > 0 ? loadedFields : fallbackFields;
+    return sortFields(loadedFields.length > 0 ? loadedFields : fallbackFields);
   } catch {
-    return fallbackFields;
+    return sortFields(fallbackFields);
   }
 }
 
@@ -282,7 +290,7 @@ export function getFieldsBySlug(
 }
 
 export function getFieldsBySchool(schoolSlug: string, source: Fields[] = fields): Fields[] {
-  return source.filter((field) => field.schoolSlug === schoolSlug);
+  return sortFields(source.filter((field) => field.schoolSlug === schoolSlug));
 }
 
 export async function getUniqueFieldCount(): Promise<number> {

@@ -238,6 +238,7 @@ export function Header({
                       {[
                         { label: "Undergraduate", href: "/undergraduate" },
                         { label: "Graduate", href: "/graduate" },
+                        { label: "HND", href: "/hnd" },
                       ].map((item) => (
                         <Link
                           key={item.href}
@@ -508,6 +509,7 @@ export function Header({
                               {[
                                 { label: "Undergraduate", href: "/undergraduate" },
                                 { label: "Graduate", href: "/graduate" },
+                                { label: "HND", href: "/hnd" },
                               ].map((item) => (
                                 <Link
                                   key={item.href}

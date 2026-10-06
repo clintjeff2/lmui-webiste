@@ -48,8 +48,8 @@ export const schools: School[] = [
   },
   {
     slug: "biomedical",
-    name: "School of Medical and Biomedical Sciences",
-    shortName: "School of Medical and Biomedical Sciences",
+    name: "School of Medical & Biomedical Sciences",
+    shortName: "School of Medical & Biomedical Sciences",
     tagline: "LSMBS",
     route: "/academics/lsmbs",
     logo: WebImageLinks.lsmbs,
@@ -65,7 +65,7 @@ export const schools: School[] = [
   },
   {
     slug: "agriculture",
-    name: "School of Agriculture and Food Sciences",
+    name: "School of Agriculture & Food Sciences",
     shortName: "School of Agriculture and Food Sciences",
     tagline: "LSAFS",
     route: "/academics/lsafs",
@@ -89,15 +89,21 @@ export function getSchoolBySlug(slug: string): School | undefined {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
 
+function sortSchools(items: School[]): School[] {
+  return [...items].sort((left, right) =>
+    left.name.localeCompare(right.name, undefined, { sensitivity: "base" }),
+  );
+}
+
 export async function getSchools(): Promise<School[]> {
   try {
     const response = await fetch(`${API_BASE}/api/v1/schools`, { cache: "no-store" });
-    if (!response.ok) return schools;
+    if (!response.ok) return sortSchools(schools);
 
     const data: unknown = await response.json();
-    return Array.isArray(data) && data.length > 0 ? data as School[] : schools;
+    return sortSchools(Array.isArray(data) && data.length > 0 ? data as School[] : schools);
   } catch {
-    return schools;
+    return sortSchools(schools);
   }
 }
 

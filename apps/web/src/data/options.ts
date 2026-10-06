@@ -12,6 +12,7 @@ export interface Option {
   admissionRequirements: string[];
   registration?: string;
   tuitionFees?: string;
+  heroImageUrl?: string;
 }
 
 export const options: Option[] = [
@@ -1294,6 +1295,12 @@ export const options: Option[] = [
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
 
+function sortOptions(items: Option[]): Option[] {
+  return [...items].sort((left, right) =>
+    left.name.localeCompare(right.name, undefined, { sensitivity: "base" }),
+  );
+}
+
 function mapApiOption(value: unknown): Option | null {
   if (typeof value !== "object" || value === null) return null;
 
@@ -1327,6 +1334,7 @@ function mapApiOption(value: unknown): Option | null {
     degreeLevel: degreeLevels[degreeLevel],
     duration: row.duration,
     summary: row.summary,
+    heroImageUrl: typeof row.heroImageUrl === "string" ? row.heroImageUrl : undefined,
     registration: typeof row.registration === "string" ? row.registration : undefined,
     tuitionFees: typeof row.tuitionFees === "string" ? row.tuitionFees : undefined,
     highlights: Array.isArray(row.highlights)
@@ -1344,17 +1352,17 @@ function mapApiOption(value: unknown): Option | null {
 export async function getOptions(): Promise<Option[]> {
   try {
     const response = await fetch(`${API_BASE}/api/v1/options`, { cache: "no-store" });
-    if (!response.ok) return options;
+    if (!response.ok) return sortOptions(options);
 
     const data: unknown = await response.json();
-    if (!Array.isArray(data) || data.length === 0) return options;
+    if (!Array.isArray(data) || data.length === 0) return sortOptions(options);
 
     const loadedOptions = data
       .map(mapApiOption)
       .filter((option): option is Option => option !== null);
-    return loadedOptions.length > 0 ? loadedOptions : options;
+    return sortOptions(loadedOptions.length > 0 ? loadedOptions : options);
   } catch {
-    return options;
+    return sortOptions(options);
   }
 }
 
@@ -1368,7 +1376,7 @@ export function getOptionBySlug(
 export function getOptionsBySchool(fieldSlug: string, source: Option[] = options): Option[] {
   const normalize = (value: string) => value.trim().toLocaleLowerCase().replace(/[^a-z0-9]/g, "");
   const normalizedFieldSlug = normalize(fieldSlug);
-  return source.filter((option) => normalize(option.fieldSlug) === normalizedFieldSlug);
+  return sortOptions(source.filter((option) => normalize(option.fieldSlug) === normalizedFieldSlug));
 }
 
 export async function getUniqueOptionCount(): Promise<number> {

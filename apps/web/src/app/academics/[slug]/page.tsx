@@ -9,6 +9,10 @@ import { getOptionBySlug, getOptions, getOptionsBySchool } from "@/data/options"
 import { getSchools } from "@/data/schools";
 import { APPLY_URL } from "@/lib/site";
 
+function normalizeDegreeLevel(value: string): string {
+  return value.trim().toLocaleLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
 export async function generateStaticParams() {
   const [options, fields] = await Promise.all([getOptions(), getFields()]);
   return [...new Set([...options, ...fields].map((item) => item.slug))]
@@ -58,6 +62,24 @@ export default async function OptionPage({ params }: { params: { slug: string } 
         return fieldOptions.length > 0 ? fieldOptions : getOptionsBySchool(field.schoolSlug, options);
       })()
       : [];
+  const relatedGroups = [
+    {
+      title: "HND Options",
+      options: related.filter((relatedOption) => normalizeDegreeLevel(relatedOption.degreeLevel) === "hnd"),
+    },
+    {
+      title: "Undergraduate Options",
+      options: related.filter((relatedOption) =>
+        ["undergraduate", "undergradute", "certificate"].includes(normalizeDegreeLevel(relatedOption.degreeLevel)),
+      ),
+    },
+    {
+      title: "Graduate Options",
+      options: related.filter((relatedOption) =>
+        ["graduate", "doctoral"].includes(normalizeDegreeLevel(relatedOption.degreeLevel)),
+      ),
+    },
+  ].filter((group) => group.options.length > 0);
 
   return (
     <main>
@@ -163,19 +185,26 @@ export default async function OptionPage({ params }: { params: { slug: string } 
         </div>
       </section>
 
-      {related.length > 0 && (
+      {relatedGroups.length > 0 && (
         <section className="section section--paper-alt">
           <div className="container">
             <Reveal>
-              <span className="eyebrow">{field ? "Field Options" : "Related options"}</span>
+              <span className="eyebrow">{field ? "Field Options" : "Related Options"}</span>
             </Reveal>
-            <RevealGroup className="option-related-grid">
-              {related.map((relatedOption) => (
-                <RevealItem key={relatedOption.slug}>
-                  <OptionCard option={relatedOption} school={school} />
-                </RevealItem>
-              ))}
-            </RevealGroup>
+            {relatedGroups.map((group) => (
+              <div className="option-related-group" key={group.title}>
+                <Reveal>
+                  <h2 className="headline option-related-group__title">{group.title}</h2>
+                </Reveal>
+                <RevealGroup className="option-related-grid">
+                  {group.options.map((relatedOption) => (
+                    <RevealItem key={relatedOption.slug}>
+                      <OptionCard option={relatedOption} school={school} />
+                    </RevealItem>
+                  ))}
+                </RevealGroup>
+              </div>
+            ))}
           </div>
         </section>
       )}
@@ -208,7 +237,9 @@ export default async function OptionPage({ params }: { params: { slug: string } 
         }
         .option-outcomes__item:first-of-type { border-top: none; }
 
-        .option-related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+        .option-related-group + .option-related-group { margin-top: 48px; }
+        .option-related-group__title { font-size: 1.5rem; margin-bottom: 20px; }
+        .option-related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         @media (max-width: 900px) {
           .option-body { grid-template-columns: 1fr; }

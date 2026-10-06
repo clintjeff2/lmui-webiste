@@ -5,14 +5,22 @@ import { getFields, type Fields } from "@/data/fields";
 import { getOptions, type Option } from "@/data/options";
 import { getSchools, type School } from "@/data/schools";
 
-type ProgramLevel = "undergraduate" | "graduate";
+type ProgramLevel = "undergraduate" | "graduate" | "hnd";
 
-interface OptionGroup {
+interface FieldOptionGroup {
   key: string;
   title: string;
   href: string;
+  options: Option[];
+}
+
+interface SchoolOptionGroup {
+  key: string;
+  title: string;
+  href?: string;
   school?: School;
   options: Option[];
+  fields: Map<string, FieldOptionGroup>;
 }
 
 function normalize(value: string): string {
@@ -29,12 +37,13 @@ function displayReference(value: string): string {
 
 function belongsToLevel(option: Option, level: ProgramLevel): boolean {
   const degreeLevel = normalize(option.degreeLevel);
+  if (level === "hnd") return degreeLevel === "hnd";
   return level === "undergraduate"
-    ? ["undergraduate", "undergradute", "hnd"].includes(degreeLevel)
+    ? ["undergraduate", "undergradute"].includes(degreeLevel)
     : ["graduate", "doctoral"].includes(degreeLevel);
 }
 
-function groupOptions(options: Option[], fields: Fields[], schools: School[]): OptionGroup[] {
+function groupOptions(options: Option[], fields: Fields[], schools: School[]): SchoolOptionGroup[] {
   const fieldsByReference = new Map<string, Fields>();
   const seenOptionSlugs = new Set<string>();
   for (const field of fields) {
@@ -42,7 +51,7 @@ function groupOptions(options: Option[], fields: Fields[], schools: School[]): O
     fieldsByReference.set(normalize(field.name.split(",")[0]), field);
   }
 
-  const groups = new Map<string, OptionGroup>();
+  const groups = new Map<string, SchoolOptionGroup>();
   for (const option of options) {
     const optionSlug = normalize(option.slug);
     if (seenOptionSlugs.has(optionSlug)) continue;
@@ -53,23 +62,58 @@ function groupOptions(options: Option[], fields: Fields[], schools: School[]): O
     const school = field
       ? schools.find((item) => item.slug === field.schoolSlug)
       : schools.find((item) => normalize(item.slug) === reference);
-    const key = field ? `field:${field.slug}` : `reference:${reference}`;
-    const title = field
-      ? field.name.split(",")[0].trim()
-      : school?.name ?? displayReference(option.fieldSlug);
-    const href = field
-      ? `/academics/${field.slug}`
-      : school?.route ?? `/academics/${option.slug}`;
+    const schoolSlug = field?.schoolSlug ?? school?.slug;
+    const schoolKey = schoolSlug ? `school:${normalize(schoolSlug)}` : "school:other";
+    const schoolTitle = school?.name ?? (schoolSlug ? displayReference(schoolSlug) : "Other Programs");
 
-    let group = groups.get(key);
+    let group = groups.get(schoolKey);
     if (!group) {
-      group = { key, title, href, school, options: [] };
-      groups.set(key, group);
+      group = {
+        key: schoolKey,
+        title: schoolTitle,
+        href: school?.route,
+        school,
+        options: [],
+        fields: new Map(),
+      };
+      groups.set(schoolKey, group);
     }
-    group.options.push(option);
+
+    if (!field && school) {
+      group.options.push(option);
+      continue;
+    }
+
+    const fieldKey = field ? `field:${field.slug}` : `reference:${reference}`;
+    let fieldGroup = group.fields.get(fieldKey);
+    if (!fieldGroup) {
+      fieldGroup = {
+        key: fieldKey,
+        title: field ? field.name.split(",")[0].trim() : displayReference(option.fieldSlug),
+        href: field ? `/academics/${field.slug}` : school?.route ?? `/academics/${option.slug}`,
+        options: [],
+      };
+      group.fields.set(fieldKey, fieldGroup);
+    }
+    fieldGroup.options.push(option);
   }
 
-  return [...groups.values()];
+  return [...groups.values()]
+    .sort((left, right) => left.title.localeCompare(right.title, undefined, { sensitivity: "base" }))
+    .map((group) => {
+      const sortOptions = (items: Option[]) => [...items].sort((left, right) =>
+        left.name.localeCompare(right.name, undefined, { sensitivity: "base" }),
+      );
+      return {
+        ...group,
+        options: sortOptions(group.options),
+        fields: new Map(
+          [...group.fields.entries()]
+            .sort(([, left], [, right]) => left.title.localeCompare(right.title, undefined, { sensitivity: "base" }))
+            .map(([key, fieldGroup]) => [key, { ...fieldGroup, options: sortOptions(fieldGroup.options) }]),
+        ),
+      };
+    });
 }
 
 export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
@@ -78,7 +122,11 @@ export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
     getFields(),
     getSchools(),
   ]);
-  const title = level === "undergraduate" ? "Undergraduate Programs" : "Graduate Programs";
+  const title = level === "hnd"
+    ? "HND Programs"
+    : level === "undergraduate"
+      ? "Undergraduate Programs"
+      : "Graduate Programs";
   const groups = groupOptions(options.filter((option) => belongsToLevel(option, level)), fields, schools);
   const optionCount = groups.reduce((count, group) => count + group.options.length, 0);
 
@@ -103,20 +151,38 @@ export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
       </section>
 
       {groups.length > 0 ? groups.map((group) => (
-        <section className="section program-level-field" key={group.key}>
+        <section className="section program-level-school" key={group.key}>
           <div className="container">
             <Reveal>
-              <h2 className="headline program-level-field__title">
-                <Link href={group.href}>{group.title}</Link>
+              <h2 className="headline program-level-school__title">
+                {group.href ? <Link href={group.href}>{group.title}</Link> : group.title}
               </h2>
             </Reveal>
-            <RevealGroup className="program-level-field__grid">
-              {group.options.map((option) => (
-                <RevealItem key={option.slug}>
-                  <OptionCard option={option} school={group.school} />
-                </RevealItem>
-              ))}
-            </RevealGroup>
+            {group.options.length > 0 && (
+              <RevealGroup className="program-level-field__grid">
+                {group.options.map((option) => (
+                  <RevealItem key={option.slug}>
+                    <OptionCard option={option} school={group.school} />
+                  </RevealItem>
+                ))}
+              </RevealGroup>
+            )}
+            {[...group.fields.values()].map((fieldGroup) => (
+              <section className="program-level-field" key={fieldGroup.key}>
+                <Reveal>
+                  <h3 className="headline program-level-field__title">
+                    <Link href={fieldGroup.href}>{fieldGroup.title}</Link>
+                  </h3>
+                </Reveal>
+                <RevealGroup className="program-level-field__grid">
+                  {fieldGroup.options.map((option) => (
+                    <RevealItem key={option.slug}>
+                      <OptionCard option={option} school={group.school} />
+                    </RevealItem>
+                  ))}
+                </RevealGroup>
+              </section>
+            ))}
           </div>
         </section>
       )) : (
@@ -129,8 +195,12 @@ export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .program-level-hero { padding-bottom: 48px; }
-        .program-level-field { padding-top: 36px; }
-        .program-level-field__title { margin-bottom: 28px; }
+        .program-level-school { padding-top: 36px; }
+        .program-level-school__title { margin-bottom: 28px; }
+        .program-level-school__title a { color: inherit; }
+        .program-level-school__title a:hover { color: var(--garnet-500); }
+        .program-level-field { margin-top: 32px; }
+        .program-level-field__title { font-size: 1.35rem; margin-bottom: 20px; }
         .program-level-field__title a { color: inherit; }
         .program-level-field__title a:hover { color: var(--garnet-500); }
         .program-level-field__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }

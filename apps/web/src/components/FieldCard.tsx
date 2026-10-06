@@ -7,7 +7,13 @@ export function FieldCard({ field, school }: { field: Fields; school?: School })
   return (
     <Link href={`/academics/${field.slug}`} className="option-card">
       <div className="option-card__visual">
-        <VisualPanel pattern={school?.pattern ?? "grid"} tone="navy" className="option-card__panel" />
+        <VisualPanel
+          pattern={school?.pattern ?? "grid"}
+          tone="navy"
+          className="option-card__panel"
+          image={field.fieldImage || school?.logo}
+          patternOpacity={0.3}
+        />
       </div>
       <div className="option-card__body">
         <div className="option-card__meta">

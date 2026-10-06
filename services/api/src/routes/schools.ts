@@ -36,7 +36,9 @@ router.get("/", async (_req, res) => {
     columns.push("school_logo");
   }
 
-  const rows = await db("landmark_schools").select(columns) as SchoolRow[];
+  const rows = await db("landmark_schools")
+    .select(columns)
+    .orderBy("school_name", "asc") as SchoolRow[];
 
   res.json(rows.map((row) => {
     const descriptionData = parseJson(row.school_description);
