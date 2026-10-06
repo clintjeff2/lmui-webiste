@@ -1306,10 +1306,11 @@ function mapApiOption(value: unknown): Option | null {
 
   const row = value as Record<string, unknown>;
   const degreeLevel = typeof row.degreeLevel === "string"
-    ? row.degreeLevel.toLocaleLowerCase()
+    ? row.degreeLevel.trim().toLocaleLowerCase()
     : "";
   const degreeLevels: Record<string, Option["degreeLevel"]> = {
     undergraduate: "Undergraduate",
+    undergradute: "Undergraduate",
     graduate: "Graduate",
     doctoral: "Doctoral",
     certificate: "Certificate",
@@ -1320,7 +1321,6 @@ function mapApiOption(value: unknown): Option | null {
     typeof row.slug !== "string" ||
     typeof row.name !== "string" ||
     typeof row.fieldSlug !== "string" ||
-    typeof row.duration !== "string" ||
     typeof row.summary !== "string" ||
     !degreeLevels[degreeLevel]
   ) {
@@ -1332,7 +1332,7 @@ function mapApiOption(value: unknown): Option | null {
     name: row.name,
     fieldSlug: row.fieldSlug,
     degreeLevel: degreeLevels[degreeLevel],
-    duration: row.duration,
+    duration: typeof row.duration === "string" ? row.duration : "",
     summary: row.summary,
     heroImageUrl: typeof row.heroImageUrl === "string" ? row.heroImageUrl : undefined,
     registration: typeof row.registration === "string" ? row.registration : undefined,

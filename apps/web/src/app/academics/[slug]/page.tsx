@@ -194,7 +194,7 @@ export default async function OptionPage({ params }: { params: { slug: string } 
             {relatedGroups.map((group) => (
               <div className="option-related-group" key={group.title}>
                 <Reveal>
-                  <h2 className="headline option-related-group__title">{group.title}</h2>
+                  <h2 className="headline option-related-group__title" style={{ fontSize: "2rem", marginTop: 35, marginBottom: 25 }}>{group.title}</h2>
                 </Reveal>
                 <RevealGroup className="option-related-grid">
                   {group.options.map((relatedOption) => (

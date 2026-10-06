@@ -128,7 +128,13 @@ export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
       ? "Undergraduate Programs"
       : "Graduate Programs";
   const groups = groupOptions(options.filter((option) => belongsToLevel(option, level)), fields, schools);
-  const optionCount = groups.reduce((count, group) => count + group.options.length, 0);
+  const optionCount = groups.reduce(
+    (count, group) => count + group.options.length + [...group.fields.values()].reduce(
+      (fieldCount, fieldGroup) => fieldCount + fieldGroup.options.length,
+      0,
+    ),
+    0,
+  );
 
   return (
     <main>
@@ -170,7 +176,7 @@ export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
             {[...group.fields.values()].map((fieldGroup) => (
               <section className="program-level-field" key={fieldGroup.key}>
                 <Reveal>
-                  <h3 className="headline program-level-field__title">
+                  <h3 className="headline program-level-field__title" style={{ fontSize: "2rem", marginTop: 35, marginBottom: 25 }}>
                     <Link href={fieldGroup.href}>{fieldGroup.title}</Link>
                   </h3>
                 </Reveal>
