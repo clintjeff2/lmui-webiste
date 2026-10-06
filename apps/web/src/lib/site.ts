@@ -24,7 +24,7 @@ export const ADMIN_LINKS = [
 export const NAV_LINKS = [
   { label: "Academics", href: "/academics" },
   { label: "Administration", href: "/staff" },
-  { label: "All Programs", href: "/programs" },
+  { label: "All Programs", href: "/undergraduate" },
   { label: "Admissions", href: "/admissions" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

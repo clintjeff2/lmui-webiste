@@ -1,4 +1,4 @@
-import type { Fields } from "./fields";
+import type { Fields} from "./fields";
 
 export interface Option {
   slug: string;
@@ -9,6 +9,9 @@ export interface Option {
   summary: string;
   highlights: string[];
   outcomes: string[];
+  admissionRequirements: string[];
+  registration?: string;
+  tuitionFees?: string;
 }
 
 export const options: Option[] = [
@@ -1324,11 +1327,16 @@ function mapApiOption(value: unknown): Option | null {
     degreeLevel: degreeLevels[degreeLevel],
     duration: row.duration,
     summary: row.summary,
+    registration: typeof row.registration === "string" ? row.registration : undefined,
+    tuitionFees: typeof row.tuitionFees === "string" ? row.tuitionFees : undefined,
     highlights: Array.isArray(row.highlights)
       ? row.highlights.filter((item): item is string => typeof item === "string")
       : [],
     outcomes: Array.isArray(row.outcomes)
       ? row.outcomes.filter((item): item is string => typeof item === "string")
+      : [],
+    admissionRequirements: Array.isArray(row.admissionRequirements)
+      ? row.admissionRequirements.filter((item): item is string => typeof item === "string")
       : [],
   };
 }

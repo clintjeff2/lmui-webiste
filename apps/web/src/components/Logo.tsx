@@ -31,43 +31,51 @@ export function Logo({ light = false }: { light?: boolean }) {
         height={80}
         priority
       />
-      <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.05 }}>
-        <span
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 600,
-            fontSize: "1.18rem",
-            color: light ? "#fff" : "var(--navy-900)",
-            letterSpacing: "-0.01em",
-          }}
+      <svg
+        width="190"
+        height="62"
+        viewBox="0 0 190 62"
+        role="img"
+        aria-label="Landmark Metropolitan University Institute"
+        style={{ display: "block", overflow: "visible" }}
+      >
+        <text
+          x="0"
+          y="22"
+          textLength="190"
+          lengthAdjust="spacingAndGlyphs"
+          fill={light ? "#fff" : "var(--navy-900)"}
+          fontFamily="var(--font-display)"
+          fontSize="22"
+          fontWeight="700"
         >
           Landmark
-        </span>
-        <span
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.62rem",
-            fontWeight: 600,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: light ? "rgba(255,255,255,0.6)" : "var(--muted)",
-          }}
+        </text>
+        <text
+          x="0"
+          y="43"
+          textLength="190"
+          lengthAdjust="spacingAndGlyphs"
+          fill={light ? "rgba(255,255,255,0.6)" : "var(--muted)"}
+          fontFamily="var(--font-display)"
+          fontSize="18"
+          fontWeight="600"
         >
-          Metropolitan University
-        </span>
-        <span
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.62rem",
-            fontWeight: 600,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: light ? "rgba(255,255,255,0.6)" : "var(--muted)",
-          }}
+          Metropolitan
+        </text>
+        <text
+          x="0"
+          y="61"
+          textLength="190"
+          lengthAdjust="spacingAndGlyphs"
+          fill={light ? "rgba(255,255,255,0.6)" : "var(--muted)"}
+          fontFamily="var(--font-display)"
+          fontSize="16"
+          fontWeight="600"
         >
-          Institute
-      </span>
-    </span>
+          University Institute
+        </text>
+      </svg>
   </span>
   );
 }

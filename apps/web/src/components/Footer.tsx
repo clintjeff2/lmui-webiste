@@ -24,7 +24,8 @@ const columns = (schools: School[]) => [
   {
     title: "About",
     links: [
-      { label: "All Programs", href: "/programs" },
+      { label: "Undergraduate", href: "/undergraduate" },
+      { label: "Graduate", href: "/graduate" },
       { label: "Our Mission", href: "/about" },
       { label: "Leadership", href: "/about" },
       { label: "News & Insights", href: "/news" },
