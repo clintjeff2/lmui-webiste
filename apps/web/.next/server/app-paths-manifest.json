@@ -1,7 +1,5 @@
 {
   "/page": "app/page.js",
-  "/academics/[slug]/page": "app/academics/[slug]/page.js",
-  "/academics/lsset/page": "app/academics/lsset/page.js",
-  "/programs/page": "app/programs/page.js",
-  "/academics/lsafs/page": "app/academics/lsafs/page.js"
+  "/undergraduate/page": "app/undergraduate/page.js",
+  "/graduate/page": "app/graduate/page.js"
 }
