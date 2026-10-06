@@ -1,8 +1,6 @@
 {
-  "/staff/page": "app/staff/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/president/page": "app/president/page.js",
-  "/academic-calendar/page": "app/academic-calendar/page.js",
   "/page": "app/page.js",
+  "/programs/page": "app/programs/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/icon.svg/route": "app/icon.svg/route.js"
 }
