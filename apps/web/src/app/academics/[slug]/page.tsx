@@ -64,27 +64,28 @@ export default async function OptionPage({ params }: { params: { slug: string } 
       : [];
   const relatedGroups = [
     {
-      title: "HND Options",
+      title: "HND Specialization",
       options: related.filter((relatedOption) => normalizeDegreeLevel(relatedOption.degreeLevel) === "hnd"),
     },
     {
-      title: "Undergraduate Options",
+      title: "Undergraduate Specialization",
       options: related.filter((relatedOption) =>
         ["undergraduate", "undergradute", "certificate"].includes(normalizeDegreeLevel(relatedOption.degreeLevel)),
       ),
     },
     {
-      title: "Graduate Options",
+      title: "Graduate Specialization",
       options: related.filter((relatedOption) =>
         ["graduate", "doctoral"].includes(normalizeDegreeLevel(relatedOption.degreeLevel)),
       ),
     },
   ].filter((group) => group.options.length > 0);
 
+
   return (
     <main>
       <section className="option-hero">
-        <VisualPanel pattern={school?.pattern ?? "grid"} tone="navy" className="option-hero__visual" monogram />
+        <VisualPanel pattern={school?.pattern ?? "grid"} tone="navy" className="option-hero__visual" monogram image={option ? item.heroImageUrl : field?.fieldImage} />
         <div className="container option-hero__content">
           <Reveal>
             <span className="eyebrow" style={{ color: "var(--gold-400)" }}>
@@ -118,7 +119,7 @@ export default async function OptionPage({ params }: { params: { slug: string } 
           <Reveal delay={0.24}>
             <div style={{ marginTop: 32 }}>
               <Button href={APPLY_URL} variant="gold">
-                Apply to This {field ? "Field" : "Option"}
+                Apply to This {field ? "Field" : "Specialization"}
               </Button>
             </div>
           </Reveal>
@@ -130,7 +131,7 @@ export default async function OptionPage({ params }: { params: { slug: string } 
           <Reveal>
             <div>
               <h2 className="headline" style={{ fontSize: "1.7rem", marginBottom: 24 }}>
-                {field ? "Field highlights" : "Option highlights"}
+                {field ? "Field highlights" : "Specialization highlights"}
               </h2>
               <ul className="option-list">
                 {(item.highlights ?? []).map((highlight) => (
@@ -149,14 +150,21 @@ export default async function OptionPage({ params }: { params: { slug: string } 
                 ))}
               </ul>
             </div>)}
+            <h3 style={{ fontSize: "1.25rem", marginBottom: 18 }}>Note</h3>
+             <div className="option-outcomes" style={{ marginTop:20 }}>
+                <p style={{ fontSize: "1rem", lineHeight: 1.6, color: "var(--muted)" }}>
+                  - If your pass at the Advance Level is 2 papers, then 2 Religion must not be one of the papers passed. In other words the menimum requirement is 2 papers excluding Religion.
+                </p>
+              </div>
             {schoolSlug === "engineering" && (
               <div className="option-outcomes" style={{ marginTop:20 }}>
-                <h3 style={{ fontSize: "1.25rem", marginBottom: 18 }}>Note</h3>
+                
                 <p style={{ fontSize: "1rem", lineHeight: 1.6, color: "var(--muted)" }}>
-                  Admission into any 3 years Bachelor of Technology programs in the School of Science Engineering &amp; Technology require you to have passed <b>Mathematics</b> and <b>Physics</b> at the Advance level or Baccalaureate or its equivalent.
+                  - If you are applying for a straight 3 years program in the School of Science Engineering &amp; Technology, please ensure that you have passed <b>Mathematics</b> and <b>Physics</b> at the Advance level or Baccalaureate or its equivalent.
                 </p>
               </div>
             )}
+             
           </Reveal>
           <Reveal delay={0.1}>
             {option && (option.registration || option.tuitionFees) && (<div>
@@ -189,7 +197,7 @@ export default async function OptionPage({ params }: { params: { slug: string } 
         <section className="section section--paper-alt">
           <div className="container">
             <Reveal>
-              <span className="eyebrow">{field ? "Field Options" : "Related Options"}</span>
+              <span className="eyebrow">{field ? "Field Specializations" : "Related Specializations"}</span>
             </Reveal>
             {relatedGroups.map((group) => (
               <div className="option-related-group" key={group.title}>

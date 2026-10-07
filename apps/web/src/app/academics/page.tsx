@@ -33,12 +33,12 @@ export default async function AcademicsPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              {uniqueOptions}+ options. {uniqueFields} fields of studies. {uniqueSchools} schools. One standard for what counts as learning.
+              {uniqueOptions}+ Specializations to choose from. {uniqueFields} fields of studies. {uniqueSchools} schools. One standard for what counts as learning.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
             <p className="lede" style={{ marginTop: 24 }}>
-              Every option below carries a real practicum requirement — a client, a docket, a lab, a
+              Every specialization below carries a real practicum requirement — a client, a docket, a lab, a
               build. Jump to a school, or apply now.
             </p>
           </Reveal>
@@ -114,7 +114,7 @@ export default async function AcademicsPage() {
         <div className="container" style={{ textAlign: "center" }}>
           <Reveal>
             <h2 className="headline" style={{ color: "white", margin: "0 auto" }}>
-              {uniqueOptions}+ options. One application.
+              {uniqueOptions}+ Specializations. One application.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

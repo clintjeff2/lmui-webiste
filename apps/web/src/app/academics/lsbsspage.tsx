@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const optionCount = await getUniqueOptionCountBySchool("business");
   return {
     title: "LSBSS — Landmark Metropolitan University Institute",
-    description: `${optionCount} options across five areas, every one built around real practice.`,
+    description: `${optionCount} Specializations across five areas, every one built around real practice.`,
   };
 }
 
@@ -31,12 +31,12 @@ export default async function LSBSSPage() {
           </Reveal>
           <Reveal delay={0.06}>
             <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
-              {uniqueOptions} options. {uniqueFields} field areas. One standard for what counts as learning.
+              {uniqueOptions} Specializations. {uniqueFields} Field Areas. One standard for what counts as learning.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
             <p className="lede" style={{ marginTop: 24 }}>
-              Every option below carries a real practicum requirement — a client, a docket, a lab, a
+              Every specialization below carries a real practicum requirement — a client, a docket, a lab, a
               build. Jump to a school, or apply now.
             </p>
           </Reveal>
@@ -64,7 +64,7 @@ export default async function LSBSSPage() {
               <div className="academics-school__head">
                 <div>
                   <Reveal>
-                    <span className="eyebrow">{uniqueOptions} &middot; Options</span>
+                    <span className="eyebrow">{uniqueOptions} &middot; Specializations</span>
                   </Reveal>
                   <Reveal delay={0.06}>
                     <h2 className="headline" style={{ marginTop: 16, maxWidth: 640 }}>
@@ -112,7 +112,7 @@ export default async function LSBSSPage() {
         <div className="container" style={{ textAlign: "center" }}>
           <Reveal>
             <h2 className="headline" style={{ color: "white", margin: "0 auto" }}>
-              {uniqueOptions} options. One application.
+              {uniqueOptions} Specializations. One application.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

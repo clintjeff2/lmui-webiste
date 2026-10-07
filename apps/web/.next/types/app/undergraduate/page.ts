@@ -1,4 +1,4 @@
-// File: /home/csmenorah/lmui-webiste/apps/web/src/app/undergraduate/page.tsx
+// File: /home/csmenorah/lmui-website/apps/web/src/app/undergraduate/page.tsx
 import * as entry from '../../../../src/app/undergraduate/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

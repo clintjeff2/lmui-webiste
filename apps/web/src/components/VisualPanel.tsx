@@ -67,7 +67,7 @@ export function VisualPanel({
   className,
   monogram,
   image,
-  patternOpacity = 0.5,
+  patternOpacity = 0.8,
 }: {
   pattern?: Pattern;
   tone?: Tone;
@@ -94,7 +94,7 @@ export function VisualPanel({
         position: "absolute",
         inset: 0,
         overflow: "hidden",
-        opacity: image ? 1 : 0.6,
+        opacity: image ? 1 : .5,
         background: image
           ? `linear-gradient(rgba(8,19,42,0.24), rgba(8,19,42,0.42)), url("${image}") center / cover no-repeat`
           : gradients[tone],

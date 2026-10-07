@@ -2,7 +2,6 @@
   "name": "@lmui/api",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["packages/*"],
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -14,7 +13,7 @@
     "seed:schools": "tsx scripts/seedSchools.ts"
   },
   "dependencies": {
-    "@lmui/shared": "*",
+    "@lmui/shared": "file:packages/shared",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

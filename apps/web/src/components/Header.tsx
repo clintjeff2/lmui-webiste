@@ -235,10 +235,10 @@ export function Header({
                         gap: 4,
                       }}
                     >
-                      {[
+                        {[
+                        { label: "HND", href: "/hnd" },
                         { label: "Undergraduate", href: "/undergraduate" },
                         { label: "Graduate", href: "/graduate" },
-                        { label: "HND", href: "/hnd" },
                       ].map((item) => (
                         <Link
                           key={item.href}

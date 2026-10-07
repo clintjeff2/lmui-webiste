@@ -75,7 +75,7 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={0.18}>
             <p className="lede" style={{ color: "rgba(255,255,255,0.76)", marginTop: 26 }}>
-              Four schools. {optionCount}+ options. Every one of them built around a real client,
+              Four schools. {optionCount}+ Specializations. Every one of them built around a real client,
               a real docket, real capital — not a simulation of professional life, the thing itself.
             </p>
           </Reveal>
@@ -204,7 +204,7 @@ export default async function HomePage() {
             </div>
             <Reveal delay={0.1}>
               <Link href="/academics" className="btn btn--outline-dark">
-                          View all {optionCount}+ options
+                          View all {optionCount}+ Specializations
               </Link>
             </Reveal>
           </div>
