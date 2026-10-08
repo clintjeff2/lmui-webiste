@@ -85,7 +85,7 @@ export default async function OptionPage({ params }: { params: { slug: string } 
   return (
     <main>
       <section className="option-hero">
-        <VisualPanel pattern={school?.pattern ?? "grid"} tone="navy" className="option-hero__visual" monogram image={option ? item.heroImageUrl : field?.fieldImage} />
+        <VisualPanel pattern={school?.pattern ?? "grid"} tone="navy" className="option-hero__visual" monogram image={option ? (item as any).heroImageUrl : field?.fieldImage} />
         <div className="container option-hero__content">
           <Reveal>
             <span className="eyebrow" style={{ color: "var(--gold-400)" }}>

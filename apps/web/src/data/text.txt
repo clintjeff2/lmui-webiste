@@ -1,3 +1,25 @@
 source /home/imykclz8ytjw/nodevenv/public/server.landmark.cm/24/bin/activate && cd /home/imykclz8ytjw/public/server.landmark.cm
 
 source /home/imykclz8ytjw/nodevenv/public/web.landmark.cm/24/bin/activate && cd /home/imykclz8ytjw/public/web.landmark.cm
+
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/imykclz8ytjw/.ssh/id_rsa.
+Your public key has been saved in /home/imykclz8ytjw/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:yNWbPcnI359RApbIEfJt0OxXlxpVNLEsiMjcy6EXhwM 
+The key's randomart image is:
++---[RSA 2048]----+
+|       E. ++  .=*|
+|      o +=o=+o..=|
+|       +.B=+*.o+.|
+|     . oo.*O.+o  |
+|      o.S+= =.. .|
+|        .  . o ..|
+|            . .. |
+|               .o|
+|               ..|
++----[SHA256]-----+
+
+3#A9M62kHGKUh%uO

@@ -1,7 +1,1 @@
-{
-  "/staff/page": "app/staff/page.js",
-  "/page": "app/page.js",
-  "/hnd/page": "app/hnd/page.js",
-  "/academics/lsafs/page": "app/academics/lsafs/page.js",
-  "/academics/[slug]/page": "app/academics/[slug]/page.js"
-}
+{}
