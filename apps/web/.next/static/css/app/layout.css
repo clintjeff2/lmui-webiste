@@ -170,6 +170,8 @@ button {
   max-width: 720px;
 }
 
+.academics-school__title .headline { width: 100%; max-width: none; }
+
 .headline--display {
   font-size: clamp(2.75rem, 6.4vw, 5.6rem);
   letter-spacing: -0.02em;

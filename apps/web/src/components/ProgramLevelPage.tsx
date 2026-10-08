@@ -150,14 +150,14 @@ export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
           </Reveal>
           <Reveal delay={0.12}>
             <p className="lede" style={{ marginTop: 20 }}>
-              {optionCount} study options
+              {optionCount} study Specialization
             </p>
           </Reveal>
         </div>
       </section>
 
       {groups.length > 0 ? groups.map((group) => (
-        <section className="section program-level-school" key={group.key}>
+        <section className="section program-level-school" key={group.key} style={{paddingTop: 0, paddingBottom:60}}>
           <div className="container">
             <Reveal>
               <h2 className="headline program-level-school__title">
@@ -202,7 +202,7 @@ export async function ProgramLevelPage({ level }: { level: ProgramLevel }) {
       <style dangerouslySetInnerHTML={{ __html: `
         .program-level-hero { padding-bottom: 48px; }
         .program-level-school { padding-top: 36px; }
-        .program-level-school__title { margin-bottom: 28px; }
+        .program-level-school__title { width: 100%; max-width: none; margin-bottom: 28px; }
         .program-level-school__title a { color: inherit; }
         .program-level-school__title a:hover { color: var(--garnet-500); }
         .program-level-field { margin-top: 32px; }

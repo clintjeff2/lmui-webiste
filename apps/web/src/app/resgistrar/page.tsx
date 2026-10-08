@@ -73,18 +73,19 @@ export default function RegistrarPage() {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .registrar-hero { padding-bottom: clamp(72px, 9vw, 128px); }
+        .registrar-hero .container { max-width: 1480px; }
         .registrar-hero__layout {
-          display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
-          align-items: center; gap: clamp(40px, 8vw, 112px);
+          display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 1fr);
+          align-items: stretch; gap: clamp(40px, 6vw, 88px);
         }
-        .registrar-hero__copy { max-width: 680px; }
+        .registrar-hero__copy { max-width: none; }
         .registrar-hero__name { margin-top: 22px; }
         .registrar-hero__title {
           margin-top: 20px; color: var(--garnet-500); font-weight: 600; font-size: 1rem;
         }
-        .registrar-hero__lede { margin-top: 28px; max-width: 600px; }
+        .registrar-hero__lede { margin-top: 28px; max-width: 760px; text-align: justify; }
         .registrar-hero__portrait {
-          position: relative; aspect-ratio: 4 / 5; max-height: 620px; overflow: hidden;
+          position: relative; min-height: 100%; overflow: hidden;
           border-radius: var(--radius-md); background: var(--navy-800);
         }
         .registrar-hero__portrait img {
@@ -106,7 +107,9 @@ export default function RegistrarPage() {
         .registrar-role__content p { max-width: 660px; color: rgba(255,255,255,0.72); line-height: 1.7; }
         @media (max-width: 760px) {
           .registrar-hero__layout { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-          .registrar-hero__portrait { width: min(100%, 460px); }
+          .registrar-hero__portrait {
+            justify-self: center; width: min(100%, 460px); aspect-ratio: 4 / 5; min-height: 0;
+          }
         }
       ` }} />
     </main>

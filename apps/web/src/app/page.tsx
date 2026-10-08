@@ -360,13 +360,14 @@ export default async function HomePage() {
         .schools-scroll::-webkit-scrollbar { display: none; }
 
         .quote-section {
-          display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.75fr);
+          display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, 1fr);
           align-items: center; gap: clamp(32px, 6vw, 80px); padding: 72px 0; text-align: left;
         }
+        .quote-section.container { max-width: 1480px; }
         .quote-section--text-only { grid-template-columns: minmax(0, 1fr); }
         .quote-section__content { min-width: 0; }
         .quote-section__portrait {
-          position: relative; width: 100%; aspect-ratio: 4 / 5; max-height: 560px;
+          position: relative; width: 100%; aspect-ratio: 4 / 5;
           overflow: hidden; border-radius: var(--radius-sm); background: var(--navy-800);
         }
         .quote-section__image { object-fit: cover; object-position: center 20%; }
@@ -399,7 +400,7 @@ export default async function HomePage() {
             gap: 36px;
             padding-inline: clamp(12px, 3vw, 28px);
           }
-          .quote-section__portrait { max-width: 520px; aspect-ratio: 4 / 3; margin-inline: auto; }
+          .quote-section__portrait { max-width: 780px; aspect-ratio: 4 / 3; margin-inline: auto; }
           .quote-section__stats { flex: 1 1 100%; max-width: none; }
           .testimonials-layout { grid-template-columns: 1fr; }
           .testimonials-visual { min-height: 240px; order: -1; }

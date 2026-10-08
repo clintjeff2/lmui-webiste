@@ -117,10 +117,26 @@ export default async function OptionPage({ params }: { params: { slug: string } 
             </Reveal>
           )}
           <Reveal delay={0.24}>
-            <div style={{ marginTop: 32 }}>
+            <div style={{ display: "flex", gap: 16, marginTop: 32, flexWrap: "wrap" }}>
               <Button href={APPLY_URL} variant="gold">
                 Apply to This {field ? "Field" : "Specialization"}
               </Button>
+              {option && (
+                <Button
+                  href={`/academics/${optionField?.slug ?? option.fieldSlug}`}
+                  variant="outline-light"
+                >
+                  Back to {optionField?.name.split(",")[0].trim() ?? "Field"}
+                </Button>
+              )}
+              {field && (
+                <Button
+                  href={`${school?.route}`}
+                  variant="outline-light"
+                >
+                  Back to {school?.name.split(",")[0].trim()}
+                </Button>
+              )}
             </div>
           </Reveal>
         </div>
@@ -150,15 +166,14 @@ export default async function OptionPage({ params }: { params: { slug: string } 
                 ))}
               </ul>
             </div>)}
-            <h3 style={{ fontSize: "1.25rem", marginBottom: 18 }}>Note</h3>
-             <div className="option-outcomes" style={{ marginTop:20 }}>
+            <h3 style={{ fontSize: "1.25rem", marginBottom: 18, marginTop:20 }}>Note</h3>
+             <div className="option-outcomes" style={{ marginTop:10 }}>
                 <p style={{ fontSize: "1rem", lineHeight: 1.6, color: "var(--muted)" }}>
-                  - If your pass at the Advance Level is 2 papers, then 2 Religion must not be one of the papers passed. In other words the menimum requirement is 2 papers excluding Religion.
+                  If your pass at the Advance Level is 2 papers, then 2 Religion must not be one of the papers passed. In other words the menimum requirement is 2 papers excluding Religion.
                 </p>
               </div>
             {schoolSlug === "engineering" && (
-              <div className="option-outcomes" style={{ marginTop:20 }}>
-                
+              <div className="option-outcomes" style={{ marginTop:10 }}>
                 <p style={{ fontSize: "1rem", lineHeight: 1.6, color: "var(--muted)" }}>
                   - If you are applying for a straight 3 years program in the School of Science Engineering &amp; Technology, please ensure that you have passed <b>Mathematics</b> and <b>Physics</b> at the Advance level or Baccalaureate or its equivalent.
                 </p>

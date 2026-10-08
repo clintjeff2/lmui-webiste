@@ -67,18 +67,19 @@ export default function ViceChancellorPage() {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .vice-chancellor-hero { padding-bottom: clamp(72px, 9vw, 128px); }
+        .vice-chancellor-hero .container { max-width: 1480px; }
         .vice-chancellor-hero__layout {
-          display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
-          align-items: center; gap: clamp(40px, 8vw, 112px);
+          display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 1fr);
+          align-items: stretch; gap: clamp(40px, 6vw, 88px);
         }
-        .vice-chancellor-hero__copy { max-width: 680px; }
+        .vice-chancellor-hero__copy { max-width: none; }
         .vice-chancellor-hero__name { margin-top: 22px; }
         .vice-chancellor-hero__title {
           margin-top: 20px; color: var(--garnet-500); font-weight: 600; font-size: 1rem;
         }
-        .vice-chancellor-hero__lede { margin-top: 28px; max-width: 600px; }
+        .vice-chancellor-hero__lede { margin-top: 28px; max-width: 760px; text-align: justify; }
         .vice-chancellor-hero__portrait {
-          position: relative; aspect-ratio: 4 / 5; max-height: 620px; overflow: hidden;
+          position: relative; min-height: 100%; overflow: hidden;
           border-radius: var(--radius-md); background: var(--navy-800);
         }
         .vice-chancellor-hero__portrait img {
@@ -100,7 +101,9 @@ export default function ViceChancellorPage() {
         .vice-chancellor-role__content p { max-width: 660px; color: rgba(255,255,255,0.72); line-height: 1.7; }
         @media (max-width: 760px) {
           .vice-chancellor-hero__layout { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-          .vice-chancellor-hero__portrait { width: min(100%, 460px); }
+          .vice-chancellor-hero__portrait {
+            justify-self: center; width: min(100%, 460px); aspect-ratio: 4 / 5; min-height: 0;
+          }
         }
       ` }} />
     </main>

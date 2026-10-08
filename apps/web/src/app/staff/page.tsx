@@ -8,6 +8,21 @@ export const metadata: Metadata = {
   description: "Meet the staff of Landmark Metropolitan University Institute.",
 };
 
+function staffPortraitClass(title: string, name: string): string {
+  const normalizedTitle = title.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const normalizedName = name.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+  if (normalizedTitle.includes("deputy vice chancellor") || /\bd\s*v\s*c\b/.test(normalizedTitle)) {
+    return "staff-card--dvc";
+  }
+  if (normalizedName.includes("samjella blaise")) return "";
+  if (normalizedTitle.includes("vice chancellor")) return "staff-card--vice-chancellor";
+  if (normalizedTitle.includes("president")) return "staff-card--president";
+  if (normalizedTitle.includes("registrar")) return "staff-card--registrar";
+
+  return "";
+}
+
 export default async function StaffPage() {
   const staffMembers = await getStaffData();
 
@@ -43,7 +58,7 @@ export default async function StaffPage() {
               {staffMembers.map((member, index) => (
                 <RevealItem
                   key={`${member.staff_name}-${index}`}
-                  className="staff-card"
+                  className={`staff-card ${staffPortraitClass(member.staff_title, member.staff_name)}`}
                 >
                   <div className="staff-card__visual">
                     {member.staff_image ? (
@@ -74,12 +89,16 @@ export default async function StaffPage() {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .staff-hero { padding-bottom: clamp(56px, 8vw, 104px); }
-        .staff-hero__content { max-width: 900px; }
+        .staff-hero__content { max-width: var(--max-width); }
         .staff-hero__heading { margin-top: 20px; }
         .staff-hero__lede { max-width: 650px; margin-top: 24px; }
         .staff-directory__heading { margin-top: 16px; margin-bottom: 40px; }
-        .staff-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 24px; }
-        .staff-card { min-width: 0; }
+        .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 24px; }
+        .staff-card { min-width: 0; flex: 0 0 calc(25% - 18px); }
+        .staff-card--president { flex-basis: calc(50% - 36px); }
+        .staff-card--vice-chancellor { flex-basis: calc(37.5% - 27px); }
+        .staff-card--registrar,
+        .staff-card--dvc { flex-basis: calc(30% - 21.6px); }
         .staff-card__visual {
           position: relative; aspect-ratio: 4 / 5; overflow: hidden;
           border-radius: var(--radius-md); margin-bottom: 16px; background: var(--navy-800);
@@ -91,13 +110,30 @@ export default async function StaffPage() {
         .staff-card__bio { color: var(--muted); font-size: 0.86rem; line-height: 1.55; margin-top: 10px; }
         .staff-directory__empty { color: var(--muted); }
         @media (max-width: 980px) {
-          .staff-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+          .staff-card { flex-basis: calc(33.3333% - 16px); }
+          .staff-card--president { flex-basis: calc(66.6667% - 32px); }
+          .staff-card--vice-chancellor { flex-basis: calc(50% - 24px); }
+          .staff-card--registrar,
+          .staff-card--dvc { flex-basis: calc(40% - 19.2px); }
         }
         @media (max-width: 700px) {
-          .staff-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+          .staff-grid { gap: 24px 16px; }
+          .staff-card { flex-basis: calc(50% - 8px); }
+          .staff-card--president { flex-basis: calc(100% - 16px); }
+          .staff-card--vice-chancellor { flex-basis: calc(75% - 12px); }
+          .staff-card--registrar,
+          .staff-card--dvc { flex-basis: calc(60% - 9.6px); }
         }
         @media (max-width: 460px) {
-          .staff-grid { grid-template-columns: minmax(0, 1fr); }
+          .staff-card,
+          .staff-card--president,
+          .staff-card--vice-chancellor,
+          .staff-card--registrar,
+          .staff-card--dvc { flex-basis: 100%; }
+          .staff-card--president .staff-card__visual { aspect-ratio: 4 / 10; }
+          .staff-card--vice-chancellor .staff-card__visual { aspect-ratio: 4 / 7.5; }
+          .staff-card--registrar .staff-card__visual,
+          .staff-card--dvc .staff-card__visual { aspect-ratio: 4 / 6; }
         }
       ` }} />
     </main>

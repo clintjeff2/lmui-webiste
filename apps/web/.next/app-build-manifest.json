@@ -16,50 +16,50 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/undergraduate/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/undergraduate/page.js"
-    ],
     "/hnd/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/hnd/page.js"
-    ],
-    "/graduate/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/graduate/page.js"
-    ],
-    "/academics/lsset/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/academics/lsset/page.js"
     ],
     "/academics/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/academics/[slug]/page.js"
     ],
+    "/academics/lsafs/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/lsafs/page.js"
+    ],
+    "/president/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/president/page.js"
+    ],
+    "/resgistrar/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/resgistrar/page.js"
+    ],
+    "/vice-chancellor/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/vice-chancellor/page.js"
+    ],
+    "/academics/lsset/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/academics/lsset/page.js"
+    ],
     "/academics/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/academics/page.js"
     ],
-    "/academics/lsmbs/page": [
+    "/staff/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/academics/lsmbs/page.js"
-    ],
-    "/academics/lsbss/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/academics/lsbss/page.js"
-    ],
-    "/academics/lsafs/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/academics/lsafs/page.js"
+      "static/chunks/app/staff/page.js"
     ]
   }
 }

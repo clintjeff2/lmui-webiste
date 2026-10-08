@@ -26,13 +26,13 @@ export default async function AcademicsPage() {
   const uniqueOptions = await getUniqueOptionCount();
   return (
     <main>
-      <section className="section" style={{ paddingBottom: 60 }}>
+      <section className="section" style={{ paddingBottom: 0 }}>
         <div className="container">
           <Reveal>
             <span className="eyebrow">Academics</span>
           </Reveal>
           <Reveal delay={0.06}>
-            <h1 className="headline--display" style={{ marginTop: 20, maxWidth: 820 }}>
+            <h1 className="headline--display" style={{ marginTop: 20 }}>
               {uniqueOptions}+ Specializations to choose from. {uniqueFields} fields of studies. {uniqueSchools} schools. One standard for what counts as learning.
             </h1>
           </Reveal>
@@ -61,18 +61,21 @@ export default async function AcademicsPage() {
             key={school.slug}
             id={school.slug}
             className={`section academics-school ${idx % 2 === 1 ? "section--paper-alt" : ""}`}
+            style={{ paddingTop: 60 }}
           >
             <div className="container">
               <div className="academics-school__head">
-                <div>
+                <div className="academics-school__title">
                   <Reveal>
                     <span className="eyebrow">{school.stat.value} &middot; {school.stat.label}</span>
                   </Reveal>
                   <Reveal delay={0.06}>
-                    <h2 className="headline" style={{ marginTop: 16, maxWidth: 640 }}>
+                    <h2 className="headline" style={{ marginTop: 16 }}>
                       {school.name}
                     </h2>
                   </Reveal>
+                </div>
+                <div className="academics-school__description">
                   <Reveal delay={0.1}>
                     {Array.isArray(school.description) ? (
                       school.description.map((paragraph, paragraphIndex) => (
@@ -91,7 +94,7 @@ export default async function AcademicsPage() {
                     )}
                   </Reveal>
                 </div>
-                <Reveal delay={0.14}>
+                <Reveal delay={0.14} className="academics-school__apply">
                   <a href={APPLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn--outline-dark">
                     Apply to {school.shortName}
                   </a>
@@ -137,9 +140,11 @@ export default async function AcademicsPage() {
 
         .academics-school { scroll-margin-top: 90px; }
         .academics-school__head {
-          display: flex; justify-content: space-between; align-items: flex-end; gap: 32px;
-          margin-bottom: 44px; flex-wrap: wrap;
+          display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px;
+          margin-bottom: 44px;
         }
+        .academics-school__description .lede { max-width: none; text-align: justify; }
+        .academics-school__apply { justify-self: end; }
         .academics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         .cta-banner-simple { background: var(--navy-900); padding: 90px 0; }
